@@ -1,0 +1,9 @@
+<!-- BEGIN bool -->
+<!-- IF bool.FIELD_LENGTH eq 1 -->
+	<div class="flex items-center gap-4">
+	<!-- BEGIN options --><label for="{bool.FIELD_IDENT}_{bool.options.OPTION_ID}" class="flex items-center gap-2 cursor-pointer text-sm text-slate-700 dark:text-slate-300"><input type="radio" class="w-4 h-4 text-primary bg-slate-50 border-slate-300 focus:ring-primary dark:focus:ring-primary dark:ring-offset-slate-800 focus:ring-2 dark:bg-slate-700 dark:border-slate-600" name="{bool.FIELD_IDENT}" id="{bool.FIELD_IDENT}_{bool.options.OPTION_ID}" value="{bool.options.OPTION_ID}"{bool.options.CHECKED} /> {bool.options.VALUE}</label> <!-- END options -->
+	</div>
+<!-- ELSE -->
+	<input type="checkbox" class="w-4 h-4 text-primary bg-slate-50 border-slate-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-slate-800 focus:ring-2 dark:bg-slate-700 dark:border-slate-600" name="{bool.FIELD_IDENT}" id="{bool.FIELD_IDENT}"<!-- IF bool.FIELD_VALUE --> checked="checked"<!-- ENDIF --> />
+<!-- ENDIF -->
+<!-- END bool -->
