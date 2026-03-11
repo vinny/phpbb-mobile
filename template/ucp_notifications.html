@@ -1,0 +1,189 @@
+<!-- INCLUDE ucp_header.html -->
+
+{% EVENT ucp_notifications_form_before %}
+
+<form id="ucp" method="post" action="{S_UCP_ACTION}"{S_FORM_ENCTYPE}>
+
+	<div class="flex items-center justify-between mb-6 border-b border-primary/10 pb-4">
+		<h2 class="text-base sm:text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
+			<span class="material-symbols-outlined text-[20px] text-primary">notifications</span>
+			{TITLE}
+		</h2>
+	</div>
+
+	{% EVENT ucp_notifications_content_before %}
+
+	<p class="text-sm text-slate-500 dark:text-slate-400 mb-6 leading-relaxed bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800">
+		{TITLE_EXPLAIN}
+	</p>
+
+	<!-- IF MODE == 'notification_options' -->
+		<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden mb-8">
+			<div class="overflow-x-auto">
+				<table class="w-full text-left border-collapse">
+					<thead>
+						<tr class="bg-slate-50 dark:bg-slate-900/50">
+							<th class="py-4 px-5 text-sm font-bold text-slate-800 dark:text-white border-b border-slate-200 dark:border-slate-700">{L_NOTIFICATION_TYPE}</th>
+							<!-- BEGIN notification_methods -->
+								<th class="py-4 px-5 text-center text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700 w-24">{notification_methods.NAME}</th>
+							<!-- END notification_methods -->
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-slate-100 dark:divide-slate-700/50">
+					<!-- BEGIN notification_types -->
+						<!-- IF notification_types.GROUP_NAME -->
+							<tr class="bg-slate-50/50 dark:bg-slate-800/50">
+								<td colspan="{NOTIFICATION_TYPES_COLS}" class="py-3 px-5 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+									{notification_types.GROUP_NAME}
+								</td>
+							</tr>
+						<!-- ELSE -->
+							<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-colors">
+								<td class="py-4 px-5">
+									<strong class="text-sm font-semibold text-slate-800 dark:text-white block mb-0.5">{notification_types.NAME}</strong>
+									<!-- IF notification_types.EXPLAIN --><span class="text-xs text-slate-500 dark:text-slate-400">{notification_types.EXPLAIN}</span><!-- ENDIF -->
+								</td>
+								<!-- BEGIN notification_methods -->
+									<td class="py-4 px-5 text-center">
+										<input type="checkbox" name="{notification_types.TYPE}_{notification_types.notification_methods.METHOD}" class="w-5 h-5 rounded border-slate-300 text-primary shadow-sm focus:border-primary focus:ring-primary dark:border-slate-600 dark:bg-slate-900 dark:checked:bg-primary cursor-pointer transition-all <!-- IF not notification_types.notification_methods.AVAILABLE -->opacity-50 cursor-not-allowed<!-- ENDIF -->"<!-- IF notification_types.notification_methods.SUBSCRIBED --> checked="checked"<!-- ENDIF --><!-- IF not notification_types.notification_methods.AVAILABLE --> disabled="disabled"<!-- ENDIF --> />
+									</td>
+								<!-- END notification_methods -->
+							</tr>
+						<!-- ENDIF -->
+					<!-- END notification_types -->
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	<!-- ELSE -->
+
+		<!-- IF .notification_list -->
+			<div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
+				<div class="text-sm text-slate-500 dark:text-slate-400 font-medium">
+					{L_NOTIFICATIONS} <span class="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-bold ml-1">{TOTAL_COUNT}</span>
+				</div>
+				<div class="flex items-center gap-4">
+					<!-- IF U_MARK_ALL -->
+					<a href="{U_MARK_ALL}" class="text-sm font-semibold text-primary hover:text-primary/80 transition-colors flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px]">done_all</span>{L_NOTIFICATIONS_MARK_ALL_READ}</a>
+					<!-- ENDIF -->
+					<!-- IF .pagination -->
+					<div class="hidden sm:flex border-l border-slate-200 dark:border-slate-700 pl-4">
+						<!-- INCLUDE pagination.html -->
+					</div>
+					<!-- ELSE -->
+					<div class="hidden sm:block text-sm text-slate-500 dark:text-slate-400 font-medium border-l border-slate-200 dark:border-slate-700 pl-4">
+						{PAGE_NUMBER}
+					</div>
+					<!-- ENDIF -->
+				</div>
+			</div>
+
+			<div class="space-y-3 mb-8">
+				<!-- BEGIN notification_list -->
+					<div class="relative bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border<!-- IF notification_list.UNREAD --> border-primary ring-1 ring-primary/20 dark:border-primary/50 dark:hover:border-primary<!-- ELSE --> border-slate-200 dark:border-slate-700<!-- ENDIF --> flex items-start gap-4 transition-colors hover:bg-slate-50 dark:hover:bg-slate-700/50">
+						
+						<!-- IF notification_list.UNREAD -->
+						<span class="absolute top-4 right-14 w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+						<!-- ENDIF -->
+
+						<div class="shrink-0">
+							<!-- IF notification_list.AVATAR -->
+								<div class="w-10 h-10 sm:w-12 sm:h-12 overflow-hidden rounded-full ring-2 ring-white dark:ring-slate-800 shadow-sm [&>img]:w-full [&>img]:h-full [&>img]:object-cover">
+									{notification_list.AVATAR}
+								</div>
+							<!-- ELSE -->
+								<div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400 ring-2 ring-white dark:ring-slate-800 shadow-sm">
+									<span class="material-symbols-outlined text-[20px] sm:text-[24px]">person</span>
+								</div>
+							<!-- ENDIF -->
+						</div>
+
+						<div class="flex-1 min-w-0 flex flex-col justify-center">
+							<!-- IF notification_list.URL --><a href="<!-- IF notification_list.UNREAD -->{notification_list.U_MARK_READ}<!-- ELSE -->{notification_list.URL}<!-- ENDIF -->" class="absolute inset-0 z-0"></a><!-- ENDIF -->
+							
+							<div class="relative z-10 text-sm text-slate-800 dark:text-white leading-snug break-words mb-1">
+								{notification_list.FORMATTED_TITLE}
+								<!-- IF notification_list.REFERENCE -->
+									<span class="font-bold block mt-0.5">{notification_list.REFERENCE}</span>
+								<!-- ENDIF -->
+							</div>
+
+							<div class="flex flex-col sm:flex-row sm:items-center flex-wrap gap-x-3 gap-y-1 mt-1 text-xs text-slate-500 dark:text-slate-400">
+								<!-- IF notification_list.FORUM -->
+								<span class="flex items-center gap-1 font-semibold text-primary">
+									<span class="material-symbols-outlined text-[14px]">forum</span>
+									{notification_list.FORUM}
+								</span>
+								<!-- ENDIF -->
+								<!-- IF notification_list.REASON -->
+								<span class="flex items-center gap-1">
+									<span class="material-symbols-outlined text-[14px]">info</span>
+									{notification_list.REASON}
+								</span>
+								<!-- ENDIF -->
+								<span class="flex items-center gap-1">
+									<span class="material-symbols-outlined text-[14px]">schedule</span>
+									{notification_list.TIME}
+								</span>
+							</div>
+						</div>
+
+						<div class="shrink-0 flex items-center justify-center h-full pt-1 sm:pt-2 relative z-10 pl-2 sm:pl-4 sm:border-l border-slate-100 dark:border-slate-700/50">
+							<input type="checkbox" name="mark[]" value="{notification_list.NOTIFICATION_ID}" class="w-5 h-5 rounded sm:rounded-md border-slate-300 text-primary shadow-sm focus:border-primary focus:ring-primary dark:border-slate-600 dark:bg-slate-900 dark:checked:bg-primary cursor-pointer transition-all disabled:opacity-50 disabled:cursor-not-allowed"<!-- IF not notification_list.UNREAD --> disabled="disabled"<!-- ENDIF --> title="{L_MARK_READ}" />
+						</div>
+
+					</div>
+				<!-- END notification_list -->
+			</div>
+
+			<div class="flex flex-col sm:flex-row items-center justify-between gap-4 py-4 border-t border-slate-100 dark:border-slate-700/50">
+				<!-- IF .pagination -->
+					<div class="flex items-center">
+						<!-- INCLUDE pagination.html -->
+					</div>
+				<!-- ELSE -->
+					<div class="text-sm text-slate-500 dark:text-slate-400 font-medium"></div>
+				<!-- ENDIF -->
+			</div>
+
+		<!-- ELSE -->
+			<div class="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-8 text-center border border-slate-200 dark:border-slate-700 border-dashed mb-8">
+				<span class="material-symbols-outlined text-[48px] text-slate-300 dark:text-slate-600 mb-3 block">notifications_off</span>
+				<span class="text-sm font-medium text-slate-500 dark:text-slate-400">{L_NO_NOTIFICATIONS}</span>
+			</div>
+		<!-- ENDIF -->
+
+	<!-- ENDIF -->
+
+	{% EVENT ucp_notifications_content_after %}
+
+	<!-- IF .notification_types or .notification_list -->
+		<div class="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4 border-t border-slate-100 dark:border-slate-700/50">
+			<!-- IF MODE == 'notification_options' -->
+			<div class="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400"></div>
+			<!-- ELSE -->
+			<div class="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400">
+				<a href="#" onclick="$('#ucp input:checkbox:not(:disabled)').prop('checked', true); return false;" class="hover:text-primary transition-colors">{L_MARK_ALL}</a>
+				<span class="text-slate-300 dark:text-slate-600">&bull;</span>
+				<a href="#" onclick="$('#ucp input:checkbox:not(:disabled)').prop('checked', false); return false;" class="hover:text-primary transition-colors">{L_UNMARK_ALL}</a>
+			</div>
+			<!-- ENDIF -->
+			
+			<div class="w-full sm:w-auto">
+				<input type="hidden" name="form_time" value="{FORM_TIME}" />
+				{S_HIDDEN_FIELDS}
+				<button type="submit" name="submit" class="w-full sm:w-auto px-6 py-3 sm:py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-sm rounded-lg shadow-sm transition-colors flex items-center justify-center gap-2">
+					<span class="material-symbols-outlined text-[18px]"><!-- IF MODE == 'notification_options' -->save<!-- ELSE -->check_circle<!-- ENDIF --></span>
+					<!-- IF MODE == 'notification_options' -->{L_SUBMIT}<!-- ELSE -->{L_MARK_READ}<!-- ENDIF -->
+				</button>
+				{S_FORM_TOKEN}
+			</div>
+		</div>
+	<!-- ENDIF -->
+
+</form>
+
+{% EVENT ucp_notifications_form_after %}
+
+<!-- INCLUDE ucp_footer.html -->

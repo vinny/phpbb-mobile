@@ -1,0 +1,105 @@
+<!-- INCLUDE overall_header.html -->
+
+<main class="flex flex-col px-4 pt-4 pb-8 space-y-6">
+
+<!-- EVENT memberlist_email_before -->
+
+<!-- IF S_CONTACT_ADMIN-->
+<h2 class="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-200">{L_CONTACT_ADMIN}</h2>
+<!-- ELSEIF S_SEND_USER -->
+<h2 class="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-200">{L_SEND_EMAIL_USER}</h2>
+<!-- ELSE -->
+<h2 class="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-200">{L_EMAIL_TOPIC}</h2>
+<!-- ENDIF -->
+
+<form method="post" action="{S_POST_ACTION}" id="post" class="space-y-6">
+
+	<!-- IF CONTACT_INFO -->
+	<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+		<div class="p-4 sm:p-6 text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+			{CONTACT_INFO}
+		</div>
+	</div>
+	<!-- ENDIF -->
+
+	<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+		<div class="p-4 sm:p-6 flex flex-col gap-6">
+
+			<!-- IF ERROR_MESSAGE -->
+			<div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg text-sm font-bold">
+				{ERROR_MESSAGE}
+			</div>
+			<!-- ENDIF -->
+
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+			<!-- IF S_SEND_USER -->
+				<div class="flex flex-col">
+					<label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{L_RECIPIENT}{L_COLON}</label>
+					<span class="text-sm font-bold text-slate-900 dark:text-slate-200 pt-2">{USERNAME_FULL}</span>
+				</div>
+				<div class="flex flex-col md:col-span-2">
+					<label for="subject" class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{L_SUBJECT}{L_COLON}</label>
+					<input type="text" name="subject" id="subject" tabindex="1" value="{SUBJECT}" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white" />
+				</div>
+			<!-- ELSEIF S_CONTACT_ADMIN-->
+				<div class="flex flex-col md:col-span-3">
+					<label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{L_RECIPIENT}{L_COLON}</label>
+					<span class="text-sm font-bold text-slate-900 dark:text-slate-200 pt-2">{L_ADMINISTRATOR}</span>
+				</div>
+				<!-- IF not S_IS_REGISTERED -->
+				<div class="flex flex-col md:col-span-3 lg:col-span-1">
+					<label for="email" class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{L_SENDER_EMAIL_ADDRESS}{L_COLON}</label>
+					<input type="email" name="email" id="email" maxlength="100" tabindex="1" value="{EMAIL}" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white" />
+				</div>
+				<div class="flex flex-col md:col-span-3 lg:col-span-2">
+					<label for="name" class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{L_SENDER_NAME}{L_COLON}</label>
+					<input type="text" name="name" id="name" tabindex="2" value="{NAME}" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white" />
+				</div>
+				<!-- ENDIF -->
+				<div class="flex flex-col md:col-span-3">
+					<label for="subject" class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{L_SUBJECT}{L_COLON}</label>
+					<input type="text" name="subject" id="subject" tabindex="3" value="{SUBJECT}" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white" />
+				</div>
+			<!-- ELSE -->
+				<div class="flex flex-col md:col-span-3 lg:col-span-1">
+					<label for="email" class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{L_EMAIL_ADDRESS}{L_COLON}</label>
+					<input type="email" name="email" id="email" maxlength="100" tabindex="2" value="{EMAIL}" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white" />
+				</div>
+				<div class="flex flex-col md:col-span-3 lg:col-span-1">
+					<label for="name" class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{L_REAL_NAME}{L_COLON}</label>
+					<input type="text" name="name" id="name" tabindex="3" value="{NAME}" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white" />
+				</div>
+				<div class="flex flex-col md:col-span-3 lg:col-span-1">
+					<label for="lang" class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{L_DEST_LANG}{L_COLON}</label>
+					<span class="text-[11px] text-slate-500 font-normal mb-1">{L_DEST_LANG_EXPLAIN}</span>
+					<select name="lang" id="lang" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white">{S_LANG_OPTIONS}</select>
+				</div>
+			<!-- ENDIF -->
+			</div>
+			
+			<div class="flex flex-col">
+				<label for="message" class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{L_MESSAGE_BODY}{L_COLON}</label>
+				<span class="text-[11px] text-slate-500 font-normal mb-2">{L_EMAIL_BODY_EXPLAIN}</span>
+				<textarea name="message" id="message" rows="10" tabindex="4" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white font-mono">{MESSAGE}</textarea>
+			</div>
+			
+			<!-- IF S_REGISTERED_USER -->
+			<div class="flex items-center gap-2">
+				<input type="checkbox" name="cc_sender" id="cc_sender" value="1" checked="checked" tabindex="5" class="rounded border-slate-300 text-primary focus:ring-primary dark:border-slate-600 dark:bg-slate-900" />
+				<label for="cc_sender" class="text-sm font-semibold text-slate-700 dark:text-slate-300 select-none">{L_CC_SENDER}</label>
+			</div>
+			<!-- ENDIF -->
+
+		</div>
+		
+		<div class="p-4 sm:p-6 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700">
+			<input type="submit" tabindex="6" name="submit" value="{L_SEND_EMAIL}" class="w-full sm:w-auto px-6 py-2 bg-primary hover:bg-primary/90 text-white font-bold text-sm rounded-lg shadow-sm transition-colors cursor-pointer" />
+			{S_FORM_TOKEN}
+		</div>
+	</div>
+
+</form>
+
+</main>
+
+<!-- INCLUDE overall_footer.html -->

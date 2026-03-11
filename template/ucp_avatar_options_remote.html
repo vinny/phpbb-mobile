@@ -1,0 +1,31 @@
+<div class="space-y-6">
+	<div class="flex flex-col gap-2">
+		<label for="avatar_remote_url" class="text-sm font-bold text-slate-800 dark:text-white">{L_LINK_REMOTE_AVATAR}{L_COLON}</label>
+		<span class="text-xs text-slate-500 dark:text-slate-400">{L_LINK_REMOTE_AVATAR_EXPLAIN}</span>
+		<div class="mt-1 relative">
+			<span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+				<span class="material-symbols-outlined text-[20px]">link</span>
+			</span>
+			<input type="url" name="avatar_remote_url" id="avatar_remote_url" value="{AVATAR_REMOTE_URL}" class="w-full h-11 pl-10 pr-4 rounded-lg border border-slate-300 text-slate-800 focus:border-primary focus:ring-primary shadow-sm dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:focus:border-primary transition-all" data-reset-on-edit="#avatar_remote_width, #avatar_remote_height" />
+		</div>
+	</div>
+
+	<div class="flex flex-col gap-2 pt-2 border-t border-slate-100 dark:border-slate-700/50">
+		<label class="text-sm font-bold text-slate-800 dark:text-white">{L_LINK_REMOTE_SIZE}{L_COLON}</label>
+		<span class="text-xs text-slate-500 dark:text-slate-400 mb-2">{L_LINK_REMOTE_SIZE_EXPLAIN}</span>
+		
+		<div class="flex items-center gap-3">
+			<div class="flex-1 flex items-center gap-2">
+				<input type="number" name="avatar_remote_width" id="avatar_remote_width" min="{AVATAR_MIN_WIDTH}" max="{AVATAR_MAX_WIDTH}" value="{AVATAR_REMOTE_WIDTH}" class="w-full h-11 px-4 rounded-lg border border-slate-300 text-slate-800 focus:border-primary focus:ring-primary shadow-sm dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:focus:border-primary transition-all text-center" />
+				<span class="text-xs text-slate-400 font-medium uppercase tracking-wider">{L_PIXEL}</span>
+			</div>
+			
+			<span class="material-symbols-outlined text-slate-300 dark:text-slate-600">close</span>
+			
+			<div class="flex-1 flex items-center gap-2">
+				<input type="number" name="avatar_remote_height" id="avatar_remote_height" min="{AVATAR_MIN_HEIGHT}" max="{AVATAR_MAX_HEIGHT}" value="{AVATAR_REMOTE_HEIGHT}" class="w-full h-11 px-4 rounded-lg border border-slate-300 text-slate-800 focus:border-primary focus:ring-primary shadow-sm dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:focus:border-primary transition-all text-center" />
+				<span class="text-xs text-slate-400 font-medium uppercase tracking-wider">{L_PIXEL}</span>
+			</div>
+		</div>
+	</div>
+</div>

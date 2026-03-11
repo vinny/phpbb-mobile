@@ -1,0 +1,113 @@
+<script>
+	var form_name = 'postform';
+	var text_name = <!-- IF $SIG_EDIT -->'signature'<!-- ELSE -->'message'<!-- ENDIF -->;
+	var load_draft = false;
+	var upload = false;
+
+	// Define the bbCode tags
+	var bbcode = new Array();
+	var bbtags = new Array('[b]','[/b]','[i]','[/i]','[u]','[/u]','[quote]','[/quote]','[code]','[/code]','[list]','[/list]','[list=]','[/list]','[img]','[/img]','[url]','[/url]','[flash=]', '[/flash]','[size=]','[/size]'<!-- BEGIN custom_tags -->, {custom_tags.BBCODE_NAME}<!-- END custom_tags -->);
+	var imageTag = false;
+
+	function change_palette()
+	{
+		phpbb.toggleDisplay('colour_palette');
+		e = document.getElementById('colour_palette');
+
+		if (e.style.display == 'block')
+		{
+			document.getElementById('bbpalette').value = '{LA_FONT_COLOR_HIDE}';
+		}
+		else
+		{
+			document.getElementById('bbpalette').value = '{LA_FONT_COLOR}';
+		}
+	}
+</script>
+<!-- INCLUDEJS {T_ASSETS_PATH}/javascript/editor.js -->
+
+<!-- IF S_BBCODE_ALLOWED -->
+<div id="colour_palette" style="display: none;" class="p-2 bg-slate-50 border-x border-slate-200 dark:bg-slate-800/80 dark:border-slate-700">
+	<div class="flex items-center gap-3">
+		<label class="text-xs font-bold uppercase tracking-wider text-slate-500">{L_FONT_COLOR}{L_COLON}</label>
+		<div id="color_palette_placeholder" class="color_palette_placeholder" data-color-palette="h" data-height="12" data-width="15" data-bbcode="true"></div>
+	</div>
+</div>
+
+<!-- EVENT posting_editor_buttons_before -->
+<div id="format-buttons" class="format-buttons flex flex-wrap items-center gap-1 bg-slate-100 p-1.5 rounded-t-lg border-b border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+	<button type="button" class="flex h-8 w-8 items-center justify-center rounded text-slate-600 hover:bg-white hover:text-primary hover:shadow-[0_1px_2px_rgba(0,0,0,0.05)] dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-primary transition-all bbcode-b" accesskey="b" name="addbbcode0" value=" B " onclick="bbstyle(0)" title="{L_BBCODE_B_HELP}">
+		<span class="material-symbols-outlined text-[18px]">format_bold</span>
+	</button>
+	<button type="button" class="flex h-8 w-8 items-center justify-center rounded text-slate-600 hover:bg-white hover:text-primary hover:shadow-[0_1px_2px_rgba(0,0,0,0.05)] dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-primary transition-all bbcode-i" accesskey="i" name="addbbcode2" value=" i " onclick="bbstyle(2)" title="{L_BBCODE_I_HELP}">
+		<span class="material-symbols-outlined text-[18px]">format_italic</span>
+	</button>
+	<button type="button" class="flex h-8 w-8 items-center justify-center rounded text-slate-600 hover:bg-white hover:text-primary hover:shadow-[0_1px_2px_rgba(0,0,0,0.05)] dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-primary transition-all bbcode-u" accesskey="u" name="addbbcode4" value=" u " onclick="bbstyle(4)" title="{L_BBCODE_U_HELP}">
+		<span class="material-symbols-outlined text-[18px]">format_underlined</span>
+	</button>
+	<div class="w-[1px] h-4 bg-slate-300 dark:bg-slate-600 mx-1"></div>
+	<!-- IF S_BBCODE_QUOTE -->
+	<button type="button" class="flex h-8 w-8 items-center justify-center rounded text-slate-600 hover:bg-white hover:text-primary hover:shadow-[0_1px_2px_rgba(0,0,0,0.05)] dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-primary transition-all bbcode-quote" accesskey="q" name="addbbcode6" value="Quote" onclick="bbstyle(6)" title="{L_BBCODE_Q_HELP}">
+		<span class="material-symbols-outlined text-[18px]">format_quote</span>
+	</button>
+	<!-- ENDIF -->
+	<button type="button" class="flex h-8 w-8 items-center justify-center rounded text-slate-600 hover:bg-white hover:text-primary hover:shadow-[0_1px_2px_rgba(0,0,0,0.05)] dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-primary transition-all bbcode-code" accesskey="c" name="addbbcode8" value="Code" onclick="bbstyle(8)" title="{L_BBCODE_C_HELP}">
+		<span class="material-symbols-outlined text-[18px]">code</span>
+	</button>
+	<div class="w-[1px] h-4 bg-slate-300 dark:bg-slate-600 mx-1"></div>
+	<button type="button" class="flex h-8 w-8 items-center justify-center rounded text-slate-600 hover:bg-white hover:text-primary hover:shadow-[0_1px_2px_rgba(0,0,0,0.05)] dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-primary transition-all bbcode-list" accesskey="l" name="addbbcode10" value="List" onclick="bbstyle(10)" title="{L_BBCODE_L_HELP}">
+		<span class="material-symbols-outlined text-[18px]">format_list_bulleted</span>
+	</button>
+	<button type="button" class="flex h-8 w-8 items-center justify-center rounded text-slate-600 hover:bg-white hover:text-primary hover:shadow-[0_1px_2px_rgba(0,0,0,0.05)] dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-primary transition-all bbcode-list-" accesskey="o" name="addbbcode12" value="List=" onclick="bbstyle(12)" title="{L_BBCODE_O_HELP}">
+		<span class="material-symbols-outlined text-[18px]">format_list_numbered</span>
+	</button>
+	<button type="button" class="flex h-8 w-8 items-center justify-center rounded text-slate-600 hover:bg-white hover:text-primary hover:shadow-[0_1px_2px_rgba(0,0,0,0.05)] dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-primary transition-all bbcode-asterisk" accesskey="y" name="addlistitem" value="[*]" onclick="bbstyle(-1)" title="{L_BBCODE_LISTITEM_HELP}">
+		<span class="material-symbols-outlined text-[18px]">emergency</span>
+	</button>
+	<div class="w-[1px] h-4 bg-slate-300 dark:bg-slate-600 mx-1"></div>
+	<!-- IF S_BBCODE_IMG -->
+	<button type="button" class="flex h-8 w-8 items-center justify-center rounded text-slate-600 hover:bg-white hover:text-primary hover:shadow-[0_1px_2px_rgba(0,0,0,0.05)] dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-primary transition-all bbcode-img" accesskey="p" name="addbbcode14" value="Img" onclick="bbstyle(14)" title="{L_BBCODE_P_HELP}">
+		<span class="material-symbols-outlined text-[18px]">image</span>
+	</button>
+	<!-- ENDIF -->
+	<!-- IF S_LINKS_ALLOWED -->
+	<button type="button" class="flex h-8 w-8 items-center justify-center rounded text-slate-600 hover:bg-white hover:text-primary hover:shadow-[0_1px_2px_rgba(0,0,0,0.05)] dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-primary transition-all bbcode-url" accesskey="w" name="addbbcode16" value="URL" onclick="bbstyle(16)" title="{L_BBCODE_W_HELP}">
+		<span class="material-symbols-outlined text-[18px]">link</span>
+	</button>
+	<!-- ENDIF -->
+	<!-- IF S_BBCODE_FLASH -->
+	<button type="button" class="flex h-8 w-8 items-center justify-center rounded text-slate-600 hover:bg-white hover:text-primary hover:shadow-[0_1px_2px_rgba(0,0,0,0.05)] dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-primary transition-all bbcode-flash" accesskey="d" name="addbbcode18" value="Flash" onclick="bbstyle(18)" title="{L_BBCODE_D_HELP}">
+		<span class="material-symbols-outlined text-[18px]">flash_on</span>
+	</button>
+	<!-- ENDIF -->
+	<div class="w-[1px] h-4 bg-slate-300 dark:bg-slate-600 mx-1"></div>
+	<button type="button" class="flex h-8 w-8 items-center justify-center rounded text-slate-600 hover:bg-white hover:text-primary hover:shadow-[0_1px_2px_rgba(0,0,0,0.05)] dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-primary transition-all bbcode-color" name="bbpalette" id="bbpalette" value="{L_FONT_COLOR}" onclick="change_palette();" title="{L_BBCODE_S_HELP}">
+		<span class="material-symbols-outlined text-[18px]">water_drop</span>
+	</button>
+	
+	<select name="addbbcode20" class="bbcode-size h-8 ml-1 rounded border border-transparent bg-transparent px-2 py-1 text-xs text-slate-600 hover:bg-white hover:border-slate-200 hover:shadow-[0_1px_2px_rgba(0,0,0,0.05)] focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:border-slate-600 dark:hover:text-slate-200 transition-all cursor-pointer" onchange="bbfontstyle('[size=' + this.form.addbbcode20.options[this.form.addbbcode20.selectedIndex].value + ']', '[/size]');this.form.addbbcode20.selectedIndex = 2;" title="{L_BBCODE_F_HELP}">
+		<option value="50">{L_FONT_TINY}</option>
+		<option value="85">{L_FONT_SMALL}</option>
+		<option value="100" selected="selected">{L_FONT_NORMAL}</option>
+		<!-- IF not MAX_FONT_SIZE or MAX_FONT_SIZE >= 150 -->
+			<option value="150">{L_FONT_LARGE}</option>
+			<!-- IF not MAX_FONT_SIZE or MAX_FONT_SIZE >= 200 -->
+				<option value="200">{L_FONT_HUGE}</option>
+			<!-- ENDIF -->
+		<!-- ENDIF -->
+	</select>
+
+	<!-- EVENT posting_editor_buttons_custom_tags_before -->
+	
+	<!-- IF .custom_tags -->
+	<div class="w-[1px] h-4 bg-slate-300 dark:bg-slate-600 mx-1"></div>
+	<!-- ENDIF -->
+
+	<!-- BEGIN custom_tags -->
+	<button type="button" class="flex h-8 px-2 items-center justify-center rounded text-xs font-semibold uppercase tracking-wide text-slate-600 hover:bg-white hover:text-primary hover:shadow-[0_1px_2px_rgba(0,0,0,0.05)] dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-primary transition-all bbcode-{custom_tags.BBCODE_TAG_CLEAN}" name="addbbcode{custom_tags.BBCODE_ID}" value="{custom_tags.BBCODE_TAG}" onclick="bbstyle({custom_tags.BBCODE_ID})" title="{{ custom_tags.BBCODE_HELPLINE }}">
+		{custom_tags.BBCODE_TAG}
+	</button>
+	<!-- END custom_tags -->
+</div>
+<!-- EVENT posting_editor_buttons_after -->
+<!-- ENDIF -->

@@ -1,0 +1,58 @@
+<!-- IF not S_IS_BOT and (U_WATCH_TOPIC or U_BOOKMARK_TOPIC or U_BUMP_TOPIC or U_EMAIL_TOPIC or U_PRINT_TOPIC or S_DISPLAY_TOPIC_TOOLS) -->
+	<details class="group relative" id="topic-tools-dropdown">
+		<summary class="flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:bg-slate-50 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer list-none dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 [&::-webkit-details-marker]:hidden" title="{L_TOPIC_TOOLS}">
+			<span class="material-symbols-outlined text-[20px]">build</span>
+			<span class="material-symbols-outlined text-[18px] transition-transform duration-200 group-open:rotate-180">expand_more</span>
+		</summary>
+
+		<div class="absolute right-0 top-full z-50 mt-1.5 w-56 origin-top-right rounded-xl border border-slate-200 bg-white p-1 shadow-xl outline-none dark:border-slate-700 dark:bg-slate-800">
+			<nav class="flex flex-col">
+				<!-- EVENT viewtopic_topic_tools_before -->
+				<!-- IF U_WATCH_TOPIC -->
+					<a href="{U_WATCH_TOPIC}" class="watch-topic-link flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-slate-700 transition-colors hover:bg-primary/10 hover:text-primary dark:text-slate-300 dark:hover:bg-primary/20 dark:hover:text-primary-light" title="{S_WATCH_TOPIC_TITLE}" data-ajax="toggle_link" data-toggle-class="icon material-symbols-outlined text-[20px] <!-- IF S_WATCHING_TOPIC -->icon-subscribe<!-- ELSE -->icon-unsubscribe<!-- ENDIF -->" data-toggle-text="{S_WATCH_TOPIC_TOGGLE}" data-toggle-url="{U_WATCH_TOPIC_TOGGLE}" data-update-all=".watch-topic-link">
+						<i class="icon material-symbols-outlined text-[20px] <!-- IF S_WATCHING_TOPIC -->icon-unsubscribe<!-- ELSE -->icon-subscribe<!-- ENDIF -->"></i>
+						<span class="font-medium">{S_WATCH_TOPIC_TITLE}</span>
+					</a>
+				<!-- ENDIF -->
+				
+				<!-- IF U_BOOKMARK_TOPIC -->
+					<a href="{U_BOOKMARK_TOPIC}" class="bookmark-link flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-slate-700 transition-colors hover:bg-primary/10 hover:text-primary dark:text-slate-300 dark:hover:bg-primary/20 dark:hover:text-primary-light" title="{L_BOOKMARK_TOPIC}" data-ajax="alt_text" data-alt-text="{S_BOOKMARK_TOGGLE}" data-update-all=".bookmark-link">
+						<i class="icon material-symbols-outlined text-[20px] icon-bookmark"></i>
+						<span class="font-medium">{S_BOOKMARK_TOPIC}</span>
+					</a>
+				<!-- ENDIF -->
+				
+				<!-- IF U_BUMP_TOPIC -->
+					<a href="{U_BUMP_TOPIC}" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-slate-700 transition-colors hover:bg-primary/10 hover:text-primary dark:text-slate-300 dark:hover:bg-primary/20 dark:hover:text-primary-light" title="{L_BUMP_TOPIC}" data-ajax="true">
+						<span class="material-symbols-outlined text-[20px]">trending_up</span>
+						<span class="font-medium">{L_BUMP_TOPIC}</span>
+					</a>
+				<!-- ENDIF -->
+				
+				<!-- IF U_EMAIL_TOPIC -->
+					<a href="{U_EMAIL_TOPIC}" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-slate-700 transition-colors hover:bg-primary/10 hover:text-primary dark:text-slate-300 dark:hover:bg-primary/20 dark:hover:text-primary-light" title="{L_EMAIL_TOPIC}">
+						<span class="material-symbols-outlined text-[20px]">mail</span>
+						<span class="font-medium">{L_EMAIL_TOPIC}</span>
+					</a>
+				<!-- ENDIF -->
+				
+				<!-- IF U_PRINT_TOPIC -->
+					<a href="{U_PRINT_TOPIC}" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-slate-700 transition-colors hover:bg-primary/10 hover:text-primary dark:text-slate-300 dark:hover:bg-primary/20 dark:hover:text-primary-light" title="{L_PRINT_TOPIC}" accesskey="p">
+						<span class="material-symbols-outlined text-[20px]">print</span>
+						<span class="font-medium">{L_PRINT_TOPIC}</span>
+					</a>
+				<!-- ENDIF -->
+				<!-- EVENT viewtopic_topic_tools_after -->
+			</nav>
+		</div>
+	</details>
+	
+	<script>
+		document.addEventListener('click', function(e) {
+			const details = document.getElementById('topic-tools-dropdown');
+			if (details && details.hasAttribute('open') && !details.contains(e.target)) {
+				details.removeAttribute('open');
+			}
+		});
+	</script>
+<!-- ENDIF -->

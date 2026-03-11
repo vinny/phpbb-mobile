@@ -1,0 +1,408 @@
+<!-- INCLUDE overall_header.html -->
+ <main>
+<div class="px-4 mt-4">
+	<!-- EVENT viewforum_forum_title_before -->
+	<h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight mb-2">
+		<!-- EVENT viewforum_forum_name_prepend --><a href="{U_VIEW_FORUM}" class="hover:text-primary transition-colors">{FORUM_NAME}</a><!-- EVENT viewforum_forum_name_append -->
+	</h2>
+	<!-- EVENT viewforum_forum_title_after -->
+
+	<!-- IF FORUM_DESC or MODERATORS or U_MCP -->
+		<!-- NOTE: remove the 'hidden' class when you want to have the forum description on the forum body -->
+		<!-- IF FORUM_DESC --><div class="hidden">{FORUM_DESC}</div><!-- ENDIF -->
+		<!-- IF MODERATORS -->
+		<p class="text-sm text-slate-600 dark:text-slate-400 mb-4 [&_a]:text-primary hover:[&_a]:underline">
+			<strong><!-- IF S_SINGLE_MODERATOR -->{L_MODERATOR}<!-- ELSE -->{L_MODERATORS}<!-- ENDIF -->{L_COLON}</strong> {MODERATORS}
+		</p>
+		<!-- ENDIF -->
+	<!-- ENDIF -->
+</div>
+
+<!-- IF S_FORUM_RULES -->
+<div class="mx-4 mb-6 flex items-start gap-4 rounded-xl border border-red-200 bg-red-50 p-4 shadow-sm dark:border-red-900/40 dark:bg-red-900/10">
+	<div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-600 dark:bg-red-900/50 dark:text-red-400">
+		<span class="material-symbols-outlined text-[24px]">gavel</span>
+	</div>
+	<div class="flex-1 text-sm text-red-800 dark:text-red-200">
+		<!-- IF U_FORUM_RULES -->
+			<a href="{U_FORUM_RULES}" class="font-bold hover:underline text-red-700 dark:text-red-300">{L_FORUM_RULES}</a>
+		<!-- ELSE -->
+			<strong class="block mb-1 text-red-900 dark:text-red-100">{L_FORUM_RULES}</strong>
+			<div class="[&_a]:font-bold [&_a]:text-red-700 hover:[&_a]:underline dark:[&_a]:text-red-300">
+				{FORUM_RULES}
+			</div>
+		<!-- ENDIF -->
+	</div>
+</div>
+<!-- ENDIF -->
+
+<!-- IF S_HAS_SUBFORUM -->
+<!-- IF not S_IS_BOT and U_MARK_FORUMS -->
+	<div class="px-4 mb-2 flex justify-end">
+		<a href="{U_MARK_FORUMS}" class="flex items-center gap-1 rounded-md bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700 transition-colors" data-ajax="mark_forums_read">
+			<span class="material-symbols-outlined text-[16px]">done_all</span>
+			{L_MARK_SUBFORUMS_READ}
+		</a>
+	</div>
+<!-- ENDIF -->
+	<!-- INCLUDE forumlist_body.html -->
+<!-- ENDIF -->
+
+<!-- IF S_DISPLAY_POST_INFO or .pagination or TOTAL_POSTS or TOTAL_TOPICS -->
+	<div class="mb-6 flex flex-col gap-4 px-4">
+
+		<div class="flex items-center justify-between text-xs text-slate-500 font-medium bg-white dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+			<div class="flex items-center gap-2">
+				<span class="material-symbols-outlined text-[16px] text-slate-400">topic</span>
+				{TOTAL_TOPICS}
+			</div>
+			
+			<div class="flex items-center gap-1">
+				<!-- IF U_WATCH_FORUM_LINK and not S_IS_BOT -->
+				<a href="{U_WATCH_FORUM_LINK}" class="flex items-center gap-1 rounded-md bg-slate-100 px-2 py-1 text-[10px] font-bold text-slate-600 hover:bg-slate-200 dark:bg-slate-700/50 dark:text-slate-300 dark:hover:bg-slate-700 mr-2" title="{S_WATCH_FORUM_TITLE}" data-ajax="toggle_link" data-toggle-class="icon material-symbols-outlined text-[14px] <!-- IF S_WATCHING_FORUM -->icon-subscribe<!-- ELSE -->icon-unsubscribe<!-- ENDIF -->" data-toggle-text="{S_WATCH_FORUM_TOGGLE}" data-toggle-url="{U_WATCH_FORUM_TOGGLE}">
+					<i class="icon material-symbols-outlined text-[14px] <!-- IF S_WATCHING_FORUM -->icon-unsubscribe<!-- ELSE -->icon-subscribe<!-- ENDIF -->"></i>
+					<span class="hidden sm:inline">{S_WATCH_FORUM_TITLE}</span>
+				</a>
+				<!-- ENDIF -->
+
+				<!-- IF not S_IS_BOT and U_MARK_TOPICS and .topicrow -->
+				<a href="{U_MARK_TOPICS}" class="flex items-center gap-1 rounded-md bg-slate-100 px-2 py-1 text-[10px] font-bold text-slate-600 hover:bg-slate-200 dark:bg-slate-700/50 dark:text-slate-300 dark:hover:bg-slate-700 mr-2" data-ajax="mark_topics_read">
+					<span class="material-symbols-outlined text-[14px]">done_all</span> <span class="sr-only">{L_MARK_TOPICS_READ}</span>
+				</a>
+				<!-- ENDIF -->
+
+				<!-- IF .pagination -->
+					<!-- INCLUDE pagination.html -->
+				<!-- ELSE -->
+					<span class="bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded text-slate-600 dark:text-slate-300">{PAGE_NUMBER}</span>
+				<!-- ENDIF -->
+			</div>
+		</div>
+
+		<!-- IF S_DISPLAY_SEARCHBOX -->
+		<div class="relative w-full" role="search">
+			<form method="get" id="forum-search" action="{S_SEARCHBOX_ACTION}" class="relative flex items-center">
+				<fieldset class="w-full relative">
+					<input class="w-full rounded-xl border-slate-300 bg-white py-2.5 pl-10 pr-12 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-primary focus:ring-primary dark:border-slate-600 dark:bg-slate-800 dark:text-white dark:placeholder:text-slate-500" type="search" name="keywords" id="search_keywords" placeholder="{L_SEARCH_FORUM}" />
+					<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+						<span class="material-symbols-outlined text-slate-400 text-[20px]">search</span>
+					</div>
+					<button class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-primary transition-colors focus:outline-none focus:text-primary" type="submit" title="{L_SEARCH}">
+						<span class="material-symbols-outlined text-[20px]" aria-hidden="true">arrow_forward</span>
+						<span class="sr-only">{L_SEARCH}</span>
+					</button>
+					<a href="{{ U_SEARCH_FORUM }}" class="hidden" title="{L_SEARCH_ADV}"></a>
+					{S_SEARCH_LOCAL_HIDDEN_FIELDS}
+				</fieldset>
+			</form>
+		</div>
+		<!-- ENDIF -->
+
+	</div>
+<!-- ENDIF -->
+
+<!-- IF S_NO_READ_ACCESS -->
+
+	<div class="panel px-4">
+		<div class="inner">
+		<strong>{L_NO_READ_ACCESS}</strong>
+		</div>
+	</div>
+
+	<!-- IF not S_USER_LOGGED_IN and not S_IS_BOT -->
+
+		<form action="{S_LOGIN_ACTION}" method="post">
+
+		<div class="panel px-4">
+			<div class="inner">
+
+			<div class="content">
+				<h3><a href="{U_LOGIN_LOGOUT}">{L_LOGIN_LOGOUT}</a><!-- IF S_REGISTER_ENABLED -->&nbsp; &bull; &nbsp;<a href="{U_REGISTER}">{L_REGISTER}</a><!-- ENDIF --></h3>
+
+				<fieldset class="fields1">
+				<dl>
+					<dt><label for="username">{L_USERNAME}{L_COLON}</label></dt>
+					<dd><input type="text" tabindex="1" name="username" id="username" size="25" value="{USERNAME}" class="inputbox autowidth" autocomplete="username" /></dd>
+				</dl>
+				<dl>
+					<dt><label for="password">{L_PASSWORD}{L_COLON}</label></dt>
+					<dd><input type="password" tabindex="2" id="password" name="password" size="25" class="inputbox autowidth" autocomplete="current-password" /></dd>
+					<!-- IF S_AUTOLOGIN_ENABLED --><dd><label for="autologin"><input type="checkbox" name="autologin" id="autologin" tabindex="3" /> {L_LOG_ME_IN}</label></dd><!-- ENDIF -->
+					<dd><label for="viewonline"><input type="checkbox" name="viewonline" id="viewonline" tabindex="4" /> {L_HIDE_ME}</label></dd>
+				</dl>
+				<dl>
+					<dt>&nbsp;</dt>
+					<dd><input type="submit" name="login" tabindex="5" value="{L_LOGIN}" class="button1" /></dd>
+				</dl>
+				{S_LOGIN_REDIRECT}
+				{S_FORM_TOKEN_LOGIN}
+				</fieldset>
+			</div>
+
+			</div>
+		</div>
+
+		</form>
+
+	<!-- ENDIF -->
+
+<!-- ENDIF -->
+
+<!-- EVENT viewforum_body_topic_row_before -->
+
+<!-- BEGIN topicrow -->
+
+	<!-- IF not topicrow.S_TOPIC_TYPE_SWITCH and not topicrow.S_FIRST_ROW -->
+		</div>
+	</section>
+	<!-- ENDIF -->
+
+	<!-- IF topicrow.S_FIRST_ROW or not topicrow.S_TOPIC_TYPE_SWITCH -->
+		<section class="mb-6 px-4">
+			<div class="mb-3 flex items-center justify-between px-1">
+				<h3 class="text-lg font-bold text-slate-800 dark:text-slate-200">
+					<!-- IF S_DISPLAY_ACTIVE -->{L_ACTIVE_TOPICS}<!-- ELSEIF topicrow.S_TOPIC_TYPE_SWITCH and (topicrow.S_POST_ANNOUNCE or topicrow.S_POST_GLOBAL) -->{L_ANNOUNCEMENTS}<!-- ELSE -->{L_TOPICS}<!-- ENDIF -->
+				</h3>
+			</div>
+			<div class="flex flex-col gap-3">
+	<!-- ENDIF -->
+
+		<!-- EVENT viewforum_body_topicrow_row_before -->
+		<div class="group relative flex items-start gap-4 rounded-xl bg-white p-4 shadow-sm transition-transform active:scale-[0.98] dark:bg-slate-800 border border-slate-100 dark:border-slate-700/50 <!-- IF topicrow.S_UNREAD_TOPIC -->border-primary/30 dark:border-primary/50<!-- ENDIF --><!-- IF topicrow.S_POST_GLOBAL --> ring-2 ring-amber-500/50<!-- ENDIF --><!-- IF topicrow.S_POST_ANNOUNCE --> ring-1 ring-blue-500/50<!-- ENDIF --><!-- IF topicrow.S_POST_STICKY --> ring-1 ring-emerald-500/50<!-- ENDIF --><!-- IF topicrow.S_TOPIC_REPORTED --> ring-1 ring-red-500/50<!-- ENDIF -->">
+			
+			<!-- Absolute positioning link stretching over the whole card -->
+			<a href="{topicrow.U_VIEW_TOPIC}" class="absolute inset-0 z-0 rounded-xl"></a>
+
+			<!-- EVENT viewforum_body_topic_row_prepend -->
+			<div class="relative shrink-0 z-10 pointer-events-none">
+				<div class="flex h-12 w-12 items-center justify-center rounded-full <!-- IF topicrow.S_UNREAD_TOPIC -->bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-light<!-- ELSE -->bg-slate-100 text-slate-400 dark:bg-slate-700/50 dark:text-slate-400<!-- ENDIF -->">
+					<span class="material-symbols-outlined text-[24px]">
+						<!-- IF topicrow.S_TOPIC_MOVED -->drive_file_move
+						<!-- ELSEIF topicrow.S_TOPIC_LOCKED -->lock
+						<!-- ELSEIF topicrow.S_POST_GLOBAL -->campaign
+						<!-- ELSEIF topicrow.S_POST_ANNOUNCE -->campaign
+						<!-- ELSEIF topicrow.S_POST_STICKY -->push_pin
+						<!-- ELSE -->description<!-- ENDIF -->
+					</span>
+				</div>
+				<!-- IF topicrow.S_UNREAD_TOPIC --><span class="absolute -bottom-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary border-2 border-white dark:border-slate-800"></span><!-- ENDIF -->
+			</div>
+			
+			<!-- Content Area -->
+			<div class="flex flex-1 flex-col overflow-hidden z-10 pointer-events-none">
+				
+				<!-- Header Row: Title and Time -->
+				<div class="mb-1 flex items-start justify-between gap-2">
+					<div class="flex-1 min-w-0">
+						<!-- EVENT topiclist_row_prepend -->
+						<h4 class="truncate text-base font-bold text-slate-900 dark:text-white" title="{topicrow.TOPIC_TITLE}">
+							<!-- IF topicrow.TOPIC_ICON_IMG and S_TOPIC_ICONS -->
+								<img src="{T_ICONS_PATH}{topicrow.TOPIC_ICON_IMG}" class="inline-block align-text-bottom mr-1 max-w-[20px] max-h-[20px] object-contain" alt="" />
+							<!-- ENDIF -->
+							<!-- IF topicrow.S_HAS_POLL -->
+								<span class="material-symbols-outlined text-[18px] align-text-bottom mr-1 text-primary" title="{L_TOPIC_POLL}">poll</span>
+							<!-- ENDIF -->
+							<a href="{topicrow.U_VIEW_TOPIC}" class="pointer-events-auto hover:text-primary transition-colors">{topicrow.TOPIC_TITLE}</a>
+						</h4>
+					</div>
+					<!-- IF topicrow.FIRST_POST_TIME -->
+					<span class="text-[10px] font-medium text-slate-400 shrink-0 mt-0.5 whitespace-nowrap">{topicrow.FIRST_POST_TIME}</span>
+					<!-- ENDIF -->
+				</div>
+
+				<!-- Alerts/Badges Row -->
+				<!-- IF topicrow.S_TOPIC_UNAPPROVED or topicrow.S_POSTS_UNAPPROVED or topicrow.S_TOPIC_DELETED or topicrow.S_TOPIC_REPORTED -->
+				<div class="mb-2 flex gap-2 pointer-events-auto">
+					<!-- IF topicrow.S_TOPIC_UNAPPROVED or topicrow.S_POSTS_UNAPPROVED -->
+						<a href="{topicrow.U_MCP_QUEUE}" title="<!-- IF topicrow.S_TOPIC_UNAPPROVED -->{L_TOPIC_UNAPPROVED}<!-- ELSE -->{L_POSTS_UNAPPROVED}<!-- ENDIF -->" class="inline-flex items-center justify-center bg-blue-100 text-blue-600 rounded-full w-6 h-6 dark:bg-blue-900/50 dark:text-blue-400">
+							<span class="material-symbols-outlined text-[14px]">help</span>
+						</a>
+					<!-- ENDIF -->
+					<!-- IF topicrow.S_TOPIC_DELETED -->
+						<a href="{topicrow.U_MCP_QUEUE}" title="{L_TOPIC_DELETED}" class="inline-flex items-center justify-center bg-emerald-100 text-emerald-600 rounded-full w-6 h-6 dark:bg-emerald-900/50 dark:text-emerald-400">
+							<span class="material-symbols-outlined text-[14px]">recycling</span>
+						</a>
+					<!-- ENDIF -->
+					<!-- IF topicrow.S_TOPIC_REPORTED -->
+						<a href="{topicrow.U_MCP_REPORT}" title="{L_TOPIC_REPORTED}" class="inline-flex items-center justify-center bg-red-100 text-red-600 rounded-full w-6 h-6 dark:bg-red-900/50 dark:text-red-400">
+							<span class="material-symbols-outlined text-[14px]">report</span>
+						</a>
+					<!-- ENDIF -->
+				</div>
+				<!-- ENDIF -->
+				<!-- EVENT topiclist_row_topic_title_after -->
+
+				<!-- Author Info -->
+				<div class="mb-3 text-[11px] text-slate-500 dark:text-slate-400 pointer-events-auto [&_a]:text-primary [&_a]:font-medium hover:[&_a]:underline">
+					<!-- IF topicrow.ATTACH_ICON_IMG --><span class="material-symbols-outlined text-[12px] align-middle mr-1">attach_file</span><!-- ENDIF -->
+					{% EVENT topiclist_row_topic_by_author_before %}
+					{L_POST_BY_AUTHOR} <!-- EVENT viewforum_body_topic_author_username_prepend -->{topicrow.TOPIC_AUTHOR_FULL}<!-- EVENT viewforum_body_topic_author_username_append -->
+					{% EVENT topiclist_row_topic_by_author_after %}
+					<!-- IF topicrow.S_POST_GLOBAL and FORUM_ID != topicrow.FORUM_ID --> &bull; {L_IN} <a href="{topicrow.U_VIEW_FORUM}">{topicrow.FORUM_NAME}</a><!-- ENDIF -->
+				</div>
+
+				<!-- Micro Pagination -->
+				<!-- IF .topicrow.pagination -->
+				<div class="mb-3 flex flex-wrap gap-1 pointer-events-auto">
+					<span class="material-symbols-outlined text-[14px] text-slate-400 self-center mr-1">layers</span>
+					<!-- BEGIN pagination -->
+						<!-- IF topicrow.pagination.S_IS_PREV -->
+						<!-- ELSEIF topicrow.pagination.S_IS_CURRENT -->
+							<span class="flex h-5 items-center justify-center rounded bg-primary px-1.5 text-[10px] font-bold text-white">{topicrow.pagination.PAGE_NUMBER}</span>
+						<!-- ELSEIF topicrow.pagination.S_IS_ELLIPSIS -->
+							<span class="flex h-5 items-center justify-center px-1 text-[10px] text-slate-400">{L_ELLIPSIS}</span>
+						<!-- ELSEIF topicrow.pagination.S_IS_NEXT -->
+						<!-- ELSE -->
+							<a href="{topicrow.pagination.PAGE_URL}" class="flex h-5 items-center justify-center rounded bg-slate-100 px-1.5 text-[10px] font-medium text-slate-600 hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600">{topicrow.pagination.PAGE_NUMBER}</a>
+						<!-- ENDIF -->
+					<!-- END pagination -->
+				</div>
+				<!-- ENDIF -->
+
+				<div class="flex items-center justify-between gap-2 mt-auto">
+					<!-- Inline Stats -->
+					<div class="flex items-center gap-3 text-[11px] font-medium text-slate-400/80 dark:text-slate-500 pointer-events-auto">
+						<span class="flex items-center gap-1" title="{L_REPLIES}"><span class="material-symbols-outlined text-[14px]">forum</span> {topicrow.REPLIES}</span>
+						<span class="flex items-center gap-1" title="{L_VIEWS}"><span class="material-symbols-outlined text-[14px]">visibility</span> {topicrow.VIEWS}</span>
+					</div>
+				</div>
+
+				<!-- Last Post Block -->
+				<div class="mt-3 flex items-center gap-2 rounded-lg bg-slate-50 p-2 dark:bg-slate-700/40 pointer-events-auto relative group/lastpost hover:bg-slate-100 dark:hover:bg-slate-700/60 transition-colors">
+					<a href="{topicrow.U_LAST_POST}" class="absolute inset-0 z-0 rounded-lg" title="{L_GOTO_LAST_POST}"></a>
+					<div class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-slate-200 dark:bg-slate-600 text-slate-500 dark:text-slate-300 z-10 pointer-events-none">
+						<span class="material-symbols-outlined text-[14px]">reply</span>
+					</div>
+					<div class="flex-1 truncate text-xs font-medium text-slate-600 dark:text-slate-300 z-10 pointer-events-none">
+						<span class="font-normal text-slate-400">{L_LATEST}{L_COLON}</span> 
+						<!-- IF not S_IS_BOT and topicrow.U_LAST_POST -->
+							{topicrow.LAST_POST_TIME}
+						<!-- ENDIF -->
+					</div>
+					<div class="truncate text-[10px] text-slate-400 z-10 pointer-events-auto [&_a]:text-slate-400 hover:[&_a]:text-primary transition-colors max-w-[80px]">
+						<!-- EVENT viewforum_body_last_post_author_username_prepend -->
+						{topicrow.LAST_POST_AUTHOR_FULL}
+						<!-- EVENT viewforum_body_last_post_author_username_append -->
+					</div>
+				</div>
+				
+				<!-- EVENT topiclist_row_append -->
+			</div>
+		</div>
+		<!-- EVENT viewforum_body_topic_row_append -->
+		<!-- EVENT viewforum_body_topic_row_after -->
+
+	<!-- IF topicrow.S_LAST_ROW -->
+			</div>
+		</section>
+	<!-- ENDIF -->
+
+<!-- BEGINELSE -->
+	<!-- IF S_IS_POSTABLE -->
+	<div class="px-4 py-8 text-center bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700 mb-6">
+		<span class="material-symbols-outlined text-4xl text-slate-400 mb-2">sentiment_dissatisfied</span>
+		<h3 class="text-lg font-bold text-slate-800 dark:text-slate-200">{{ lang(S_SORT_DAYS ? 'NO_TOPICS_TIME_FRAME' : 'NO_TOPICS') }}</h3>
+	</div>
+	<!-- ELSE IF not S_HAS_SUBFORUM -->
+	<div class="px-4 py-8 text-center bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700 mb-6">
+		<span class="material-symbols-outlined text-4xl text-slate-400 mb-2">folder_off</span>
+		<h3 class="text-lg font-bold text-slate-800 dark:text-slate-200">{L_NO_FORUMS_IN_CATEGORY}</h3>
+	</div>
+	<!-- ENDIF -->
+<!-- END topicrow -->
+
+<!-- IF .topicrow and not S_DISPLAY_ACTIVE -->
+	<div class="mt-6 mb-6 flex flex-col gap-4 px-4">
+
+
+		<div class="flex flex-col gap-3">
+			<!-- IF S_SELECT_SORT_DAYS and not S_IS_BOT -->
+				<form method="post" action="{S_FORUM_ACTION}" class="w-full">
+					<!-- INCLUDE display_options.html -->
+				</form>
+			<!-- ENDIF -->
+
+			<div class="flex items-center justify-between text-xs text-slate-500 font-medium bg-white dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+				<div class="flex items-center gap-2">
+					<span class="material-symbols-outlined text-[16px] text-slate-400">topic</span>
+					{TOTAL_TOPICS}
+				</div>
+				
+				<div class="flex items-center gap-1">
+					<!-- IF U_WATCH_FORUM_LINK and not S_IS_BOT -->
+					<a href="{U_WATCH_FORUM_LINK}" class="flex items-center gap-1 rounded-md bg-slate-100 px-2 py-1 text-[10px] font-bold text-slate-600 hover:bg-slate-200 dark:bg-slate-700/50 dark:text-slate-300 dark:hover:bg-slate-700 mr-2" title="{S_WATCH_FORUM_TITLE}" data-ajax="toggle_link" data-toggle-class="icon material-symbols-outlined text-[14px] <!-- IF S_WATCHING_FORUM -->icon-subscribe<!-- ELSE -->icon-unsubscribe<!-- ENDIF -->" data-toggle-text="{S_WATCH_FORUM_TOGGLE}" data-toggle-url="{U_WATCH_FORUM_TOGGLE}">
+						<i class="icon material-symbols-outlined text-[14px] <!-- IF S_WATCHING_FORUM -->icon-unsubscribe<!-- ELSE -->icon-subscribe<!-- ENDIF -->"></i>
+						<span class="hidden sm:inline">{S_WATCH_FORUM_TITLE}</span>
+					</a>
+					<!-- ENDIF -->
+
+					<!-- IF not S_IS_BOT and U_MARK_TOPICS and .topicrow -->
+					<a href="{U_MARK_TOPICS}" class="flex items-center gap-1 rounded-md bg-slate-100 px-2 py-1 text-[10px] font-bold text-slate-600 hover:bg-slate-200 dark:bg-slate-700/50 dark:text-slate-300 dark:hover:bg-slate-700 mr-2" data-ajax="mark_topics_read">
+						<span class="material-symbols-outlined text-[14px]">done_all</span> <span class="sr-only">{L_MARK_TOPICS_READ}</span>
+					</a>
+					<!-- ENDIF -->
+
+					<!-- IF .pagination -->
+						<!-- INCLUDE pagination.html -->
+					<!-- ELSE -->
+						<span class="bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded text-slate-600 dark:text-slate-300">{PAGE_NUMBER}</span>
+					<!-- ENDIF -->
+				</div>
+			</div>
+		</div>
+
+	</div>
+<!-- ENDIF -->
+
+<!-- INCLUDE jumpbox.html -->
+
+{% EVENT viewforum_body_online_list_before %}
+
+<div class="mb-6 flex flex-col gap-4 px-4">
+	<!-- IF S_DISPLAY_ONLINE_LIST and U_VIEWONLINE -->
+		<div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+			<h3 class="mb-2 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+				<span class="material-symbols-outlined text-[18px] text-primary">public</span>
+				<a href="{U_VIEWONLINE}" class="hover:text-primary transition-colors">{L_WHO_IS_ONLINE}</a>
+			</h3>
+			<p class="text-[13px] leading-relaxed text-slate-600 dark:text-slate-400 [&_a]:text-primary [&_a]:font-medium hover:[&_a]:underline">
+				{LOGGED_IN_USER_LIST}
+			</p>
+		</div>
+	<!-- ENDIF -->
+
+	<!-- IF S_IS_POSTABLE and rules|length -->
+		<div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+			<h3 class="mb-2 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+				<span class="material-symbols-outlined text-[18px] text-primary">verified_user</span>
+				{L_FORUM_PERMISSIONS}
+			</h3>
+			<p class="text-[13px] leading-relaxed text-slate-600 dark:text-slate-400">
+				<!-- BEGIN rules -->{rules.RULE}<br /><!-- END rules -->
+			</p>
+		</div>
+	<!-- ENDIF -->
+</div>
+
+<!-- IF not S_IS_BOT and S_DISPLAY_POST_INFO -->
+	<div class="fixed bottom-[88px] right-4 z-40 pointer-events-none">
+		<div class="pointer-events-auto flex justify-end">
+			<!-- EVENT viewforum_buttons_top_before -->
+			<!-- EVENT viewforum_buttons_bottom_before -->
+			<a href="{U_POST_NEW_TOPIC}" class="bg-primary hover:bg-primary/90 text-white rounded-full px-5 py-3.5 shadow-xl shadow-primary/30 flex items-center gap-2 font-bold transition-transform active:scale-95 border border-primary/50" title="<!-- IF S_IS_LOCKED -->{L_FORUM_LOCKED}<!-- ELSE -->{L_POST_TOPIC}<!-- ENDIF -->">
+				<!-- IF S_IS_LOCKED -->
+					<span class="material-symbols-outlined">lock</span>
+					<span class="hidden sm:inline">{L_BUTTON_FORUM_LOCKED}</span>
+				<!-- ELSE -->
+					<span class="material-symbols-outlined">edit_square</span>
+					<span class="hidden sm:inline">{L_BUTTON_NEW_TOPIC}</span>
+				<!-- ENDIF -->
+			</a>
+			<!-- EVENT viewforum_buttons_top_after -->
+			<!-- EVENT viewforum_buttons_bottom_after -->
+		</div>
+	</div>
+<!-- ENDIF -->
+
+</main>
+<!-- INCLUDE overall_footer.html -->

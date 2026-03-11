@@ -1,0 +1,202 @@
+<!-- INCLUDE ucp_header.html -->
+
+<div class="flex items-center justify-between mb-6 border-b border-primary/10 pb-4">
+	<h2 class="text-base sm:text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
+		<span class="material-symbols-outlined text-[20px] text-primary">groups</span>
+		{L_USERGROUPS}
+	</h2>
+</div>
+
+<form id="ucp" method="post" action="{S_UCP_ACTION}"{S_FORM_ENCTYPE}>
+
+<div class="space-y-6">
+	<div class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800">
+		<p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{L_GROUPS_EXPLAIN}</p>
+	</div>
+
+	<!-- DEFINE $SHOW_BUTTONS = 0 -->
+	
+	<!-- IF .leader -->
+		<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+			<div class="px-5 py-4 border-b border-slate-100 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-900/30 flex justify-between items-center">
+				<h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">{L_GROUP_LEADER}</h3>
+				<span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">{L_SELECT}</span>
+			</div>
+			
+			<div class="divide-y divide-slate-100 dark:divide-slate-700/50">
+				<!-- BEGIN leader -->
+				<!-- IF not leader.GROUP_SPECIAL -->
+					<!-- DEFINE $SHOW_BUTTONS = 1 -->
+				<!-- ENDIF -->
+				<div class="p-5 hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors flex items-center justify-between gap-4">
+					<div class="flex-1 min-w-0 flex items-center gap-4">
+						<!-- IF S_CHANGE_DEFAULT -->
+							<label class="flex items-center justify-center shrink-0 cursor-pointer group" title="{L_CHANGE_DEFAULT_GROUP}">
+								<div class="relative flex items-center justify-center">
+									<input type="radio" name="default" value="{leader.GROUP_ID}" <!-- IF leader.S_GROUP_DEFAULT -->checked="checked"<!-- ENDIF --> class="peer sr-only" />
+									<div class="w-5 h-5 rounded-full border-2 border-slate-300 dark:border-slate-600 peer-checked:border-primary transition-colors"></div>
+									<div class="absolute w-2.5 h-2.5 rounded-full bg-primary opacity-0 peer-checked:opacity-100 transition-opacity scale-50 peer-checked:scale-100 transform"></div>
+								</div>
+							</label>
+						<!-- ENDIF -->
+						<div class="min-w-0">
+							<a href="{leader.U_VIEW_GROUP}" class="text-base font-bold text-slate-800 dark:text-white hover:text-primary transition-colors block truncate"<!-- IF leader.GROUP_COLOUR --> style="color:#{leader.GROUP_COLOUR}"<!-- ENDIF -->>{leader.GROUP_NAME}</a>
+							<!-- IF leader.GROUP_DESC --><p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-1">{leader.GROUP_DESC}</p><!-- ENDIF -->
+							<!-- IF not leader.GROUP_SPECIAL --><p class="text-[10px] font-bold uppercase tracking-widest text-primary/70 mt-1 italic">{leader.GROUP_STATUS}</p><!-- ENDIF -->
+						</div>
+					</div>
+					<div class="shrink-0 flex items-center">
+						<label class="flex items-center justify-center cursor-pointer group">
+							<div class="relative flex items-center justify-center">
+								<input type="radio" name="selected" value="{leader.GROUP_ID}" <!-- IF leader.GROUP_SPECIAL -->disabled="disabled"<!-- ENDIF --> class="peer sr-only" />
+								<div class="w-6 h-6 rounded-lg border-2 border-slate-200 dark:border-slate-700 peer-checked:border-primary peer-checked:bg-primary/5 transition-all group-hover:border-primary/50"></div>
+								<span class="absolute material-symbols-outlined text-[18px] text-primary opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
+							</div>
+						</label>
+					</div>
+				</div>
+				<!-- END leader -->
+			</div>
+		</div>
+	<!-- ENDIF -->
+
+	<!-- IF .member -->
+		<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+			<div class="px-5 py-4 border-b border-slate-100 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-900/30 flex justify-between items-center">
+				<h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">{L_GROUP_MEMBER}</h3>
+				<span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">{L_SELECT}</span>
+			</div>
+			
+			<div class="divide-y divide-slate-100 dark:divide-slate-700/50">
+				<!-- BEGIN member -->
+				<!-- IF not member.GROUP_SPECIAL -->
+					<!-- DEFINE $SHOW_BUTTONS = 1 -->
+				<!-- ENDIF -->
+				<div class="p-5 hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors flex items-center justify-between gap-4">
+					<div class="flex-1 min-w-0 flex items-center gap-4">
+						<!-- IF S_CHANGE_DEFAULT -->
+							<label class="flex items-center justify-center shrink-0 cursor-pointer group" title="{L_CHANGE_DEFAULT_GROUP}">
+								<div class="relative flex items-center justify-center">
+									<input type="radio" name="default" value="{member.GROUP_ID}" <!-- IF member.S_GROUP_DEFAULT -->checked="checked"<!-- ENDIF --> class="peer sr-only" />
+									<div class="w-5 h-5 rounded-full border-2 border-slate-300 dark:border-slate-600 peer-checked:border-primary transition-colors"></div>
+									<div class="absolute w-2.5 h-2.5 rounded-full bg-primary opacity-0 peer-checked:opacity-100 transition-opacity scale-50 peer-checked:scale-100 transform"></div>
+								</div>
+							</label>
+						<!-- ENDIF -->
+						<div class="min-w-0">
+							<a href="{member.U_VIEW_GROUP}" class="text-base font-bold text-slate-800 dark:text-white hover:text-primary transition-colors block truncate"<!-- IF member.GROUP_COLOUR --> style="color:#{member.GROUP_COLOUR}"<!-- ENDIF -->>{member.GROUP_NAME}</a>
+							<!-- IF member.GROUP_DESC --><p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-1">{member.GROUP_DESC}</p><!-- ENDIF -->
+							<!-- IF not member.GROUP_SPECIAL --><p class="text-[10px] font-bold uppercase tracking-widest text-primary/70 mt-1 italic">{member.GROUP_STATUS}</p><!-- ENDIF -->
+						</div>
+					</div>
+					<div class="shrink-0 flex items-center">
+						<label class="flex items-center justify-center cursor-pointer group">
+							<div class="relative flex items-center justify-center">
+								<input type="radio" name="selected" value="{member.GROUP_ID}" <!-- IF member.GROUP_SPECIAL -->disabled="disabled"<!-- ENDIF --> class="peer sr-only" />
+								<div class="w-6 h-6 rounded-lg border-2 border-slate-200 dark:border-slate-700 peer-checked:border-primary peer-checked:bg-primary/5 transition-all group-hover:border-primary/50"></div>
+								<span class="absolute material-symbols-outlined text-[18px] text-primary opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
+							</div>
+						</label>
+					</div>
+				</div>
+				<!-- END member -->
+			</div>
+		</div>
+	<!-- ENDIF -->
+
+	<!-- IF .pending -->
+		<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+			<div class="px-5 py-4 border-b border-slate-100 dark:border-slate-700/50 bg-amber-50/50 dark:bg-amber-900/10 flex justify-between items-center">
+				<h3 class="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-500">{L_GROUP_PENDING}</h3>
+				<span class="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-500">{L_SELECT}</span>
+			</div>
+			
+			<div class="divide-y divide-slate-100 dark:divide-slate-700/50">
+				<!-- BEGIN pending -->
+				<!-- IF not pending.GROUP_SPECIAL -->
+					<!-- DEFINE $SHOW_BUTTONS = 1 -->
+				<!-- ENDIF -->
+				<div class="p-5 hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors flex items-center justify-between gap-4">
+					<div class="flex-1 min-w-0">
+						<a href="{pending.U_VIEW_GROUP}" class="text-base font-bold text-slate-800 dark:text-white hover:text-primary transition-colors block truncate"<!-- IF pending.GROUP_COLOUR --> style="color:#{pending.GROUP_COLOUR}"<!-- ENDIF -->>{pending.GROUP_NAME}</a>
+						<!-- IF pending.GROUP_DESC --><p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-1">{pending.GROUP_DESC}</p><!-- ENDIF -->
+						<!-- IF not pending.GROUP_SPECIAL --><p class="text-[10px] font-bold uppercase tracking-widest text-amber-600 dark:text-amber-500 mt-1 italic">{pending.GROUP_STATUS}</p><!-- ENDIF -->
+					</div>
+					<div class="shrink-0 flex items-center">
+						<label class="flex items-center justify-center cursor-pointer group">
+							<div class="relative flex items-center justify-center">
+								<input type="radio" name="selected" value="{pending.GROUP_ID}" <!-- IF pending.GROUP_SPECIAL -->disabled="disabled"<!-- ENDIF --> class="peer sr-only" />
+								<div class="w-6 h-6 rounded-lg border-2 border-slate-200 dark:border-slate-700 peer-checked:border-primary peer-checked:bg-primary/5 transition-all group-hover:border-primary/50"></div>
+								<span class="absolute material-symbols-outlined text-[18px] text-primary opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
+							</div>
+						</label>
+					</div>
+				</div>
+				<!-- END pending -->
+			</div>
+		</div>
+	<!-- ENDIF -->
+
+	<!-- IF .nonmember -->
+		<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+			<div class="px-5 py-4 border-b border-slate-100 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-900/30 flex justify-between items-center">
+				<h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">{L_GROUP_NONMEMBER}</h3>
+				<span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">{L_SELECT}</span>
+			</div>
+			
+			<div class="divide-y divide-slate-100 dark:divide-slate-700/50">
+				<!-- BEGIN nonmember -->
+				<!-- IF nonmember.S_CAN_JOIN -->
+					<!-- DEFINE $SHOW_BUTTONS = 1 -->
+				<!-- ENDIF -->
+				<div class="p-5 hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors flex items-center justify-between gap-4">
+					<div class="flex-1 min-w-0">
+						<a href="{nonmember.U_VIEW_GROUP}" class="text-base font-bold text-slate-800 dark:text-white hover:text-primary transition-colors block truncate"<!-- IF nonmember.GROUP_COLOUR --> style="color:#{nonmember.GROUP_COLOUR}"<!-- ENDIF -->>{nonmember.GROUP_NAME}</a>
+						<!-- IF nonmember.GROUP_DESC --><p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-1">{nonmember.GROUP_DESC}</p><!-- ENDIF -->
+						<!-- IF not nonmember.GROUP_SPECIAL --><p class="text-[10px] font-bold uppercase tracking-widest text-primary/70 mt-1 italic">{nonmember.GROUP_STATUS}</p><!-- ENDIF -->
+					</div>
+					<div class="shrink-0 flex items-center">
+						<label class="flex items-center justify-center cursor-pointer group">
+							<div class="relative flex items-center justify-center">
+								<input type="radio" name="selected" value="{nonmember.GROUP_ID}" <!-- IF not nonmember.S_CAN_JOIN -->disabled="disabled"<!-- ENDIF --> class="peer sr-only" />
+								<div class="w-6 h-6 rounded-lg border-2 border-slate-200 dark:border-slate-700 peer-checked:border-primary peer-checked:bg-primary/5 transition-all group-hover:border-primary/50"></div>
+								<span class="absolute material-symbols-outlined text-[18px] text-primary opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
+							</div>
+						</label>
+					</div>
+				</div>
+				<!-- END nonmember -->
+			</div>
+		</div>
+	<!-- ENDIF -->
+
+	<div class="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-100 dark:border-slate-700/50">
+		<div class="flex items-center gap-3">
+			<!-- IF S_CHANGE_DEFAULT -->
+				<button type="submit" name="change_default" value="{L_CHANGE_DEFAULT_GROUP}" class="px-5 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-sm rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm">{L_CHANGE_DEFAULT_GROUP}</button>
+			<!-- ENDIF -->
+		</div>
+
+		<!-- IF $SHOW_BUTTONS eq 1 -->
+		<div class="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+			<div class="relative flex-1 sm:w-64">
+				<select name="action" id="action" class="w-full h-11 pl-4 pr-10 text-sm rounded-lg border border-slate-300 bg-white text-slate-800 focus:border-primary focus:ring-primary shadow-sm appearance-none transition-all dark:bg-slate-900 dark:border-slate-600 dark:text-white cursor-pointer">
+					<option value="join">{L_JOIN_SELECTED}</option>
+					<option value="resign">{L_RESIGN_SELECTED}</option>
+					<option value="demote">{L_DEMOTE_SELECTED}</option>
+				</select>
+				<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[20px]">expand_more</span>
+			</div>
+			<button type="submit" name="submit" value="{L_SUBMIT}" class="w-full sm:w-auto px-6 py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-sm rounded-lg transition-colors shadow-md flex items-center justify-center gap-2">
+				<span class="material-symbols-outlined text-[18px]">done</span>
+				{L_SUBMIT}
+			</button>
+		</div>
+		<!-- ENDIF -->
+		{S_FORM_TOKEN}
+	</div>
+</div>
+
+</form>
+
+<!-- INCLUDE ucp_footer.html -->

@@ -1,0 +1,334 @@
+<!-- INCLUDE ucp_header.html -->
+
+<div class="flex items-center justify-between mb-6 border-b border-primary/10 pb-4">
+	<h2 class="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
+		<span class="material-symbols-outlined text-[20px] text-primary">rule_settings</span>
+		{L_TITLE}
+	</h2>
+</div>
+
+<form id="ucp" method="post" action="{S_UCP_ACTION}">
+
+<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden mb-6">
+	<div class="p-6 sm:p-8 space-y-8">
+
+	<!-- IF ERROR_MESSAGE -->
+	<div class="bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-900/30 text-red-600 dark:text-red-400 p-4 rounded-xl text-sm font-medium mb-6">
+		{ERROR_MESSAGE}
+	</div>
+	<!-- ENDIF -->
+	<!-- IF NOTIFICATION_MESSAGE -->
+	<div class="bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-900/30 text-green-600 dark:text-green-400 p-4 rounded-xl text-sm font-medium mb-6">
+		{NOTIFICATION_MESSAGE}
+	</div>
+	<!-- ENDIF -->
+
+	<!-- Defined Rules Section -->
+	<section>
+		<h3 class="text-base font-bold text-slate-800 dark:text-white mb-4 pb-2 border-b border-slate-100 dark:border-slate-700/50 flex items-center gap-2">
+			<span class="material-symbols-outlined text-[18px] text-slate-400">format_list_numbered</span>
+			{L_DEFINED_RULES}
+		</h3>
+
+		<ul class="space-y-3">
+		<!-- BEGIN rule -->
+			<li class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-50 dark:bg-slate-900/50 p-4 rounded-lg border border-slate-200 dark:border-slate-700 transition-colors">
+				<div class="text-sm text-slate-700 dark:text-slate-300">
+					<strong class="text-slate-900 dark:text-white">{L_IF}</strong> {rule.CHECK} 
+					<em class="not-italic font-medium text-slate-600 dark:text-slate-400 mx-1">{rule.RULE}</em> 
+					<!-- IF rule.STRING --><strong class="text-slate-900 dark:text-white">{rule.STRING}</strong> | <!-- ENDIF -->
+					<span class="text-primary font-medium">{rule.ACTION}</span>
+					<!-- IF rule.FOLDER --><span class="text-slate-500"> {L_COLON} {rule.FOLDER}</span><!-- ENDIF -->
+				</div>
+				<button type="submit" name="delete_rule[{rule.RULE_ID}]" value="{L_DELETE_RULE}" class="shrink-0 px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 font-semibold text-xs rounded-lg transition-colors dark:bg-red-900/20 dark:hover:bg-red-900/40 dark:text-red-400 self-start sm:self-auto">
+					{L_DELETE_RULE}
+				</button>
+			</li>
+		<!-- BEGINELSE -->
+			<li class="p-6 text-center text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/30 rounded-lg border border-slate-200 dark:border-slate-700 border-dashed text-sm font-medium">
+				{L_NO_RULES_DEFINED}
+			</li>
+		<!-- END rule -->
+		</ul>
+	</section>
+
+	<!-- Add New Rule Section -->
+	<section>
+		<h3 class="text-base font-bold text-slate-800 dark:text-white mb-4 pb-2 border-b border-slate-100 dark:border-slate-700/50 flex items-center gap-2">
+			<span class="material-symbols-outlined text-[18px] text-slate-400">playlist_add</span>
+			{L_ADD_NEW_RULE}
+		</h3>
+
+		<div class="space-y-4">
+			<!-- IF S_CHECK_DEFINED -->
+			<div class="flex flex-col sm:flex-row sm:items-center gap-3">
+				<label <!-- IF S_CHECK_SELECT -->for="check_option"<!-- ENDIF --> class="sm:w-1/4 text-sm font-bold text-slate-800 dark:text-white">
+					{L_IF}{L_COLON}
+				</label>
+				<div class="flex flex-wrap items-center gap-2 flex-1">
+					<!-- IF S_CHECK_SELECT -->
+						<div class="relative flex-1 max-w-[240px]">
+							<select name="check_option" id="check_option" class="w-full h-11 pl-4 pr-10 text-sm rounded-lg border border-slate-300 bg-white text-slate-800 focus:border-primary focus:ring-primary shadow-sm appearance-none transition-all dark:bg-slate-900 dark:border-slate-600 dark:text-white cursor-pointer">
+								{S_CHECK_OPTIONS}
+							</select>
+							<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[20px]">expand_more</span>
+						</div>
+						<button type="submit" name="next" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold rounded-lg transition-colors dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-200">{L_NEXT_STEP}</button>
+					<!-- ELSE -->
+						<span class="text-sm font-semibold text-primary bg-primary/10 px-3 py-1.5 rounded-md">{CHECK_CURRENT}</span>
+						<input type="hidden" name="check_option" value="{CHECK_OPTION}" />
+					<!-- ENDIF -->
+				</div>
+			</div>
+			<!-- ENDIF -->
+
+			<!-- IF S_RULE_DEFINED -->
+			<div class="flex flex-col sm:flex-row sm:items-center gap-3">
+				<div class="sm:w-1/4">
+					<!-- IF S_RULE_SELECT -->
+						<button type="submit" name="back[rule]" class="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-semibold rounded-lg transition-colors shadow-sm w-full sm:w-auto text-center">{L_PREVIOUS_STEP}</button>
+					<!-- ENDIF -->
+				</div>
+				<div class="flex flex-wrap items-center gap-2 flex-1">
+					<!-- IF S_RULE_SELECT -->
+						<div class="relative flex-1 max-w-[240px]">
+							<select name="rule_option" id="rule_option" class="w-full h-11 pl-4 pr-10 text-sm rounded-lg border border-slate-300 bg-white text-slate-800 focus:border-primary focus:ring-primary shadow-sm appearance-none transition-all dark:bg-slate-900 dark:border-slate-600 dark:text-white cursor-pointer">
+								{S_RULE_OPTIONS}
+							</select>
+							<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[20px]">expand_more</span>
+						</div>
+						<button type="submit" name="next" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold rounded-lg transition-colors dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-200">{L_NEXT_STEP}</button>
+					<!-- ELSE -->
+						<span class="text-sm italic font-medium text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-700/50 px-3 py-1.5 rounded-md">{RULE_CURRENT}</span>
+						<input type="hidden" name="rule_option" value="{RULE_OPTION}" />
+					<!-- ENDIF -->
+				</div>
+			</div>
+			<!-- ENDIF -->
+
+			<!-- IF S_COND_DEFINED -->
+				<!-- IF S_COND_SELECT or COND_CURRENT -->
+				<div class="flex flex-col sm:flex-row gap-3">
+					<div class="sm:w-1/4">
+						<!-- IF S_COND_SELECT -->
+							<button type="submit" name="back[cond]" class="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-semibold rounded-lg transition-colors shadow-sm w-full sm:w-auto text-center mt-1">{L_PREVIOUS_STEP}</button>
+						<!-- ENDIF -->
+					</div>
+					<div class="flex flex-wrap items-center gap-2 flex-1">
+						<!-- IF S_COND_SELECT -->
+							<div class="flex-1 max-w-[320px] flex items-center gap-2">
+								<!-- IF S_TEXT_CONDITION -->
+									<input type="text" name="rule_string" value="{CURRENT_STRING}" class="flex-1 h-11 px-4 text-sm rounded-lg border border-slate-300 bg-white text-slate-800 focus:border-primary focus:ring-primary shadow-sm transition-all dark:bg-slate-900 dark:border-slate-600 dark:text-white" maxlength="250" />
+								<!-- ELSEIF S_USER_CONDITION -->
+									<input type="text" name="rule_string" value="{CURRENT_STRING}" class="w-32 h-11 px-4 text-sm rounded-lg border border-slate-300 bg-white text-slate-800 focus:border-primary focus:ring-primary shadow-sm transition-all dark:bg-slate-900 dark:border-slate-600 dark:text-white" />
+									<a href="{U_FIND_USERNAME}" onclick="find_username(this.href); return false;" class="text-sm font-medium text-primary hover:underline whitespace-nowrap">[{L_FIND_USERNAME}]</a>
+								<!-- ELSEIF S_GROUP_CONDITION -->
+									<input type="hidden" name="rule_string" value="{CURRENT_STRING}" />
+									<!-- IF S_GROUP_OPTIONS -->
+										<div class="relative flex-1">
+											<select name="rule_group_id" class="w-full h-11 pl-4 pr-10 text-sm rounded-lg border border-slate-300 bg-white text-slate-800 focus:border-primary focus:ring-primary shadow-sm appearance-none transition-all dark:bg-slate-900 dark:border-slate-600 dark:text-white cursor-pointer">
+												{S_GROUP_OPTIONS}
+											</select>
+											<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[20px]">expand_more</span>
+										</div>
+									<!-- ELSE -->
+										<span class="text-sm text-slate-500 font-medium">{L_NO_GROUPS}</span>
+									<!-- ENDIF -->
+								<!-- ENDIF -->
+							</div>
+							<button type="submit" name="next" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold rounded-lg transition-colors dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-200">{L_NEXT_STEP}</button>
+						<!-- ELSE -->
+							<strong class="text-sm font-bold text-slate-800 dark:text-white">{COND_CURRENT}</strong>
+							<input type="hidden" name="rule_string" value="{CURRENT_STRING}" />
+							<input type="hidden" name="rule_user_id" value="{CURRENT_USER_ID}" />
+							<input type="hidden" name="rule_group_id" value="{CURRENT_GROUP_ID}" />
+						<!-- ENDIF -->
+					</div>
+				</div>
+				<!-- ENDIF -->
+				<input type="hidden" name="cond_option" value="{COND_OPTION}" />
+			<!-- ENDIF -->
+
+			<!-- IF NONE_CONDITION --><input type="hidden" name="cond_option" value="none" /><!-- ENDIF -->
+
+			<!-- IF S_ACTION_DEFINED -->
+			<div class="flex flex-col sm:flex-row sm:items-center gap-3">
+				<div class="sm:w-1/4">
+					<!-- IF S_ACTION_SELECT -->
+						<button type="submit" name="back[action]" class="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-semibold rounded-lg transition-colors shadow-sm w-full sm:w-auto text-center">{L_PREVIOUS_STEP}</button>
+					<!-- ENDIF -->
+				</div>
+				<div class="flex flex-wrap items-center gap-2 flex-1">
+					<!-- IF S_ACTION_SELECT -->
+						<div class="relative flex-1 max-w-[240px]">
+							<select name="action_option" class="w-full h-11 pl-4 pr-10 text-sm rounded-lg border border-slate-300 bg-white text-slate-800 focus:border-primary focus:ring-primary shadow-sm appearance-none transition-all dark:bg-slate-900 dark:border-slate-600 dark:text-white cursor-pointer">
+								{S_ACTION_OPTIONS}
+							</select>
+							<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[20px]">expand_more</span>
+						</div>
+						<button type="submit" name="add_rule" class="px-5 py-2.5 bg-primary hover:bg-primary/90 text-white text-sm font-bold rounded-lg transition-colors shadow-sm">{L_ADD_RULE}</button>
+					<!-- ELSE -->
+						<span class="text-sm font-bold text-slate-800 dark:text-white">{ACTION_CURRENT}</span>
+						<input type="hidden" name="action_option" value="{ACTION_OPTION}" />
+					<!-- ENDIF -->
+				</div>
+			</div>
+			<!-- ENDIF -->
+		</div>
+	</section>
+
+	<!-- Folder Options Section -->
+	<section>
+		<h3 class="text-base font-bold text-slate-800 dark:text-white mb-4 pb-2 border-b border-slate-100 dark:border-slate-700/50 flex items-center gap-2">
+			<span class="material-symbols-outlined text-[18px] text-slate-400">folder_managed</span>
+			{L_FOLDER_OPTIONS}
+		</h3>
+
+		<div class="space-y-6">
+			<!-- IF not S_MAX_FOLDER_ZERO -->
+			<div class="flex flex-col sm:flex-row sm:items-center gap-3">
+				<label for="foldername" class="sm:w-1/4 text-sm font-bold text-slate-800 dark:text-white">
+					{L_ADD_FOLDER}{L_COLON}
+				</label>
+				<div class="flex-1">
+					<!-- IF S_MAX_FOLDER_REACHED -->
+						<span class="text-sm text-amber-600 dark:text-amber-500 font-medium">{L_MAX_FOLDER_REACHED}</span>
+					<!-- ELSE -->
+						<div class="flex flex-wrap items-center gap-2">
+							<input type="text" name="foldername" id="foldername" size="30" maxlength="30" class="flex-1 max-w-[240px] h-11 px-4 text-sm rounded-lg border border-slate-300 bg-white text-slate-800 focus:border-primary focus:ring-primary shadow-sm transition-all dark:bg-slate-900 dark:border-slate-600 dark:text-white" />
+							<button type="submit" name="addfolder" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold rounded-lg transition-colors dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-200 shadow-sm">{L_ADD}</button>
+						</div>
+					<!-- ENDIF -->
+				</div>
+			</div>
+			<!-- ENDIF -->
+
+			<!-- IF S_FOLDER_OPTIONS -->
+			<div class="flex flex-col sm:flex-row sm:items-center gap-3">
+				<label for="rename_folder_id" class="sm:w-1/4 text-sm font-bold text-slate-800 dark:text-white">
+					{L_RENAME_FOLDER}{L_COLON}
+				</label>
+				<div class="flex-1 flex flex-wrap items-center gap-2">
+					<div class="relative w-full sm:max-w-[200px]">
+						<select name="rename_folder_id" id="rename_folder_id" class="w-full h-11 pl-4 pr-10 text-sm rounded-lg border border-slate-300 bg-white text-slate-800 focus:border-primary focus:ring-primary shadow-sm appearance-none transition-all dark:bg-slate-900 dark:border-slate-600 dark:text-white cursor-pointer">
+							{S_FOLDER_OPTIONS}
+						</select>
+						<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[20px]">expand_more</span>
+					</div>
+					<label for="new_folder_name" class="sr-only">{L_NEW_FOLDER_NAME}{L_COLON}</label>
+					<input type="text" name="new_folder_name" id="new_folder_name" maxlength="30" placeholder="{L_NEW_FOLDER_NAME}" class="flex-1 sm:max-w-[160px] h-11 px-4 text-sm rounded-lg border border-slate-300 bg-white text-slate-800 focus:border-primary focus:ring-primary shadow-sm transition-all dark:bg-slate-900 dark:border-slate-600 dark:text-white" />
+					<button type="submit" name="rename_folder" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold rounded-lg transition-colors dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-200 shadow-sm">{L_RENAME}</button>
+				</div>
+			</div>
+
+			<div class="pt-4 border-t border-slate-100 dark:border-slate-700/50"></div>
+
+			<div class="flex flex-col sm:flex-row items-start gap-3">
+				<label for="remove_folder_id" class="sm:w-1/4 text-sm font-bold text-slate-800 dark:text-white mt-2.5">
+					{L_REMOVE_FOLDER}{L_COLON}
+				</label>
+				<div class="flex-1 space-y-4">
+					<div class="relative w-full sm:max-w-[200px]">
+						<select name="remove_folder_id" id="remove_folder_id" class="w-full h-11 pl-4 pr-10 text-sm rounded-lg border border-slate-300 bg-white text-slate-800 focus:border-primary focus:ring-primary shadow-sm appearance-none transition-all dark:bg-slate-900 dark:border-slate-600 dark:text-white cursor-pointer">
+							{S_FOLDER_OPTIONS}
+						</select>
+						<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[20px]">expand_more</span>
+					</div>
+					
+					<div class="space-y-3">
+						<label class="flex items-center gap-3 cursor-pointer group">
+							<div class="relative flex items-center justify-center">
+								<input type="radio" name="remove_action" id="remove_action1" value="1" checked="checked" class="peer sr-only" />
+								<div class="w-5 h-5 rounded-full border-2 border-slate-300 dark:border-slate-600 peer-checked:border-primary peer-checked:dark:border-primary transition-colors"></div>
+								<div class="absolute w-2.5 h-2.5 rounded-full bg-primary opacity-0 peer-checked:opacity-100 transition-opacity scale-50 peer-checked:scale-100 transform"></div>
+							</div>
+							<span class="text-sm text-slate-700 dark:text-slate-300 font-medium group-hover:text-slate-900 dark:group-hover:text-white transition-colors">{L_MOVE_DELETED_MESSAGES_TO}{L_COLON}</span>
+							
+							<div class="relative min-w-[150px]">
+								<select name="move_to" class="w-full h-9 pl-3 pr-8 text-sm rounded-lg border border-slate-300 bg-white text-slate-800 focus:border-primary focus:ring-primary shadow-sm appearance-none transition-all dark:bg-slate-900 dark:border-slate-600 dark:text-white cursor-pointer">
+									{S_TO_FOLDER_OPTIONS}
+								</select>
+								<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[18px]">expand_more</span>
+							</div>
+						</label>
+						
+						<label class="flex items-start gap-3 cursor-pointer group">
+							<div class="relative flex items-center justify-center mt-0.5">
+								<input type="radio" name="remove_action" id="remove_action2" value="2" class="peer sr-only" />
+								<div class="w-5 h-5 rounded-full border-2 border-slate-300 dark:border-slate-600 peer-checked:border-primary peer-checked:dark:border-primary transition-colors"></div>
+								<div class="absolute w-2.5 h-2.5 rounded-full bg-primary opacity-0 peer-checked:opacity-100 transition-opacity scale-50 peer-checked:scale-100 transform"></div>
+							</div>
+							<span class="text-sm text-slate-700 dark:text-slate-300 font-medium group-hover:text-slate-900 dark:group-hover:text-white transition-colors leading-relaxed">{L_DELETE_MESSAGES_IN_FOLDER}</span>
+						</label>
+					</div>
+
+					<button type="submit" name="remove_folder" class="px-5 py-2.5 bg-red-50 hover:bg-red-100 text-red-600 dark:bg-red-900/20 dark:hover:bg-red-900/40 dark:text-red-400 text-sm font-bold rounded-lg transition-colors shadow-sm">{L_REMOVE}</button>
+				</div>
+			</div>
+			<!-- ENDIF -->
+
+			<div class="pt-4 border-t border-slate-100 dark:border-slate-700/50"></div>
+
+			<div class="flex flex-col sm:flex-row items-start gap-3">
+				<label for="full_action1" class="sm:w-1/4 text-sm font-bold text-slate-800 dark:text-white mt-1">
+					{L_IF_FOLDER_FULL}{L_COLON}
+				</label>
+				<div class="flex-1 space-y-3">
+					<label class="flex items-center gap-3 cursor-pointer group">
+						<div class="relative flex items-center justify-center">
+							<input type="radio" name="full_action" id="full_action1" value="1"{S_DELETE_CHECKED} class="peer sr-only" />
+							<div class="w-5 h-5 rounded-full border-2 border-slate-300 dark:border-slate-600 peer-checked:border-primary peer-checked:dark:border-primary transition-colors"></div>
+							<div class="absolute w-2.5 h-2.5 rounded-full bg-primary opacity-0 peer-checked:opacity-100 transition-opacity scale-50 peer-checked:scale-100 transform"></div>
+						</div>
+						<span class="text-sm text-slate-700 dark:text-slate-300 font-medium group-hover:text-slate-900 dark:group-hover:text-white transition-colors">{L_DELETE_OLDEST_MESSAGES}</span>
+					</label>
+					
+					<label class="flex items-center gap-3 cursor-pointer group">
+						<div class="relative flex items-center justify-center">
+							<input type="radio" name="full_action" id="full_action2" value="2"{S_MOVE_CHECKED} class="peer sr-only" />
+							<div class="w-5 h-5 rounded-full border-2 border-slate-300 dark:border-slate-600 peer-checked:border-primary peer-checked:dark:border-primary transition-colors"></div>
+							<div class="absolute w-2.5 h-2.5 rounded-full bg-primary opacity-0 peer-checked:opacity-100 transition-opacity scale-50 peer-checked:scale-100 transform"></div>
+						</div>
+						<span class="text-sm text-slate-700 dark:text-slate-300 font-medium group-hover:text-slate-900 dark:group-hover:text-white transition-colors">{L_MOVE_TO_FOLDER}{L_COLON}</span>
+						
+						<div class="relative min-w-[150px]">
+							<select name="full_move_to" class="w-full h-9 pl-3 pr-8 text-sm rounded-lg border border-slate-300 bg-white text-slate-800 focus:border-primary focus:ring-primary shadow-sm appearance-none transition-all dark:bg-slate-900 dark:border-slate-600 dark:text-white cursor-pointer">
+								{S_FULL_FOLDER_OPTIONS}
+							</select>
+							<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[18px]">expand_more</span>
+						</div>
+					</label>
+					
+					<label class="flex items-center gap-3 cursor-pointer group">
+						<div class="relative flex items-center justify-center">
+							<input type="radio" name="full_action" id="full_action3" value="3"{S_HOLD_CHECKED} class="peer sr-only" />
+							<div class="w-5 h-5 rounded-full border-2 border-slate-300 dark:border-slate-600 peer-checked:border-primary peer-checked:dark:border-primary transition-colors"></div>
+							<div class="absolute w-2.5 h-2.5 rounded-full bg-primary opacity-0 peer-checked:opacity-100 transition-opacity scale-50 peer-checked:scale-100 transform"></div>
+						</div>
+						<span class="text-sm text-slate-700 dark:text-slate-300 font-medium group-hover:text-slate-900 dark:group-hover:text-white transition-colors">{L_HOLD_NEW_MESSAGES}</span>
+					</label>
+				</div>
+			</div>
+
+			<div class="flex flex-col sm:flex-row items-start gap-3 bg-slate-50 dark:bg-slate-900/30 p-4 rounded-lg mt-4 border border-slate-100 dark:border-slate-700/50">
+				<div class="sm:w-1/4">
+					<strong class="block text-sm font-bold text-slate-800 dark:text-white">{L_DEFAULT_ACTION}{L_COLON}</strong>
+					<span class="block text-xs font-medium text-slate-500 mt-1">{L_DEFAULT_ACTION_EXPLAIN}</span>
+				</div>
+				<div class="flex-1 flex flex-col sm:flex-row sm:items-center gap-4">
+					<span class="text-sm font-bold text-primary">{DEFAULT_ACTION}</span>
+					<button type="submit" name="fullfolder" class="px-5 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-semibold rounded-lg transition-colors shadow-sm">{L_CHANGE}</button>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	</div>
+	<div class="px-6 py-4 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700">
+		<!-- Note: form button logic handled within sections, token included below -->
+	</div>
+	{S_FORM_TOKEN}
+</div>
+</form>
+
+<!-- INCLUDE ucp_footer.html -->

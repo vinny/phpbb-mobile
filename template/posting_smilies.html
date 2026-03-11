@@ -1,0 +1,33 @@
+<!-- INCLUDE simple_header.html -->
+
+<script>
+	var form_name = opener.form_name;
+	var text_name = opener.text_name;
+</script>
+<!-- INCLUDEJS {T_ASSETS_PATH}/javascript/editor.js -->
+
+<main class="p-4 sm:p-6 bg-slate-50 dark:bg-slate-900 min-h-screen flex flex-col">
+	<h2 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-4">{L_SMILIES}</h2>
+	
+	<div class="rounded-xl border border-slate-200 bg-white p-4 sm:p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800 flex flex-wrap gap-3 items-center justify-center mb-6">
+		<!-- BEGIN smiley -->
+			<a href="#" class="p-0.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded transition-colors inline-block" onclick="initInsertions(); insert_text('{smiley.A_SMILEY_CODE}', true, true); return false;">
+				<img src="{smiley.SMILEY_IMG}" width="{smiley.SMILEY_WIDTH}" height="{smiley.SMILEY_HEIGHT}" alt="{smiley.SMILEY_CODE}" title="{smiley.SMILEY_DESC}" />
+			</a>
+		<!-- END smiley -->
+	</div>
+
+	<!-- IF .pagination -->
+		<div class="mb-6">
+			<!-- INCLUDE pagination.html -->
+		</div>
+	<!-- ENDIF -->
+
+	<div class="mt-auto text-center">
+		<button type="button" class="rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold px-6 py-2 text-sm transition-colors dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700" onclick="window.close(); return false;">
+			{L_CLOSE_WINDOW}
+		</button>
+	</div>
+</main>
+
+<!-- INCLUDE simple_footer.html -->

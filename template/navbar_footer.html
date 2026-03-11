@@ -1,0 +1,52 @@
+<nav class="fixed bottom-0 left-0 right-0 z-50 border-t border-slate-200 bg-white dark:border-slate-800 dark:bg-background-dark pb-safe">
+	<div class="flex items-center justify-around px-2 pb-4 pt-2">
+		<!-- EVENT navbar_footer_prepend -->
+		
+		<!-- EVENT navbar_footer_home_before -->
+		<a class="group flex flex-1 flex-col items-center justify-center gap-1 p-1 text-slate-400 hover:text-primary dark:text-slate-500 dark:hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg transition-colors" href="{% if U_SITE_HOME %}{{ U_SITE_HOME }}{% else %}{{ U_INDEX }}{% endif %}" title="{% if U_SITE_HOME %}{{ L_SITE_HOME }}{% else %}{{ L_INDEX }}{% endif %}">
+			<span class="material-symbols-outlined text-[24px]" aria-hidden="true">home</span>
+			<span class="text-[10px] font-medium leading-none">{L_HOME}</span>
+		</a>
+		<!-- EVENT navbar_footer_home_after -->
+
+		<div class="flex-1"></div>
+
+		<!-- EVENT navbar_footer_center_before -->
+		<div class="relative flex flex-1 flex-col items-center justify-center">
+			<!-- IF S_USER_LOGGED_IN -->
+				<a href="<!-- IF U_USER_PROFILE -->{U_USER_PROFILE}<!-- ELSE -->{U_PROFILE}<!-- ENDIF -->" class="absolute -top-8 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white shadow-lg ring-4 ring-white dark:ring-background-dark overflow-hidden hover:bg-primary/90 hover:scale-105 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-background-dark" title="{L_READ_PROFILE}">
+					<!-- IF CURRENT_USER_AVATAR -->
+						<div class="w-full h-full [&>img]:w-full [&>img]:h-full [&>img]:object-cover">{CURRENT_USER_AVATAR}</div>
+					<!-- ELSE -->
+						<span class="material-symbols-outlined text-[28px]">person</span>
+					<!-- ENDIF -->
+				</a>
+			<!-- ELSE -->
+				<a href="{U_LOGIN_LOGOUT}" class="absolute -top-8 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white shadow-lg ring-4 ring-white dark:ring-background-dark hover:bg-primary/90 hover:scale-105 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-background-dark" title="{L_LOGIN_LOGOUT}">
+					<span class="material-symbols-outlined text-[28px]">login</span>
+				</a>
+			<!-- ENDIF -->
+		</div>
+		<!-- EVENT navbar_footer_center_after -->
+
+		<div class="flex-1"></div>
+
+		<!-- EVENT navbar_footer_settings_before -->
+		<!-- IF S_USER_LOGGED_IN -->
+		<a class="group flex flex-1 flex-col items-center justify-center gap-1 p-1 text-slate-400 hover:text-primary dark:text-slate-500 dark:hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg transition-colors" href="{U_PROFILE}" title="{L_PROFILE}">
+			<span class="material-symbols-outlined text-[24px]" aria-hidden="true">settings</span>
+			<span class="text-[10px] font-medium leading-none">{L_SETTINGS}</span>
+		</a>
+		<!-- ELSE IF S_REGISTER_ENABLED and not (S_SHOW_COPPA or S_REGISTRATION) -->
+		<a class="group flex flex-1 flex-col items-center justify-center gap-1 p-1 text-slate-400 hover:text-primary dark:text-slate-500 dark:hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg transition-colors" href="{U_REGISTER}" title="{L_REGISTER}">
+			<span class="material-symbols-outlined text-[24px]" aria-hidden="true">person_add</span>
+			<span class="text-[10px] font-medium leading-none">{L_REGISTER}</span>
+		</a>
+		<!-- ELSE -->
+		<div class="flex-1"></div>
+		<!-- ENDIF -->
+		<!-- EVENT navbar_footer_settings_after -->
+		
+		<!-- EVENT navbar_footer_append -->
+	</div>
+</nav>

@@ -1,0 +1,285 @@
+<!-- INCLUDE overall_header.html -->
+
+<main class="flex flex-col px-4 pt-4 pb-8 space-y-6">
+
+	<h2 class="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-200">{PAGE_TITLE}</h2>
+
+<!-- EVENT memberlist_view_content_prepend -->
+
+<form method="post" action="{S_PROFILE_ACTION}" id="viewprofile" class="space-y-6">
+
+	<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden relative">
+		<!-- IF S_ONLINE -->
+		<div class="absolute top-4 right-4 bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm z-10" title="{L_ONLINE}">
+			{L_ONLINE}
+		</div>
+		<!-- ENDIF -->
+
+		<div class="p-4 sm:p-6 flex flex-col sm:flex-row gap-6">
+			
+			<div class="flex flex-col items-center sm:items-start shrink-0 gap-3">
+				<!-- IF AVATAR_IMG -->
+				<div class="rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-1 shadow-sm">
+					{AVATAR_IMG}
+				</div>
+				<!-- ENDIF -->
+				<div class="flex flex-col items-center sm:items-start gap-1">
+					<!-- EVENT memberlist_view_rank_avatar_before -->
+					<!-- IF RANK_TITLE --><span class="text-xs font-bold text-slate-500 uppercase tracking-wider text-center sm:text-left">{RANK_TITLE}</span><!-- ENDIF -->
+					<!-- IF RANK_IMG --><div class="text-center sm:text-left">{RANK_IMG}</div><!-- ENDIF -->
+					<!-- EVENT memberlist_view_rank_avatar_after -->
+				</div>
+			</div>
+
+			<div class="flex-1 flex flex-col gap-4">
+				<div class="flex flex-wrap items-center gap-2 text-xl font-bold">
+					<!-- EVENT memberlist_view_username_prepend --><!-- IF USER_COLOR --><span style="color: {USER_COLOR};"><!-- ELSE --><span class="text-slate-900 dark:text-white"><!-- ENDIF -->{USERNAME}</span><!-- EVENT memberlist_view_username_append -->
+					
+					<div class="flex flex-wrap items-center gap-1.5 text-xs font-semibold">
+						<!-- IF U_EDIT_SELF --><a href="{U_EDIT_SELF}" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 rounded transition-colors">{L_EDIT_PROFILE}</a><!-- ENDIF -->
+						<!-- IF U_USER_ADMIN --><a href="{U_USER_ADMIN}" class="px-2 py-1 bg-rose-50 hover:bg-rose-100 dark:bg-rose-900/20 dark:hover:bg-rose-900/40 text-rose-600 dark:text-rose-400 rounded transition-colors">{L_USER_ADMIN}</a><!-- ENDIF -->
+						<!-- IF U_USER_BAN --><a href="{U_USER_BAN}" class="px-2 py-1 bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 rounded transition-colors">{L_USER_BAN}</a><!-- ENDIF -->
+						<!-- IF U_SWITCH_PERMISSIONS --><a href="{U_SWITCH_PERMISSIONS}" class="px-2 py-1 bg-amber-50 hover:bg-amber-100 dark:bg-amber-900/20 dark:hover:bg-amber-900/40 text-amber-600 dark:text-amber-400 rounded transition-colors border border-amber-200 dark:border-amber-800 flex items-center" title="{L_USE_PERMISSIONS}"><span class="material-symbols-outlined text-[18px]">swap_horiz</span></a><!-- ENDIF -->
+					</div>
+				</div>
+
+				<div class="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6 text-sm">
+					<!-- IF not AVATAR_IMG -->
+						<!-- EVENT memberlist_view_rank_no_avatar_before -->
+						<!-- IF RANK_TITLE -->
+						<div class="flex flex-col">
+							<span class="text-xs font-semibold text-slate-500 uppercase">{L_RANK}</span>
+							<span class="font-medium text-slate-900 dark:text-slate-200">{RANK_TITLE}</span>
+						</div>
+						<!-- ENDIF -->
+						<!-- IF RANK_IMG -->
+						<div class="flex flex-col">
+							<!-- IF not RANK_TITLE --><span class="text-xs font-semibold text-slate-500 uppercase">{L_RANK}</span><!-- ENDIF -->
+							<span class="font-medium text-slate-900 dark:text-slate-200">{RANK_IMG}</span>
+						</div>
+						<!-- ENDIF -->
+						<!-- EVENT memberlist_view_rank_no_avatar_after -->
+					<!-- ENDIF -->
+					
+					<!-- IF S_USER_INACTIVE -->
+					<div class="flex flex-col">
+						<span class="text-xs font-semibold text-rose-500 uppercase">{L_USER_IS_INACTIVE}</span>
+						<span class="font-medium text-rose-700 dark:text-rose-400">{USER_INACTIVE_REASON}</span>
+					</div>
+					<!-- ENDIF -->
+
+					<!-- IF AGE !== '' -->
+					<div class="flex flex-col">
+						<span class="text-xs font-semibold text-slate-500 uppercase">{L_AGE}</span>
+						<span class="font-medium text-slate-900 dark:text-slate-200">{AGE}</span>
+					</div>
+					<!-- ENDIF -->
+
+					<!-- EVENT memberlist_view_non_contact_custom_fields_before -->
+					<!-- BEGIN custom_fields -->
+						<!-- IF not custom_fields.S_PROFILE_CONTACT -->
+						<div class="flex flex-col">
+							<span class="text-xs font-semibold text-slate-500 uppercase">{custom_fields.PROFILE_FIELD_NAME}</span>
+							<span class="font-medium text-slate-900 dark:text-slate-200">{custom_fields.PROFILE_FIELD_VALUE}</span>
+						</div>
+						<!-- ENDIF -->
+					<!-- END custom_fields -->
+					<!-- EVENT memberlist_view_non_contact_custom_fields_after -->
+
+					<!-- IF S_GROUP_OPTIONS -->
+					<div class="flex flex-col sm:col-span-2">
+						<span class="text-xs font-semibold text-slate-500 uppercase mb-1">{L_USERGROUPS}</span>
+						<div class="flex flex-wrap items-center gap-2">
+							<select name="g" class="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white max-w-full">{S_GROUP_OPTIONS}</select> 
+							<input type="submit" name="submit" value="{L_GO}" class="rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-bold text-slate-700 shadow-sm transition-colors hover:bg-slate-200 focus:outline-none dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600 cursor-pointer" />
+						</div>
+					</div>
+					<!-- ENDIF -->
+					
+					<!-- EVENT memberlist_view_zebra_before -->
+					<!-- IF S_USER_LOGGED_IN and S_ZEBRA -->
+					<div class="flex flex-col sm:col-span-2 mt-2">
+						<div class="flex gap-2">
+						<!-- IF U_REMOVE_FRIEND -->
+							<a href="{U_REMOVE_FRIEND}" data-ajax="zebra" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-md transition-colors dark:bg-emerald-900/20 dark:text-emerald-400 dark:hover:bg-emerald-900/40 border border-emerald-200 dark:border-emerald-800"><span class="material-symbols-outlined text-[16px]">person_remove</span> {L_REMOVE_FRIEND}</a>
+						<!-- ELSEIF U_REMOVE_FOE -->
+							<a href="{U_REMOVE_FOE}" data-ajax="zebra" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-red-700 bg-red-50 hover:bg-red-100 rounded-md transition-colors dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/40 border border-red-200 dark:border-red-800"><span class="material-symbols-outlined text-[16px]">person_remove</span> {L_REMOVE_FOE}</a>
+						<!-- ELSE -->
+							<!-- IF U_ADD_FRIEND -->
+								<a href="{U_ADD_FRIEND}" data-ajax="zebra" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-primary bg-primary/10 hover:bg-primary/20 rounded-md transition-colors border border-primary/20"><span class="material-symbols-outlined text-[16px]">person_add</span> {L_ADD_FRIEND}</a>
+							<!-- ENDIF -->
+							<!-- IF U_ADD_FOE -->
+								<a href="{U_ADD_FOE}" data-ajax="zebra" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-md transition-colors dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700"><span class="material-symbols-outlined text-[16px]">person_add</span> {L_ADD_FOE}</a>
+							<!-- ENDIF -->
+						<!-- ENDIF -->
+						</div>
+					</div>
+					<!-- ENDIF -->
+					<!-- EVENT memberlist_view_zebra_after -->
+
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+	<!-- EVENT memberlist_view_contact_before -->
+	<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+		<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+			<div class="p-4 sm:p-6 flex flex-col gap-4 h-full">
+				<h3 class="text-lg font-bold text-slate-900 dark:text-white pb-3 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
+					<span class="material-symbols-outlined text-[20px] text-slate-400">mail</span> {L_CONTACT_USER}
+				</h3>
+
+				<div class="flex flex-col gap-3 text-sm">
+					<!-- IF U_EMAIL -->
+					<div class="flex flex-col">
+						<span class="text-xs font-semibold text-slate-500 uppercase">{L_EMAIL_ADDRESS}</span>
+						<span class="font-medium"><a href="{U_EMAIL}" class="text-primary hover:underline">{L_SEND_EMAIL_USER}</a></span>
+					</div>
+					<!-- ENDIF -->
+					
+					<!-- IF U_PM -->
+					<div class="flex flex-col">
+						<span class="text-xs font-semibold text-slate-500 uppercase">{L_PM}</span>
+						<span class="font-medium"><a href="{U_PM}" class="text-primary hover:underline">{L_SEND_PRIVATE_MESSAGE}</a></span>
+					</div>
+					<!-- ENDIF -->
+
+					<!-- IF U_JABBER and S_JABBER_ENABLED -->
+					<div class="flex flex-col">
+						<span class="text-xs font-semibold text-slate-500 uppercase">{L_JABBER}</span>
+						<span class="font-medium"><a href="{U_JABBER}" onclick="popup(this.href, 750, 320); return false;" class="text-primary hover:underline">{L_SEND_JABBER_MESSAGE}</a></span>
+					</div>
+					<!-- ELSEIF USER_JABBER -->
+					<div class="flex flex-col">
+						<span class="text-xs font-semibold text-slate-500 uppercase">{L_JABBER}</span>
+						<span class="font-medium text-slate-900 dark:text-slate-200">{USER_JABBER}</span>
+					</div>
+					<!-- ENDIF -->
+
+					<!-- EVENT memberlist_view_contact_custom_fields_before -->
+					<!-- BEGIN custom_fields -->
+						<!-- IF custom_fields.S_PROFILE_CONTACT -->
+							<div class="flex flex-col">
+								<span class="text-xs font-semibold text-slate-500 uppercase">{custom_fields.PROFILE_FIELD_NAME}</span>
+								<!-- IF custom_fields.PROFILE_FIELD_CONTACT -->
+									<span class="font-medium"><a href="{custom_fields.PROFILE_FIELD_CONTACT}" class="text-primary hover:underline">{custom_fields.PROFILE_FIELD_DESC}</a></span>
+								<!-- ELSE -->
+									<span class="font-medium text-slate-900 dark:text-slate-200">{custom_fields.PROFILE_FIELD_VALUE}</span>
+								<!-- ENDIF -->
+							</div>
+						<!-- ENDIF -->
+					<!-- END custom_fields -->
+					<!-- EVENT memberlist_view_contact_custom_fields_after -->
+
+					<!-- IF S_PROFILE_FIELD1 -->
+						<!-- NOTE: Use a construct like this to include admin defined profile fields. Replace FIELD1 with the name of your field. -->
+						<div class="flex flex-col">
+							<span class="text-xs font-semibold text-slate-500 uppercase">{PROFILE_FIELD1_NAME}</span>
+							<span class="font-medium text-slate-900 dark:text-slate-200">{PROFILE_FIELD1_VALUE}</span>
+						</div>
+					<!-- ENDIF -->
+				</div>
+			</div>
+		</div>
+
+		<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+			<div class="p-4 sm:p-6 flex flex-col gap-4 h-full">
+				<h3 class="text-lg font-bold text-slate-900 dark:text-white pb-3 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
+					<span class="material-symbols-outlined text-[20px] text-slate-400">query_stats</span> {L_USER_FORUM}
+				</h3>
+
+				<div class="flex flex-col gap-3 text-sm">
+					<!-- EVENT memberlist_view_user_statistics_before -->
+					<div class="flex flex-col">
+						<span class="text-xs font-semibold text-slate-500 uppercase">{L_JOINED}</span>
+						<span class="font-medium text-slate-900 dark:text-slate-200">{JOINED}</span>
+					</div>
+					
+					<div class="flex flex-col">
+						<span class="text-xs font-semibold text-slate-500 uppercase">{L_LAST_ACTIVE}</span>
+						<span class="font-medium text-slate-900 dark:text-slate-200">{LAST_ACTIVE}</span>
+					</div>
+					
+					<!-- IF S_WARNINGS -->
+					<div class="flex flex-col">
+						<span class="text-xs font-semibold text-amber-600 uppercase pt-1">{L_WARNINGS}</span>
+						<div class="font-medium text-amber-700 dark:text-amber-500 flex items-center flex-wrap gap-2">
+							<span class="bg-amber-100 dark:bg-amber-900/40 px-2 py-0.5 rounded text-amber-800 dark:text-amber-400 font-bold">{WARNINGS}</span>
+							<!-- IF U_NOTES or U_WARN --> 
+								<div class="flex items-center gap-2 text-xs">
+								<!-- IF U_NOTES --><a href="{U_NOTES}" class="hover:underline">{L_VIEW_NOTES}</a><!-- ENDIF -->
+								<!-- IF U_WARN --><!-- IF U_NOTES --> <span class="text-slate-300 dark:text-slate-600">&bull;</span> <!-- ENDIF --><a href="{U_WARN}" class="text-red-500 hover:underline">{L_WARN_USER}</a><!-- ENDIF -->
+								</div>
+							<!-- ENDIF -->
+						</div>
+					</div>
+					<!-- ENDIF -->
+					
+					<div class="flex flex-col pt-1">
+						<div class="flex justify-between items-baseline flex-wrap gap-2">
+							<span class="text-xs font-semibold text-slate-500 uppercase">{L_TOTAL_POSTS}</span>
+							<!-- IF S_DISPLAY_SEARCH -->
+							<a href="{U_SEARCH_USER}" class="text-xs font-bold bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 px-2 py-1 flex items-center gap-1.5 rounded transition-colors"><span class="material-symbols-outlined text-[16px]">search</span> {L_SEARCH_USER_POSTS}</a>
+							<!-- ENDIF -->
+						</div>
+						<div class="font-medium text-slate-900 dark:text-slate-200 mt-1 flex flex-col gap-0.5">
+							<span>{POSTS} <!-- IF POSTS_PCT --><span class="text-slate-500 dark:text-slate-400 font-normal">({POSTS_PCT} / {POSTS_DAY})</span><!-- ENDIF --></span>
+							<!-- IF POSTS_IN_QUEUE and U_MCP_QUEUE -->
+							<a href="{U_MCP_QUEUE}" class="text-amber-600 hover:underline text-xs flex items-center gap-1.5 font-bold mt-1"><span class="material-symbols-outlined text-[14px]">schedule</span> {L_POSTS_IN_QUEUE}</a>
+							<!-- ELSEIF POSTS_IN_QUEUE -->
+							<span class="text-amber-600 text-xs flex items-center gap-1.5 font-bold mt-1"><span class="material-symbols-outlined text-[14px]">schedule</span> {L_POSTS_IN_QUEUE}</span>
+							<!-- ENDIF -->
+						</div>
+					</div>
+
+					<!-- IF S_SHOW_ACTIVITY and POSTS -->
+					<div class="flex flex-col mt-1">
+						<span class="text-xs font-semibold text-slate-500 uppercase">{L_ACTIVE_IN_FORUM}</span>
+						<span class="font-medium text-slate-900 dark:text-slate-200">
+							<!-- IF ACTIVE_FORUM != '' -->
+							<a href="{U_ACTIVE_FORUM}" class="text-primary hover:underline">{ACTIVE_FORUM}</a>
+							<span class="text-slate-500 dark:text-slate-400 text-xs block font-normal mt-0.5">({ACTIVE_FORUM_POSTS} / {ACTIVE_FORUM_PCT})</span>
+							<!-- ELSE --> - <!-- ENDIF -->
+						</span>
+					</div>
+
+					<div class="flex flex-col mt-1">
+						<span class="text-xs font-semibold text-slate-500 uppercase">{L_ACTIVE_IN_TOPIC}</span>
+						<span class="font-medium text-slate-900 dark:text-slate-200">
+							<!-- IF ACTIVE_TOPIC != '' -->
+							<a href="{U_ACTIVE_TOPIC}" class="text-primary hover:underline">{ACTIVE_TOPIC}</a>
+							<span class="text-slate-500 dark:text-slate-400 text-xs block font-normal mt-0.5">({ACTIVE_TOPIC_POSTS} / {ACTIVE_TOPIC_PCT})</span>
+							<!-- ELSE --> - <!-- ENDIF -->
+						</span>
+					</div>
+					<!-- ENDIF -->
+					<!-- EVENT memberlist_view_user_statistics_after -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- EVENT memberlist_view_contact_after -->
+
+	<!-- IF SIGNATURE -->
+	<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+		<div class="p-4 sm:p-6">
+			<h3 class="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4 pb-3 border-b border-slate-200 dark:border-slate-700">{L_SIGNATURE}</h3>
+			<div class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed max-w-none prose prose-slate dark:prose-invert break-words e-content signature standalone">
+				{SIGNATURE}
+			</div>
+		</div>
+	</div>
+	<!-- ENDIF -->
+
+</form>
+
+<!-- EVENT memberlist_view_content_append -->
+
+<!-- INCLUDE jumpbox.html -->
+
+</main>
+
+<!-- INCLUDE overall_footer.html -->

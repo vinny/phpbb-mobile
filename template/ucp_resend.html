@@ -1,0 +1,38 @@
+<!-- INCLUDE overall_header.html -->
+
+<div class="max-w-lg mx-auto py-8 px-4 sm:px-0">
+	<form action="{S_PROFILE_ACTION}" method="post" id="resend">
+		<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden mb-6">
+			<div class="p-6 sm:p-8">
+				<div class="flex items-center gap-3 mb-6 border-b border-primary/10 pb-4">
+					<span class="material-symbols-outlined text-[28px] text-primary">mark_email_unread</span>
+					<h2 class="text-xl sm:text-2xl font-bold text-slate-800 dark:text-white">{L_UCP_RESEND}</h2>
+				</div>
+
+				<div class="space-y-5">
+					<div class="flex flex-col gap-1">
+						<label for="username" class="text-sm font-bold text-slate-800 dark:text-white">{L_USERNAME}{L_COLON}</label>
+						<input type="text" tabindex="1" name="username" id="username" class="w-full h-11 px-4 rounded-lg border border-slate-300 text-slate-800 focus:border-primary focus:ring-primary shadow-sm dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:focus:border-primary transition-all mt-1" />
+					</div>
+					
+					<div class="flex flex-col gap-1">
+						<label for="email" class="text-sm font-bold text-slate-800 dark:text-white">{L_EMAIL_ADDRESS}{L_COLON}</label>
+						<span class="text-xs text-slate-500 dark:text-slate-400 mb-1">{L_EMAIL_REMIND}</span>
+						<input type="email" tabindex="2" name="email" id="email" maxlength="100" class="w-full h-11 px-4 rounded-lg border border-slate-300 text-slate-800 focus:border-primary focus:ring-primary shadow-sm dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:focus:border-primary transition-all" />
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="mt-6">
+			{S_HIDDEN_FIELDS}
+			{S_FORM_TOKEN}
+			<button type="submit" tabindex="3" name="submit" id="submit" class="w-full py-3.5 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl shadow-md transition-colors text-lg flex items-center justify-center gap-2">
+				<span class="material-symbols-outlined">send</span>
+				{L_SUBMIT}
+			</button>
+		</div>
+	</form>
+</div>
+
+<!-- INCLUDE overall_footer.html -->

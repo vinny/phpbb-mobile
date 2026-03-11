@@ -1,0 +1,114 @@
+<!-- IF S_AJAX_REQUEST -->
+
+	<h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-2">{MESSAGE_TITLE}</h3>
+	<p class="text-sm text-slate-600 dark:text-slate-400 mb-4">{MESSAGE_TEXT}</p>
+
+	<div class="flex flex-col gap-4">
+		<!-- IF S_NOTIFY_POSTER -->
+			<label class="flex items-center gap-2 cursor-pointer bg-slate-50 dark:bg-slate-900/50 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+				<input type="checkbox" name="notify_poster" checked="checked" class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" /> 
+				<span class="text-sm font-medium text-slate-700 dark:text-slate-300"><!-- IF S_APPROVE -->{L_NOTIFY_POSTER_APPROVAL}<!-- ELSE -->{L_NOTIFY_POSTER_DISAPPROVAL}<!-- ENDIF --></span>
+			</label>
+		<!-- ENDIF -->
+
+		<!-- IF not S_APPROVE and not S_RESTORE and .reason -->
+			<div class="flex flex-col gap-2">
+				<label class="text-sm font-bold text-slate-800 dark:text-slate-200">{L_DISAPPROVE_REASON}{L_COLON}</label>
+				<div class="relative">
+					<select name="reason_id" class="w-full appearance-none rounded-lg border border-slate-300 bg-white pl-4 pr-10 py-2.5 text-sm font-medium text-slate-700 shadow-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-300">
+						<!-- BEGIN reason --><option value="{reason.ID}"<!-- IF reason.S_SELECTED --> selected="selected"<!-- ENDIF -->>{reason.DESCRIPTION}</option><!-- END reason -->
+					</select>
+					<span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+						<span class="material-symbols-outlined text-slate-400">expand_more</span>
+					</span>
+				</div>
+			</div>
+
+			<div class="flex flex-col gap-2">
+				<label for="reason" class="text-sm font-bold text-slate-800 dark:text-slate-200">
+					{L_MORE_INFO}{L_COLON}
+					<span class="block text-xs text-slate-500 font-normal mt-0.5">{L_CAN_LEAVE_BLANK}</span>
+				</label>
+				<textarea class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white min-h-[100px] resize-y" name="reason" id="reason" rows="4">{REASON}</textarea>
+			</div>
+		<!-- ENDIF -->
+
+		<fieldset class="flex items-center gap-3 mt-4 pt-4 border-t border-slate-100 dark:border-slate-700/50">
+			<input type="button" name="confirm" value="{YES_VALUE}" class="w-full sm:w-auto rounded-lg <!-- IF S_APPROVE -->bg-green-600 hover:bg-green-700<!-- ELSE -->bg-red-600 hover:bg-red-700<!-- ENDIF --> px-6 py-2.5 text-sm font-bold text-white shadow-sm transition-colors focus:outline-none cursor-pointer" />
+			<input type="button" name="cancel" value="{L_NO}" class="w-full sm:w-auto rounded-lg border border-slate-300 bg-white px-6 py-2.5 text-sm font-bold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 focus:outline-none dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 cursor-pointer" />
+		</fieldset>
+	</div>
+
+<!-- ELSE -->
+
+<!-- INCLUDE overall_header.html -->
+
+<form id="confirm" action="{S_CONFIRM_ACTION}" method="post">
+	{S_FORM_TOKEN}
+	
+	<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800 overflow-hidden max-w-3xl mx-auto my-8">
+		<div class="border-b border-slate-100 bg-slate-50/50 px-6 py-5 dark:border-slate-700/50 dark:bg-slate-800/50 flex items-center gap-3">
+			<!-- IF S_APPROVE -->
+			<span class="flex h-10 w-10 items-center justify-center rounded-full bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400 shrink-0">
+				<span class="material-symbols-outlined text-[24px]">task_alt</span>
+			</span>
+			<!-- ELSE -->
+			<span class="flex h-10 w-10 items-center justify-center rounded-full bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400 shrink-0">
+				<span class="material-symbols-outlined text-[24px]">help</span>
+			</span>
+			<!-- ENDIF -->
+			<h2 class="text-xl font-bold text-slate-800 dark:text-slate-200">{MESSAGE_TITLE}</h2>
+		</div>
+
+		<div class="p-6 flex flex-col gap-6">
+			<!-- IF ADDITIONAL_MSG -->
+			<div class="rounded-lg bg-red-50 p-4 text-sm font-medium text-red-800 border border-red-200 dark:bg-red-900/20 dark:border-red-900/50 dark:text-red-200 flex items-start gap-2">
+				<span class="material-symbols-outlined text-[20px] shrink-0 mt-0.5">error</span>
+				<p>{ADDITIONAL_MSG}</p>
+			</div>
+			<!-- ENDIF -->
+
+			<p class="text-base text-slate-700 dark:text-slate-300 font-medium">{MESSAGE_TEXT}</p>
+
+			<fieldset class="flex flex-col gap-5 border-t border-slate-100 dark:border-slate-700/50 pt-5">
+			<!-- IF S_NOTIFY_POSTER -->
+				<label class="flex items-center gap-3 cursor-pointer group">
+					<input type="checkbox" name="notify_poster" checked="checked" class="rounded border-slate-300 text-primary focus:ring-primary h-5 w-5" /> 
+					<span class="text-sm font-medium text-slate-700 group-hover:text-slate-900 dark:text-slate-300 dark:group-hover:text-white"><!-- IF S_APPROVE -->{L_NOTIFY_POSTER_APPROVAL}<!-- ELSE -->{L_NOTIFY_POSTER_DISAPPROVAL}<!-- ENDIF --></span>
+				</label>
+			<!-- ENDIF -->
+
+			<!-- IF not S_APPROVE and not S_RESTORE and .reason -->
+				<div class="flex flex-col gap-2">
+					<label class="text-sm font-bold text-slate-800 dark:text-slate-200">{L_DISAPPROVE_REASON}{L_COLON}</label>
+					<div class="relative">
+						<select name="reason_id" class="w-full appearance-none rounded-lg border border-slate-300 bg-white pl-4 pr-10 py-2.5 text-sm font-medium text-slate-700 shadow-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-300 cursor-pointer">
+							<!-- BEGIN reason --><option value="{reason.ID}"<!-- IF reason.S_SELECTED --> selected="selected"<!-- ENDIF -->>{reason.DESCRIPTION}</option><!-- END reason -->
+						</select>
+						<span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+							<span class="material-symbols-outlined text-slate-400">expand_more</span>
+						</span>
+					</div>
+				</div>
+
+				<div class="flex flex-col gap-2 relative">
+					<label for="reason" class="text-sm font-bold text-slate-800 dark:text-slate-200">
+						{L_MORE_INFO}{L_COLON}
+						<span class="block text-xs font-normal text-slate-500 mt-0.5">{L_CAN_LEAVE_BLANK}</span>
+					</label>
+					<textarea class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900 dark:text-white min-h-[120px]" name="reason" id="reason" rows="4">{REASON}</textarea>
+				</div>
+			<!-- ENDIF -->
+			</fieldset>
+		</div>
+
+		<div class="bg-slate-50 px-6 py-4 dark:bg-slate-800/50 flex flex-col sm:flex-row items-center gap-3 border-t border-slate-100 dark:border-slate-700/50">
+			{S_HIDDEN_FIELDS}
+			<input type="submit" name="confirm" value="{YES_VALUE}" class="w-full sm:w-auto flex-1 sm:flex-none justify-center rounded-lg <!-- IF S_APPROVE -->bg-green-600 hover:bg-green-700<!-- ELSE -->bg-red-600 hover:bg-red-700<!-- ENDIF --> px-6 py-2.5 text-sm font-bold text-white shadow-sm transition-colors focus:outline-none cursor-pointer" />
+			<input type="submit" name="cancel" value="{L_NO}" class="w-full sm:w-auto flex-1 sm:flex-none justify-center rounded-lg border border-slate-300 bg-white px-6 py-2.5 text-sm font-bold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 focus:outline-none dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 cursor-pointer" />
+		</div>
+	</div>
+</form>
+
+<!-- INCLUDE overall_footer.html -->
+<!-- ENDIF -->

@@ -1,0 +1,65 @@
+<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800 overflow-hidden mb-6" id="preview">
+<!-- IF S_HAS_POLL_OPTIONS -->
+	<div class="border-b border-slate-200 bg-slate-50/50 px-4 py-3 dark:border-slate-700 dark:bg-slate-800/50">
+		<h2 class="text-base font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+			<span class="material-symbols-outlined text-[20px] text-primary">visibility</span>
+			{L_PREVIEW}{L_COLON} {POLL_QUESTION}
+		</h2>
+		<p class="text-xs text-slate-500 mt-1"><!-- IF L_POLL_LENGTH -->{L_POLL_LENGTH} &bull; <!-- ENDIF -->{L_MAX_VOTES}</p>
+	</div>
+
+	<div class="p-4 sm:p-6">
+		<fieldset class="flex flex-col gap-3">
+		<!-- BEGIN poll_option -->
+			<label for="vote_{poll_option.POLL_OPTION_ID}" class="flex items-center gap-3 cursor-pointer p-3 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+				<!-- IF S_IS_MULTI_CHOICE -->
+					<input type="checkbox" name="vote_id[]" id="vote_{poll_option.POLL_OPTION_ID}" value="{poll_option.POLL_OPTION_ID}"<!-- IF poll_option.POLL_OPTION_VOTED --> checked="checked"<!-- ENDIF --> class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" />
+				<!-- ELSE -->
+					<input type="radio" name="vote_id[]" id="vote_{poll_option.POLL_OPTION_ID}" value="{poll_option.POLL_OPTION_ID}"<!-- IF poll_option.POLL_OPTION_VOTED --> checked="checked"<!-- ENDIF --> class="border-slate-300 text-primary focus:ring-primary h-4 w-4" />
+				<!-- ENDIF -->
+				<span class="text-sm font-medium text-slate-800 dark:text-slate-200">{poll_option.POLL_OPTION_CAPTION}</span>
+			</label>
+		<!-- END poll_option -->
+		</fieldset>
+	</div>
+</div>
+
+<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800 overflow-hidden mb-6">
+<!-- ENDIF -->
+
+<!-- EVENT posting_preview_poll_after -->
+
+	<!-- IF not S_HAS_POLL_OPTIONS -->
+	<div class="border-b border-slate-200 bg-slate-50/50 px-4 py-3 dark:border-slate-700 dark:bg-slate-800/50 flex items-center gap-2">
+		<span class="material-symbols-outlined text-[20px] text-primary">visibility</span>
+		<h3 class="text-base font-bold text-slate-800 dark:text-slate-200">{L_PREVIEW}{L_COLON} {PREVIEW_SUBJECT}</h3>
+	</div>
+	<!-- ELSE -->
+	<div class="border-b border-slate-200 px-4 py-3 dark:border-slate-700">
+		<h3 class="text-base font-bold text-slate-800 dark:text-slate-200">{PREVIEW_SUBJECT}</h3>
+	</div>
+	<!-- ENDIF -->
+
+	<div class="p-4 sm:p-6 text-sm text-slate-800 dark:text-slate-200 leading-relaxed break-words">
+		<div class="content post-content">{PREVIEW_MESSAGE}</div>
+
+		<!-- EVENT posting_preview_content_after -->
+
+		<!-- IF .attachment -->
+		<div class="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800/50">
+			<span class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2 block">{L_ATTACHMENTS}</span>
+			<div class="flex flex-col gap-2">
+				<!-- BEGIN attachment -->
+				<div class="text-sm">{attachment.DISPLAY_ATTACHMENT}</div>
+				<!-- END attachment -->
+			</div>
+		</div>
+		<!-- ENDIF -->
+
+		<!-- IF PREVIEW_SIGNATURE -->
+		<div class="mt-6 border-t border-slate-200 dark:border-slate-700 pt-4 text-xs text-slate-500">
+			{PREVIEW_SIGNATURE}
+		</div>
+		<!-- ENDIF -->
+	</div>
+</div>

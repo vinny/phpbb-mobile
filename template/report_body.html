@@ -1,0 +1,78 @@
+<!-- INCLUDE overall_header.html -->
+
+<div class="flex items-center justify-between gap-4 mb-6">
+	<h2 class="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+		<span class="material-symbols-outlined text-[24px] text-amber-500">report</span>
+		<!-- IF S_REPORT_POST -->{L_REPORT_POST}<!-- ELSE -->{L_REPORT_MESSAGE}<!-- ENDIF -->
+	</h2>
+</div>
+
+<div class="mb-6 rounded-xl bg-slate-50 p-4 text-sm text-slate-600 border border-slate-200 dark:bg-slate-800/50 dark:border-slate-700 dark:text-slate-400 font-medium">
+	<!-- IF S_REPORT_POST -->{L_REPORT_POST_EXPLAIN}<!-- ELSE -->{L_REPORT_MESSAGE_EXPLAIN}<!-- ENDIF -->
+</div>
+
+<form method="post" action="{S_REPORT_ACTION}" id="report">
+	<!-- IF ERROR -->
+		<div class="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm font-bold text-red-600 dark:border-red-900/30 dark:bg-red-900/10 dark:text-red-400">
+			{ERROR}
+		</div>
+	<!-- ENDIF -->
+
+	<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800 overflow-hidden mb-6">
+		<div class="p-4 sm:p-6 flex flex-col gap-6">
+			<fieldset class="flex flex-col gap-5">
+				<div class="flex flex-col gap-1.5">
+					<label for="reason_id" class="block text-sm font-bold text-slate-800 dark:text-slate-200">{L_REASON}{L_COLON}</label>
+					<select name="reason_id" id="reason_id" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900 dark:text-white transition-colors">
+						<!-- BEGIN reason -->
+						<option value="{reason.ID}"<!-- IF reason.S_SELECTED --> selected="selected"<!-- ENDIF -->>{reason.DESCRIPTION}</option>
+						<!-- END reason -->
+					</select>
+				</div>
+
+				<!-- IF S_CAN_NOTIFY -->
+				<div class="flex flex-col gap-2">
+					<label class="block text-sm font-bold text-slate-800 dark:text-slate-200">
+						{L_REPORT_NOTIFY}{L_COLON}
+						<span class="block text-xs text-slate-500 dark:text-slate-400 font-normal mt-0.5">{L_REPORT_NOTIFY_EXPLAIN}</span>
+					</label>
+					<div class="flex items-center gap-4">
+						<label for="notify1" class="flex items-center gap-2 cursor-pointer group">
+							<input type="radio" name="notify" id="notify1" value="1" <!-- IF not S_NOTIFY -->checked="checked"<!-- ENDIF --> class="w-4 h-4 text-primary bg-slate-50 border-slate-300 focus:ring-primary dark:bg-slate-900 dark:border-slate-600 dark:checked:bg-primary transition-colors cursor-pointer" />
+							<span class="text-sm font-medium text-slate-700 group-hover:text-primary dark:text-slate-300 transition-colors">{L_YES}</span>
+						</label>
+						<label for="notify0" class="flex items-center gap-2 cursor-pointer group">
+							<input type="radio" name="notify" id="notify0" value="0" <!-- IF S_NOTIFY -->checked="checked"<!-- ENDIF --> class="w-4 h-4 text-primary bg-slate-50 border-slate-300 focus:ring-primary dark:bg-slate-900 dark:border-slate-600 dark:checked:bg-primary transition-colors cursor-pointer" />
+							<span class="text-sm font-medium text-slate-700 group-hover:text-primary dark:text-slate-300 transition-colors">{L_NO}</span>
+						</label>
+					</div>
+				</div>
+				<!-- ENDIF -->
+
+				<div class="flex flex-col gap-1.5">
+					<label for="report_text" class="block text-sm font-bold text-slate-800 dark:text-slate-200">
+						{L_MORE_INFO}{L_COLON}
+						<span class="block text-xs font-normal text-slate-500 dark:text-slate-400 mt-0.5">{L_CAN_LEAVE_BLANK}</span>
+					</label>
+					<textarea name="report_text" id="report_text" rows="6" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-3 text-sm text-slate-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900 dark:text-white transition-colors placeholder:text-slate-400">{REPORT_TEXT}</textarea>
+				</div>
+				
+				<!-- IF CAPTCHA_TEMPLATE -->
+					<!-- INCLUDE {CAPTCHA_TEMPLATE} -->
+				<!-- ENDIF -->
+			</fieldset>
+		</div>
+		
+		<div class="border-t border-slate-200 bg-slate-50 px-4 py-4 sm:px-6 dark:border-slate-700 dark:bg-slate-800/50 flex flex-col sm:flex-row items-center gap-3">
+			<button type="submit" name="submit" value="{L_SUBMIT}" class="w-full sm:w-auto rounded-lg bg-red-600 px-6 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 transition-transform active:scale-95 text-center flex justify-center items-center gap-2">
+				<span class="material-symbols-outlined text-[18px]">send</span> {L_SUBMIT}
+			</button>
+			<button type="submit" name="cancel" value="{L_CANCEL}" class="w-full sm:w-auto rounded-lg border border-slate-300 bg-white px-6 py-2.5 text-sm font-bold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 focus:outline-none dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 text-center flex justify-center items-center gap-2">
+				{L_CANCEL}
+			</button>
+			{S_FORM_TOKEN}
+		</div>
+	</div>
+</form>
+
+<!-- INCLUDE overall_footer.html -->

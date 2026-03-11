@@ -1,0 +1,350 @@
+<!-- INCLUDE ucp_header.html -->
+
+<div class="flex items-center justify-between mb-6 border-b border-primary/10 pb-4">
+	<h2 class="text-base sm:text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2"<!-- IF GROUP_COLOUR --> style="color:#{GROUP_COLOUR};"<!-- ENDIF -->>
+		<span class="material-symbols-outlined text-[20px] text-primary">groups_2</span>
+		{L_USERGROUPS}<!-- IF GROUP_NAME --><span class="text-slate-400 dark:text-slate-500 font-medium ml-1">:: {GROUP_NAME}</span><!-- ENDIF -->
+	</h2>
+</div>
+
+<form id="ucp" method="post" action="{S_UCP_ACTION}"{S_FORM_ENCTYPE}>
+
+<div class="space-y-6">
+	<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+		<div class="p-6 sm:p-8">
+
+		<!-- IF S_ERROR -->
+		<div class="bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-900/30 text-red-600 dark:text-red-400 p-4 rounded-xl text-sm font-medium mb-6">
+			{ERROR_MSG}
+		</div>
+		<!-- ENDIF -->
+
+		<p class="text-sm text-slate-500 dark:text-slate-400 mb-6 leading-relaxed">
+			{L_GROUPS_EXPLAIN}
+		</p>
+
+		<!-- IF S_EDIT -->
+			<h3 class="text-base font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2 border-b border-slate-100 dark:border-slate-700 pb-3">{L_GROUP_DETAILS}</h3>
+
+			<div class="space-y-5">
+				<div class="flex flex-col sm:flex-row sm:items-center gap-2">
+					<label for="group_name" class="sm:w-1/3 text-sm font-bold text-slate-700 dark:text-slate-300">{L_GROUP_NAME}{L_COLON}</label>
+					<div class="flex-1">
+						<!-- IF S_SPECIAL_GROUP -->
+							<strong class="text-base font-bold bg-slate-50 dark:bg-slate-900/50 px-4 py-2 rounded-lg border border-slate-100 dark:border-slate-800 inline-block"<!-- IF GROUP_COLOUR --> style="color: #{GROUP_COLOUR};"<!-- ENDIF -->>{GROUP_NAME}</strong>
+							<input name="group_name" type="hidden" value="{GROUP_INTERNAL_NAME}" />
+						<!-- ELSE -->
+							<input name="group_name" type="text" id="group_name" value="{GROUP_INTERNAL_NAME}" class="w-full sm:max-w-md px-4 py-2.5 bg-slate-50 dark:bg-slate-900/50 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary text-sm text-slate-900 dark:text-white outline-none transition-all" />
+						<!-- ENDIF -->
+					</div>
+				</div>
+
+				<div class="flex flex-col sm:flex-row sm:items-start gap-2">
+					<label for="group_desc" class="sm:w-1/3 text-sm font-bold text-slate-700 dark:text-slate-300 mt-2">{L_GROUP_DESC}{L_COLON}</label>
+					<div class="flex-1 space-y-3">
+						<textarea id="group_desc" name="group_desc" rows="5" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900/50 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary text-sm text-slate-900 dark:text-white outline-none transition-all">{GROUP_DESC}</textarea>
+						<div class="flex flex-wrap gap-4 pt-1">
+							<label class="flex items-center gap-2 cursor-pointer group">
+								<input type="checkbox" name="desc_parse_bbcode" id="desc_parse_bbcode" <!-- IF S_DESC_BBCODE_CHECKED -->checked="checked"<!-- ENDIF --> class="w-5 h-5 rounded border-slate-300 text-primary shadow-sm focus:border-primary focus:ring-primary dark:border-slate-600 dark:bg-slate-900" />
+								<span class="text-sm font-medium text-slate-600 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-white transition-colors">{L_PARSE_BBCODE}</span>
+							</label>
+							<label class="flex items-center gap-2 cursor-pointer group">
+								<input type="checkbox" name="desc_parse_smilies" id="desc_parse_smilies" <!-- IF S_DESC_SMILIES_CHECKED -->checked="checked"<!-- ENDIF --> class="w-5 h-5 rounded border-slate-300 text-primary shadow-sm focus:border-primary focus:ring-primary dark:border-slate-600 dark:bg-slate-900" />
+								<span class="text-sm font-medium text-slate-600 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-white transition-colors">{L_PARSE_SMILIES}</span>
+							</label>
+							<label class="flex items-center gap-2 cursor-pointer group">
+								<input type="checkbox" name="desc_parse_urls" id="desc_parse_urls" <!-- IF S_DESC_URLS_CHECKED -->checked="checked"<!-- ENDIF --> class="w-5 h-5 rounded border-slate-300 text-primary shadow-sm focus:border-primary focus:ring-primary dark:border-slate-600 dark:bg-slate-900" />
+								<span class="text-sm font-medium text-slate-600 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-white transition-colors">{L_PARSE_URLS}</span>
+							</label>
+						</div>
+					</div>
+				</div>
+
+				<!-- IF not S_SPECIAL_GROUP -->
+				<div class="flex flex-col sm:flex-row sm:items-start gap-2">
+					<div class="sm:w-1/3">
+						<label class="text-sm font-bold text-slate-700 dark:text-slate-300">{L_GROUP_TYPE}{L_COLON}</label>
+						<span class="block text-xs text-slate-500 dark:text-slate-400 font-normal mt-0.5">{L_GROUP_TYPE_EXPLAIN}</span>
+					</div>
+					<div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3">
+						<label class="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg border border-slate-200 dark:border-slate-700 cursor-pointer hover:border-primary/50 transition-all group">
+							<div class="relative flex items-center justify-center">
+								<input type="radio" name="group_type" id="group_type1" value="{GROUP_TYPE_FREE}"{GROUP_FREE} class="peer sr-only" />
+								<div class="w-5 h-5 rounded-full border-2 border-slate-300 dark:border-slate-600 peer-checked:border-primary transition-colors"></div>
+								<div class="absolute w-2.5 h-2.5 rounded-full bg-primary opacity-0 peer-checked:opacity-100 transition-opacity scale-50 peer-checked:scale-100 transform"></div>
+							</div>
+							<span class="text-sm font-bold text-slate-700 dark:text-slate-300">{L_GROUP_OPEN}</span>
+						</label>
+						<label class="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg border border-slate-200 dark:border-slate-700 cursor-pointer hover:border-primary/50 transition-all group">
+							<div class="relative flex items-center justify-center">
+								<input type="radio" name="group_type" id="group_type2" value="{GROUP_TYPE_OPEN}"{GROUP_OPEN} class="peer sr-only" />
+								<div class="w-5 h-5 rounded-full border-2 border-slate-300 dark:border-slate-600 peer-checked:border-primary transition-colors"></div>
+								<div class="absolute w-2.5 h-2.5 rounded-full bg-primary opacity-0 peer-checked:opacity-100 transition-opacity scale-50 peer-checked:scale-100 transform"></div>
+							</div>
+							<span class="text-sm font-bold text-slate-700 dark:text-slate-300">{L_GROUP_REQUEST}</span>
+						</label>
+						<label class="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg border border-slate-200 dark:border-slate-700 cursor-pointer hover:border-primary/50 transition-all group">
+							<div class="relative flex items-center justify-center">
+								<input type="radio" name="group_type" id="group_type3" value="{GROUP_TYPE_CLOSED}"{GROUP_CLOSED} class="peer sr-only" />
+								<div class="w-5 h-5 rounded-full border-2 border-slate-300 dark:border-slate-600 peer-checked:border-primary transition-colors"></div>
+								<div class="absolute w-2.5 h-2.5 rounded-full bg-primary opacity-0 peer-checked:opacity-100 transition-opacity scale-50 peer-checked:scale-100 transform"></div>
+							</div>
+							<span class="text-sm font-bold text-slate-700 dark:text-slate-300">{L_GROUP_CLOSED}</span>
+						</label>
+						<label class="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg border border-slate-200 dark:border-slate-700 cursor-pointer hover:border-primary/50 transition-all group">
+							<div class="relative flex items-center justify-center">
+								<input type="radio" name="group_type" id="group_type4" value="{GROUP_TYPE_HIDDEN}"{GROUP_HIDDEN} class="peer sr-only" />
+								<div class="w-5 h-5 rounded-full border-2 border-slate-300 dark:border-slate-600 peer-checked:border-primary transition-colors"></div>
+								<div class="absolute w-2.5 h-2.5 rounded-full bg-primary opacity-0 peer-checked:opacity-100 transition-opacity scale-50 peer-checked:scale-100 transform"></div>
+							</div>
+							<span class="text-sm font-bold text-slate-700 dark:text-slate-300">{L_GROUP_HIDDEN}</span>
+						</label>
+					</div>
+				</div>
+				<!-- ELSE -->
+					<input name="group_type" type="hidden" value="{GROUP_TYPE_SPECIAL}" />
+				<!-- ENDIF -->
+			</div>
+
+		</div>
+	</div>
+
+	<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+		<div class="p-6 sm:p-8">
+			<h3 class="text-base font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2 border-b border-slate-100 dark:border-slate-700 pb-3">{L_GROUP_SETTINGS_SAVE}</h3>
+
+			<div class="space-y-5">
+				<!-- EVENT ucp_group_settings_before -->
+				<div class="flex flex-col sm:flex-row sm:items-center gap-2">
+					<div class="sm:w-1/3">
+						<label for="group_colour" class="text-sm font-bold text-slate-700 dark:text-slate-300">{L_GROUP_COLOR}{L_COLON}</label>
+						<span class="block text-xs text-slate-500 dark:text-slate-400 font-normal mt-0.5">{L_GROUP_COLOR_EXPLAIN}</span>
+					</div>
+					<div class="flex-1 flex items-center gap-3">
+						<div class="relative max-w-[120px]">
+							<input name="group_colour" type="text" id="group_colour" value="{GROUP_COLOUR}" size="6" maxlength="6" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-900/50 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary text-sm text-slate-900 dark:text-white outline-none transition-all uppercase font-mono" />
+						</div>
+						<span id="group_colour_preview" class="w-10 h-10 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm" style="background-color: #{GROUP_COLOUR};"></span>
+						<a href="#" id="color_palette_toggle" class="text-sm font-bold text-primary hover:underline">[{L_COLOUR_SWATCH}]</a>
+						<div id="color_palette_placeholder" class="color_palette_placeholder hidden absolute z-50 mt-12 bg-white dark:bg-slate-800 p-2 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700" data-color-palette="h" data-height="12" data-width="15" data-target="#group_colour"></div>
+					</div>
+				</div>
+
+				<div class="flex flex-col sm:flex-row sm:items-center gap-2">
+					<label for="group_rank" class="sm:w-1/3 text-sm font-bold text-slate-700 dark:text-slate-300">{L_GROUP_RANK}{L_COLON}</label>
+					<div class="flex-1">
+						<div class="relative max-w-md">
+							<select name="group_rank" id="group_rank" class="w-full h-11 pl-4 pr-10 text-sm rounded-lg border border-slate-300 bg-slate-50 text-slate-900 focus:border-primary focus:ring-primary shadow-sm appearance-none transition-all dark:bg-slate-900/50 dark:border-slate-600 dark:text-white cursor-pointer">
+								{S_RANK_OPTIONS}
+							</select>
+							<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[20px]">expand_more</span>
+						</div>
+					</div>
+				</div>
+				<!-- EVENT ucp_group_settings_after -->
+			</div>
+		</div>
+	</div>
+
+	<!-- INCLUDE ucp_avatar_options.html -->
+
+	<div class="mt-8 flex flex-col sm:flex-row sm:justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-700/50">
+		<input type="hidden" name="update" value="1" />
+		{S_HIDDEN_FIELDS}
+		<button type="submit" name="update" value="{L_SUBMIT}" class="w-full sm:w-auto py-3 sm:py-2 px-8 rounded-xl bg-primary text-white font-bold text-sm shadow-md hover:bg-primary/90 transition-all flex items-center justify-center gap-2 cursor-pointer">
+			<span class="material-symbols-outlined text-[18px]">save</span>
+			{L_SUBMIT}
+		</button>
+		{S_FORM_TOKEN}
+	</div>
+</div>
+
+<!-- ELSEIF S_LIST -->
+
+	<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden mb-6">
+		<div class="overflow-x-auto">
+			<table class="w-full text-left border-collapse">
+				<thead>
+					<tr class="bg-slate-50 dark:bg-slate-900/50">
+						<th class="py-4 px-5 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700">{L_GROUP_LEAD}</th>
+						<th class="py-4 px-5 text-center text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700 w-24">{L_GROUP_DEFAULT}</th>
+						<th class="py-4 px-5 text-center text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700 w-24">{L_POSTS}</th>
+						<th class="py-4 px-5 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700 w-32">{L_JOINED}</th>
+						<th class="py-4 px-5 text-center text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700 w-20">{L_MARK}</th>
+					</tr>
+				</thead>
+				<tbody class="divide-y divide-slate-100 dark:divide-slate-700/50">
+				<!-- BEGIN leader -->
+					<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-colors">
+						<td class="py-4 px-5 text-sm font-semibold text-slate-800 dark:text-white">{leader.USERNAME_FULL}</td>
+						<td class="py-4 px-5 text-center text-sm font-medium text-slate-500 dark:text-slate-400"><!-- IF leader.S_GROUP_DEFAULT -->{L_YES}<!-- ELSE -->{L_NO}<!-- ENDIF --></td>
+						<td class="py-4 px-5 text-center text-sm font-medium text-slate-500 dark:text-slate-400">{leader.USER_POSTS}</td>
+						<td class="py-4 px-5 text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap">{leader.JOINED}</td>
+						<td class="py-4 px-5 text-center">
+							<span class="text-slate-300 dark:text-slate-700">&bull;</span>
+						</td>
+					</tr>
+				<!-- END leader -->
+
+				<!-- BEGIN member -->
+					<!-- IF member.S_PENDING -->
+						<tr class="bg-amber-50/50 dark:bg-amber-900/10">
+							<td colspan="5" class="py-3 px-5 text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-500 border-y border-amber-100 dark:border-amber-900/30">
+								{L_GROUP_PENDING}
+							</td>
+						</tr>
+					<!-- ELSEIF member.S_APPROVED -->
+						<tr class="bg-green-50/50 dark:bg-green-900/10">
+							<td colspan="5" class="py-3 px-5 text-xs font-bold uppercase tracking-wider text-green-700 dark:text-green-500 border-y border-green-100 dark:border-green-900/30">
+								{L_GROUP_APPROVED}
+							</td>
+						</tr>
+					<!-- ENDIF -->
+					
+					<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-colors">
+						<td class="py-4 px-5 text-sm font-semibold text-slate-800 dark:text-white">{member.USERNAME_FULL}</td>
+						<td class="py-4 px-5 text-center text-sm font-medium text-slate-500 dark:text-slate-400"><!-- IF member.S_GROUP_DEFAULT -->{L_YES}<!-- ELSE -->{L_NO}<!-- ENDIF --></td>
+						<td class="py-4 px-5 text-center text-sm font-medium text-slate-500 dark:text-slate-400">{member.USER_POSTS}</td>
+						<td class="py-4 px-5 text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap">{member.JOINED}</td>
+						<td class="py-4 px-5 text-center">
+							<input type="checkbox" name="mark[]" value="{member.USER_ID}" class="w-5 h-5 rounded border-slate-300 text-primary shadow-sm focus:border-primary focus:ring-primary dark:border-slate-600 dark:bg-slate-900 cursor-pointer" />
+						</td>
+					</tr>
+				<!-- BEGINELSE -->
+					<tr>
+						<td colspan="5" class="py-12 text-center text-slate-500 dark:text-slate-400 italic text-sm">{L_GROUPS_NO_MEMBERS}</td>
+					</tr>
+				<!-- END member -->
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 py-6 border-t border-slate-100 dark:border-slate-700/50 mb-8">
+		<div class="flex flex-wrap items-center gap-3">
+			<div class="relative w-full sm:w-64">
+				<select name="action" class="w-full h-11 pl-4 pr-10 text-sm rounded-lg border border-slate-300 bg-white text-slate-800 focus:border-primary focus:ring-primary shadow-sm appearance-none transition-all dark:bg-slate-900 dark:border-slate-600 dark:text-white cursor-pointer">
+					<option value="">{L_SELECT_OPTION}</option>
+					{S_ACTION_OPTIONS}
+				</select>
+				<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[20px]">expand_more</span>
+			</div>
+			<button type="submit" name="update" value="{L_SUBMIT}" class="px-5 py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-sm rounded-lg transition-colors shadow-md">{L_SUBMIT}</button>
+		</div>
+		
+		<div class="flex items-center gap-4">
+			<div class="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400">
+				<a href="#" onclick="marklist('ucp', 'mark', true); return false;" class="hover:text-primary transition-colors">{L_MARK_ALL}</a>
+				<span class="text-slate-300 dark:text-slate-600">&bull;</span>
+				<a href="#" onclick="marklist('ucp', 'mark', false); return false;" class="hover:text-primary transition-colors">{L_UNMARK_ALL}</a>
+			</div>
+			<!-- IF .pagination -->
+				<div class="pl-4 border-l border-slate-100 dark:border-slate-700">
+					<!-- INCLUDE pagination.html -->
+				</div>
+			<!-- ENDIF -->
+		</div>
+	</div>
+
+	<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden mb-6">
+		<div class="p-6 sm:p-8">
+			<h3 class="text-base font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-slate-700 pb-3">
+				<span class="material-symbols-outlined text-[18px] text-primary">person_add</span>
+				{L_ADD_USERS}
+			</h3>
+
+			<p class="text-xs text-slate-500 dark:text-slate-400 mb-6 leading-relaxed bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800">
+				{L_ADD_USERS_UCP_EXPLAIN}
+			</p>
+
+			<div class="space-y-6">
+				<div class="flex flex-col sm:flex-row items-center gap-2">
+					<div class="sm:w-1/3">
+						<label class="text-sm font-bold text-slate-700 dark:text-slate-300">{L_USER_GROUP_DEFAULT}{L_COLON}</label>
+						<span class="block text-xs text-slate-500 dark:text-slate-400 font-normal mt-0.5">{L_USER_GROUP_DEFAULT_EXPLAIN}</span>
+					</div>
+					<div class="flex-1 flex items-center gap-4">
+						<label class="flex items-center gap-2 cursor-pointer group">
+							<div class="relative flex items-center justify-center">
+								<input type="radio" name="default" id="default1" value="1" class="peer sr-only" />
+								<div class="w-5 h-5 rounded-full border-2 border-slate-300 dark:border-slate-600 peer-checked:border-primary transition-colors"></div>
+								<div class="absolute w-2.5 h-2.5 rounded-full bg-primary opacity-0 peer-checked:opacity-100 transition-opacity scale-50 peer-checked:scale-100 transform"></div>
+							</div>
+							<span class="text-sm font-medium text-slate-700 dark:text-slate-300">{L_YES}</span>
+						</label>
+						<label class="flex items-center gap-2 cursor-pointer group">
+							<div class="relative flex items-center justify-center">
+								<input type="radio" name="default" id="default0" value="0" checked="checked" class="peer sr-only" />
+								<div class="w-5 h-5 rounded-full border-2 border-slate-300 dark:border-slate-600 peer-checked:border-primary transition-colors"></div>
+								<div class="absolute w-2.5 h-2.5 rounded-full bg-primary opacity-0 peer-checked:opacity-100 transition-opacity scale-50 peer-checked:scale-100 transform"></div>
+							</div>
+							<span class="text-sm font-medium text-slate-700 dark:text-slate-300">{L_NO}</span>
+						</label>
+					</div>
+				</div>
+
+				<div class="flex flex-col gap-2">
+					<label for="usernames" class="text-sm font-bold text-slate-700 dark:text-slate-300">{L_USERNAME}{L_COLON} <span class="text-xs font-normal text-slate-500 ml-1">{L_USERNAMES_EXPLAIN}</span></label>
+					<div class="space-y-3">
+						<textarea name="usernames" id="usernames" rows="3" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900/50 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary text-sm text-slate-900 dark:text-white outline-none transition-all"></textarea>
+						<a href="{U_FIND_USERNAME}" onclick="find_username(this.href); return false;" class="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 text-sm font-bold rounded-lg transition-colors">
+							<span class="material-symbols-outlined text-[18px]">search</span>
+							{L_FIND_USERNAME}
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="mt-8 flex flex-col sm:flex-row sm:justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-700/50">
+		<button type="submit" name="addusers" value="{L_SUBMIT}" class="w-full sm:w-auto py-3 sm:py-2 px-8 rounded-xl bg-primary text-white font-bold text-sm shadow-md hover:bg-primary/90 transition-all flex items-center justify-center gap-2 cursor-pointer">
+			<span class="material-symbols-outlined text-[18px]">person_add</span>
+			{L_SUBMIT}
+		</button>
+		{S_FORM_TOKEN}
+	</div>
+
+<!-- ELSE -->
+
+	<!-- IF .leader -->
+		<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden mb-6">
+			<div class="p-4 sm:p-5 border-b border-slate-100 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-900/30">
+				<h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">{L_GROUP_LEADER}</h3>
+			</div>
+			
+			<div class="divide-y divide-slate-100 dark:divide-slate-700/50">
+				<!-- BEGIN leader -->
+				<div class="p-5 hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+					<div class="flex-1 min-w-0">
+						<a href="{leader.U_EDIT}" class="text-base font-bold text-primary hover:underline block truncate"<!-- IF leader.GROUP_COLOUR --> style="color: #{leader.GROUP_COLOUR};"<!-- ENDIF -->>{leader.GROUP_NAME}</a>
+						<!-- IF leader.GROUP_DESC --><p class="text-sm text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">{leader.GROUP_DESC}</p><!-- ENDIF -->
+					</div>
+					<div class="flex items-center gap-2 shrink-0">
+						<a href="{leader.U_LIST}" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5">
+							<span class="material-symbols-outlined text-[16px]">list</span>
+							{L_GROUP_LIST}
+						</a>
+						<a href="{leader.U_EDIT}" class="px-3 py-1.5 bg-primary/10 hover:bg-primary/20 text-primary text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5">
+							<span class="material-symbols-outlined text-[16px]">edit</span>
+							{L_EDIT}
+						</a>
+					</div>
+				</div>
+				<!-- END leader -->
+			</div>
+		</div>
+	<!-- ELSE -->
+		<div class="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-8 text-center border border-slate-200 dark:border-slate-700 border-dashed mb-6">
+			<span class="material-symbols-outlined text-[48px] text-slate-300 dark:text-slate-600 mb-3 block">groups_off</span>
+			<span class="text-sm font-medium text-slate-500 dark:text-slate-400 font-bold">{L_NO_LEADERS}</span>
+		</div>
+	<!-- ENDIF -->
+
+</div>
+</div>
+
+<!-- ENDIF -->
+</form>
+
+<!-- INCLUDE ucp_footer.html -->

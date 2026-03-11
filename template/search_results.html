@@ -1,0 +1,269 @@
+<!-- INCLUDE overall_header.html -->
+
+<main class="flex flex-col px-4 pt-4 pb-8">
+
+	<!-- EVENT search_results_header_before -->
+
+	<div class="mb-6">
+		<h2 class="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-200">
+			<!-- IF SEARCH_TITLE -->{SEARCH_TITLE}<!-- ELSE -->{SEARCH_MATCHES}<!-- ENDIF -->
+			<!-- IF SEARCH_WORDS -->{L_COLON} <a href="{U_SEARCH_WORDS}" class="text-primary hover:underline">{SEARCH_WORDS}</a><!-- ENDIF -->
+		</h2>
+		
+		<!-- IF SEARCHED_QUERY or IGNORED_WORDS or PHRASE_SEARCH_DISABLED -->
+		<div class="mt-2 flex flex-col gap-1 text-[13px] text-slate-600 dark:text-slate-400">
+			<!-- IF SEARCHED_QUERY --><p>{L_SEARCHED_QUERY}{L_COLON} <strong class="text-slate-900 dark:text-slate-100">{SEARCHED_QUERY}</strong></p><!-- ENDIF -->
+			<!-- IF IGNORED_WORDS --><p>{L_IGNORED_TERMS}{L_COLON} <strong class="text-slate-900 dark:text-slate-100">{IGNORED_WORDS}</strong></p><!-- ENDIF -->
+			<!-- IF PHRASE_SEARCH_DISABLED --><p><strong class="text-slate-900 dark:text-slate-100">{L_PHRASE_SEARCH_DISABLED}</strong></p><!-- ENDIF -->
+		</div>
+		<!-- ENDIF -->
+		
+		<div class="mt-4 flex flex-wrap gap-3">
+			<!-- IF SEARCH_TOPIC -->
+				<a class="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary/80 transition-colors" href="{U_SEARCH_TOPIC}">
+					<span class="material-symbols-outlined text-[18px]">keyboard_return</span>
+					<span>{L_RETURN_TO_TOPIC}</span>
+				</a>
+			<!-- ELSE -->
+				<a class="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary/80 transition-colors" href="{U_SEARCH}" title="{L_SEARCH_ADV}">
+					<span class="material-symbols-outlined text-[18px]">manage_search</span>
+					<span>{L_GO_TO_SEARCH_ADV}</span>
+				</a>
+			<!-- ENDIF -->
+		</div>
+	</div>
+
+	<!-- EVENT search_results_header_after -->
+
+	<!-- IF .pagination or SEARCH_MATCHES or TOTAL_MATCHES or PAGE_NUMBER -->
+	<div class="mb-6 flex flex-col items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800 sm:flex-row">
+		<!-- IF TOTAL_MATCHES > 0 -->
+		<div class="w-full sm:w-auto">
+			<form method="post" action="{S_SEARCH_ACTION}" class="flex items-center gap-2">
+				<div class="relative w-full sm:w-64">
+					<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-slate-400">search</span>
+					<input class="w-full rounded-lg border border-slate-300 bg-slate-50 py-2 pl-10 pr-3 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900/50 dark:text-white transition-colors" type="search" name="add_keywords" id="add_keywords" value="" placeholder="{L_SEARCH_IN_RESULTS}" />
+				</div>
+				<button class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary text-white shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-transform active:scale-95 cursor-pointer" type="submit" title="{L_SEARCH}">
+					<span class="material-symbols-outlined text-[18px]">search</span>
+				</button>
+			</form>
+		</div>
+		<!-- ENDIF -->
+
+		<!-- EVENT search_results_searchbox_after -->
+
+		<div class="flex items-center gap-4 text-sm w-full sm:w-auto justify-between sm:justify-end flex-wrap">
+			<!-- IF U_MARK_ALL_READ --><a href="{U_MARK_ALL_READ}" class="font-medium text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors" accesskey="m">{L_MARK_ALL_READ}</a><!-- ENDIF -->
+			<div class="hidden font-medium text-slate-500 dark:text-slate-400 sm:block">{SEARCH_MATCHES}</div>
+			<!-- IF .pagination -->
+				<!-- INCLUDE pagination.html -->
+			<!-- ELSE -->
+				<div class="rounded-lg bg-slate-100 px-3 py-1 font-bold text-slate-700 dark:bg-slate-700 dark:text-slate-300">{PAGE_NUMBER}</div>
+			<!-- ENDIF -->
+		</div>
+	</div>
+	<!-- ENDIF -->
+
+	<!-- IF S_SHOW_TOPICS -->
+		<!-- IF .searchresults -->
+		<div class="flex flex-col gap-4">
+			<!-- BEGIN searchresults -->
+				<!-- EVENT search_results_topic_before -->
+				<article class="group relative bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 active:scale-[0.99] transition-all duration-200 <!-- IF searchresults.S_ROW_COUNT is even -->bg-white dark:bg-slate-800<!-- ELSE -->bg-slate-50/50 dark:bg-slate-800/50<!-- ENDIF --> {searchresults.TOPIC_IMG_STYLE}">
+					<div class="flex items-start gap-3 min-w-0">
+						<!-- IF searchresults.TOPIC_ICON_IMG -->
+							<div class="hidden sm:flex shrink-0 w-8 h-8 items-center justify-center pt-1" title="{searchresults.TOPIC_FOLDER_IMG_ALT}">
+								<img src="{T_ICONS_PATH}{searchresults.TOPIC_ICON_IMG}" alt="{searchresults.TOPIC_FOLDER_IMG_ALT}" />
+							</div>
+						<!-- ENDIF -->
+						<div class="flex-1 min-w-0">
+							<div class="flex items-center gap-2 mb-1.5 flex-wrap">
+								<!-- IF searchresults.S_UNREAD_TOPIC and not S_IS_BOT -->
+									<a href="{searchresults.U_NEWEST_POST}" class="text-primary hover:text-primary/80" title="{L_NEW_POST}">
+										<span class="material-symbols-outlined text-[18px]">fiber_new</span>
+									</a>
+								<!-- ENDIF -->
+								<h3 class="text-base font-bold text-primary leading-tight hover:underline decoration-2 underline-offset-2">
+									<a href="{searchresults.U_VIEW_TOPIC}" class="topictitle">{searchresults.TOPIC_TITLE}</a>
+								</h3>
+								<!-- IF searchresults.S_TOPIC_UNAPPROVED or searchresults.S_POSTS_UNAPPROVED -->
+									<a href="{searchresults.U_MCP_QUEUE}" class="text-blue-500 hover:text-blue-600" title="{L_TOPIC_UNAPPROVED}">
+										<span class="material-symbols-outlined text-[16px]">help</span>
+									</a>
+								<!-- ENDIF -->
+								<!-- IF searchresults.S_TOPIC_DELETED -->
+									<a href="{searchresults.U_MCP_QUEUE}" class="text-emerald-500 hover:text-emerald-600" title="{L_TOPIC_DELETED}">
+										<span class="material-symbols-outlined text-[16px]">delete</span>
+									</a>
+								<!-- ENDIF -->
+								<!-- IF searchresults.S_TOPIC_REPORTED -->
+									<a href="{searchresults.U_MCP_REPORT}" class="text-red-500 hover:text-red-600" title="{L_TOPIC_REPORTED}">
+										<span class="material-symbols-outlined text-[16px]">report</span>
+									</a>
+								<!-- ENDIF -->
+								<!-- IF searchresults.S_HAS_POLL -->
+									<span class="material-symbols-outlined text-[16px] text-slate-400" title="{L_POLL}">poll</span>
+								<!-- ENDIF -->
+								<!-- IF searchresults.ATTACH_ICON_IMG -->
+									<span class="material-symbols-outlined text-[16px] text-slate-400" title="{L_ATTACHMENT}">attach_file</span>
+								<!-- ENDIF -->
+							</div>
+
+							<div class="flex items-center flex-wrap gap-x-2 gap-y-1.5 text-[11px] text-slate-500 dark:text-slate-400">
+								{% EVENT topiclist_row_topic_by_author_before %}
+								<span class="font-medium text-slate-700 dark:text-slate-300"><!-- EVENT search_results_topic_author_username_prepend -->{searchresults.TOPIC_AUTHOR_FULL}<!-- EVENT search_results_topic_author_username_append --></span>
+								<span>&bull;</span>
+								<a href="{searchresults.U_VIEW_FORUM}" class="bg-slate-100 text-slate-600 dark:bg-slate-900/50 dark:text-slate-300 hover:bg-primary/10 hover:text-primary transition-colors px-1.5 py-0.5 rounded text-[10px] uppercase font-bold tracking-wide border border-slate-200 dark:border-slate-700 max-w-[120px] sm:max-w-xs truncate">{searchresults.FORUM_TITLE}</a>
+								<span>&bull;</span>
+								<time datetime="{searchresults.FIRST_POST_TIME_RFC3339}">{searchresults.FIRST_POST_TIME}</time>
+								{% EVENT topiclist_row_topic_by_author_after %}
+							</div>
+						</div>
+					</div>
+
+					<div class="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-slate-100 pt-3 dark:border-slate-700/50">
+						<div class="flex items-center gap-4 text-xs font-semibold text-slate-500 dark:text-slate-400">
+							<span class="flex items-center gap-1.5" title="{L_VIEWS}"><span class="material-symbols-outlined text-[15px]">visibility</span> {searchresults.TOPIC_VIEWS}</span>
+							<span class="flex items-center gap-1.5" title="{L_REPLIES}"><span class="material-symbols-outlined text-[15px]">chat</span> {searchresults.TOPIC_REPLIES}</span>
+						</div>
+						
+						<div class="flex items-center gap-2 text-[11px] sm:text-xs text-slate-500 dark:text-slate-400">
+							<div class="truncate">
+								{L_LAST_POST} {L_POST_BY_AUTHOR} <strong class="text-slate-700 dark:text-slate-300"><!-- EVENT search_results_last_post_author_username_prepend -->{searchresults.LAST_POST_AUTHOR_FULL}<!-- EVENT search_results_last_post_author_username_append --></strong>
+							</div>
+							<!-- IF not S_IS_BOT -->
+								<a href="{searchresults.U_LAST_POST}" class="flex items-center text-primary group-hover:text-primary/80 transition-colors" title="{L_GOTO_LAST_POST}">
+									<time datetime="{searchresults.LAST_POST_TIME_RFC3339}" class="sm:hidden mr-1 text-[10px] sm:text-[11px]">{searchresults.LAST_POST_TIME}</time>
+									<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+								</a>
+							<!-- ENDIF -->
+							{% EVENT search_results_topic_row_lastpost_after %}
+						</div>
+					</div>
+
+					<!-- IF .searchresults.pagination -->
+					<div class="mt-3 flex items-center gap-1 border-t border-slate-100 pt-3 dark:border-slate-700/50">
+						<span class="material-symbols-outlined text-[14px] text-slate-400 mr-2">content_copy</span>
+						<div class="flex gap-1 overflow-x-auto no-scrollbar">
+							<!-- BEGIN pagination -->
+								<!-- IF searchresults.pagination.S_IS_PREV -->
+								<!-- ELSEIF searchresults.pagination.S_IS_CURRENT -->
+									<span class="flex h-6 min-w-[1.5rem] items-center justify-center rounded bg-primary px-1.5 text-xs font-bold text-white shadow-sm leading-none">{searchresults.pagination.PAGE_NUMBER}</span>
+								<!-- ELSEIF searchresults.pagination.S_IS_ELLIPSIS -->
+									<span class="flex h-6 min-w-[1.5rem] items-center justify-center text-xs font-bold text-slate-400 leading-none">{L_ELLIPSIS}</span>
+								<!-- ELSEIF searchresults.pagination.S_IS_NEXT -->
+								<!-- ELSE -->
+									<a href="{searchresults.pagination.PAGE_URL}" class="flex h-6 min-w-[1.5rem] items-center justify-center rounded bg-slate-100 px-1.5 text-xs font-bold text-slate-600 hover:bg-slate-200 shadow-sm dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600 transition-colors leading-none">{searchresults.pagination.PAGE_NUMBER}</a>
+								<!-- ENDIF -->
+							<!-- END pagination -->
+						</div>
+					</div>
+					<!-- ENDIF -->
+					<!-- EVENT topiclist_row_append -->
+				</article>
+				<!-- EVENT search_results_topic_after -->
+			<!-- END searchresults -->
+		</div>
+		<!-- ELSE -->
+			<div class="rounded-xl border border-slate-200 bg-white p-8 text-center shadow-sm dark:border-slate-700 dark:bg-slate-800">
+				<span class="material-symbols-outlined mb-3 text-4xl text-slate-300 dark:text-slate-600">search_off</span>
+				<h3 class="text-lg font-bold text-slate-800 dark:text-slate-200">{L_NO_SEARCH_RESULTS}</h3>
+			</div>
+		<!-- ENDIF -->
+
+	<!-- ELSE -->
+
+		<!-- BEGIN searchresults -->
+			<!-- EVENT search_results_post_before -->
+			<article class="search post group bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 active:scale-[0.99] transition-all duration-200 mb-4 <!-- IF searchresults.S_ROW_COUNT is even -->bg-white dark:bg-slate-800<!-- ELSE -->bg-slate-50/50 dark:bg-slate-800/50<!-- ENDIF --><!-- IF searchresults.S_POST_REPORTED --> border-red-300 ring-1 ring-red-300 dark:border-red-900/50 dark:ring-red-900/50<!-- ENDIF -->">
+
+			<!-- IF searchresults.S_IGNORE_POST -->
+				<div class="text-sm italic text-slate-500 dark:text-slate-400">
+					{searchresults.L_IGNORE_POST}
+				</div>
+			<!-- ELSE -->
+				<div class="flex items-start gap-4 mb-3">
+					<div class="flex-1 min-w-0">
+						<!-- EVENT search_results_postprofile_before -->
+						<h3 class="text-base sm:text-lg font-bold text-primary leading-tight mb-2 hover:underline decoration-2 underline-offset-2">
+							{% EVENT search_results_post_subject_before %}
+							<a href="{searchresults.U_VIEW_POST}">{searchresults.POST_SUBJECT}</a>
+						</h3>
+						
+						<div class="flex items-center flex-wrap gap-x-2 gap-y-1.5 text-[11px] text-slate-500 dark:text-slate-400 mb-3">
+							<span class="flex items-center gap-1">
+								<span class="material-symbols-outlined text-[14px]">edit</span>
+								<strong class="text-slate-700 dark:text-slate-300"><!-- EVENT search_results_post_author_username_prepend -->{searchresults.POST_AUTHOR_FULL}<!-- EVENT search_results_post_author_username_append --></strong>
+							</span>
+							<span>&bull;</span>
+							<span class="search-result-date flex items-center gap-1">
+								<span class="material-symbols-outlined text-[14px]">schedule</span>
+								{searchresults.POST_DATE}
+							</span>
+							<span>&bull;</span>
+							<a href="{searchresults.U_VIEW_FORUM}" class="bg-slate-100 text-slate-600 dark:bg-slate-900/50 dark:text-slate-300 hover:bg-primary/10 hover:text-primary transition-colors px-1.5 py-0.5 rounded text-[10px] uppercase font-bold tracking-wide border border-slate-200 dark:border-slate-700">{searchresults.FORUM_TITLE}</a>
+							<span>&bull;</span>
+							<span class="text-slate-400">{L_TOPIC}{L_COLON}</span> <a href="{searchresults.U_VIEW_TOPIC}" class="font-medium text-slate-600 dark:text-slate-300 hover:text-primary transition-colors truncate max-w-[150px]">{searchresults.TOPIC_TITLE}</a>
+							<!-- EVENT search_results_topic_title_after -->
+						</div>
+						<!-- EVENT search_results_postprofile_after -->
+					</div>
+				</div>
+
+				<div class="text-[13px] text-slate-700 dark:text-slate-300 leading-relaxed mb-4 overflow-hidden line-clamp-4">
+					<div class="content space-y-2 {searchresults.TOPIC_IMG_STYLE}">{searchresults.MESSAGE}</div>
+				</div>
+				<!-- EVENT search_results_content_after -->
+
+				<div class="flex items-center justify-between border-t border-slate-100 pt-3 dark:border-slate-700/50">
+					<div class="flex items-center gap-4 text-xs font-semibold text-slate-500 dark:text-slate-400">
+						<span class="flex items-center gap-1.5" title="{L_VIEWS}"><span class="material-symbols-outlined text-[15px]">visibility</span> {searchresults.TOPIC_VIEWS}</span>
+						<span class="flex items-center gap-1.5" title="{L_REPLIES}"><span class="material-symbols-outlined text-[15px]">chat</span> {searchresults.TOPIC_REPLIES}</span>
+					</div>
+					
+					<!-- IF not searchresults.S_IGNORE_POST -->
+					<a href="{searchresults.U_VIEW_POST}" class="flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
+						{L_JUMP_TO_POST}
+						<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+					</a>
+					<!-- ENDIF -->
+				</div>
+			<!-- ENDIF -->
+
+			</article>
+			<!-- EVENT search_results_post_after -->
+		<!-- BEGINELSE -->
+			<div class="rounded-xl border border-slate-200 bg-white p-8 text-center shadow-sm dark:border-slate-700 dark:bg-slate-800">
+				<span class="material-symbols-outlined mb-3 text-4xl text-slate-300 dark:text-slate-600">search_off</span>
+				<h3 class="text-lg font-bold text-slate-800 dark:text-slate-200">{L_NO_SEARCH_RESULTS}</h3>
+			</div>
+		<!-- END searchresults -->
+
+	<!-- ENDIF -->
+
+	<!-- IF .pagination or SEARCH_MATCHES or PAGE_NUMBER or TOTAL_MATCHES -->
+	<div class="mt-6 flex flex-col items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800 sm:flex-row">
+		<!-- IF S_SELECT_SORT_DAYS or S_SELECT_SORT_KEY -->
+		<form method="post" action="{S_SEARCH_ACTION}" class="w-full sm:w-auto">
+			<!-- INCLUDE display_options.html -->
+		</form>
+		<!-- ENDIF -->
+
+		<div class="flex items-center gap-4 text-sm mt-4 sm:mt-0">
+			<div class="hidden font-medium text-slate-500 dark:text-slate-400 sm:block">{SEARCH_MATCHES}</div>
+			<!-- IF .pagination -->
+				<!-- INCLUDE pagination.html -->
+			<!-- ELSE -->
+				<div class="rounded-lg bg-slate-100 px-3 py-1 font-bold text-slate-700 dark:bg-slate-700 dark:text-slate-300">{PAGE_NUMBER}</div>
+			<!-- ENDIF -->
+		</div>
+	</div>
+	<!-- ENDIF -->
+
+	{% EVENT search_results_jumpbox_before %}
+	<!-- INCLUDE jumpbox.html -->
+
+</main>
+<!-- INCLUDE overall_footer.html -->
+

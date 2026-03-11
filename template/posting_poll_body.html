@@ -1,0 +1,64 @@
+<div class="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800/80 panel" id="poll-panel">
+
+	<!-- IF S_SHOW_POLL_BOX -->
+	<p class="text-sm text-slate-600 dark:text-slate-400 mb-4">{L_ADD_POLL_EXPLAIN}</p>
+	<!-- ENDIF -->
+
+	<fieldset class="flex flex-col gap-4">
+	<!-- IF S_POLL_DELETE -->
+		<div class="flex items-center gap-2 mb-2 p-3 bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-900/50 rounded-lg">
+			<label for="poll_delete" class="text-sm font-bold text-red-700 dark:text-red-400 cursor-pointer flex items-center gap-2 w-full">
+				<input type="checkbox" name="poll_delete" id="poll_delete"<!-- IF S_POLL_DELETE_CHECKED --> checked="checked"<!-- ENDIF --> class="rounded border-red-300 text-red-600 focus:ring-red-600 h-4 w-4" /> 
+				{L_POLL_DELETE}
+			</label>
+		</div>
+	<!-- ENDIF -->
+
+	<!-- IF S_SHOW_POLL_BOX -->
+		<div class="flex flex-col gap-1">
+			<label for="poll_title" class="text-xs font-bold uppercase tracking-wider text-slate-500">{{ lang('POLL_QUESTION') ~ lang('COLON') }}</label>
+			<input type="text" name="poll_title" id="poll_title" maxlength="100" value="{{ POLL_TITLE }}" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900/50 dark:text-white transition-colors" />
+		</div>
+		
+		<div class="flex flex-col gap-1">
+			<label for="poll_option_text" class="text-xs font-bold uppercase tracking-wider text-slate-500">{L_POLL_OPTIONS}{L_COLON}</label>
+			<span class="text-xs text-slate-500 mb-1">{L_POLL_OPTIONS_EXPLAIN}</span>
+			<textarea name="poll_option_text" id="poll_option_text" rows="5" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900/50 dark:text-white transition-colors min-h-[100px] resize-y">{POLL_OPTIONS}</textarea>
+		</div>
+
+		<hr class="my-2 border-slate-200 dark:border-slate-700" />
+
+		<div class="flex flex-col sm:flex-row sm:items-center gap-x-4 gap-y-2">
+			<label for="poll_max_options" class="text-xs font-bold uppercase tracking-wider text-slate-500 shrink-0 sm:w-48">{L_POLL_MAX_OPTIONS}{L_COLON}</label>
+			<div class="flex items-center gap-3">
+				<input type="number" min="0" max="999" name="poll_max_options" id="poll_max_options" value="{POLL_MAX_OPTIONS}" class="w-24 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900 dark:text-white transition-colors" />
+				<span class="text-xs text-slate-500">{L_POLL_MAX_OPTIONS_EXPLAIN}</span>
+			</div>
+		</div>
+
+		<div class="flex flex-col sm:flex-row sm:items-center gap-x-4 gap-y-2">
+			<label for="poll_length" class="text-xs font-bold uppercase tracking-wider text-slate-500 shrink-0 sm:w-48">{L_POLL_FOR}{L_COLON}</label>
+			<div class="flex items-center gap-3">
+				<input type="number" min="0" max="999" name="poll_length" id="poll_length" value="{POLL_LENGTH}" class="w-24 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900 dark:text-white transition-colors" /> 
+				<span class="text-sm font-medium text-slate-600 dark:text-slate-400">{L_DAYS}</span>
+				<span class="text-xs text-slate-500 ml-2">{L_POLL_FOR_EXPLAIN}</span>
+			</div>
+		</div>
+
+		<!-- IF S_POLL_VOTE_CHANGE -->
+			<hr class="my-2 border-slate-200 dark:border-slate-700" />
+			
+			<div class="flex flex-col sm:flex-row sm:items-center gap-x-4 gap-y-2">
+				<div class="text-xs font-bold uppercase tracking-wider text-slate-500 shrink-0 sm:w-48">{L_POLL_VOTE_CHANGE}{L_COLON}</div>
+				<label for="poll_vote_change" class="flex items-center gap-2 cursor-pointer text-sm text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">
+					<input type="checkbox" id="poll_vote_change" name="poll_vote_change"{VOTE_CHANGE_CHECKED} class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" /> 
+					{L_POLL_VOTE_CHANGE_EXPLAIN}
+				</label>
+			</div>
+		<!-- ENDIF -->
+	<!-- ENDIF -->
+
+	<!-- EVENT posting_poll_body_options_after -->
+	</fieldset>
+
+</div>

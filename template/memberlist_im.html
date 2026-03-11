@@ -1,0 +1,56 @@
+<!-- INCLUDE simple_header.html -->
+
+<main class="flex flex-col p-4 space-y-4 max-w-lg mx-auto w-full">
+
+	<h2 class="text-lg font-bold text-slate-800 dark:text-slate-200">{L_SEND_IM}</h2>
+
+	<form method="post" action="{S_IM_ACTION}">
+
+		<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+			<div class="p-4 sm:p-6 flex flex-col gap-4">
+
+				<p class="text-sm text-slate-600 dark:text-slate-400">{L_SEND_IM_EXPLAIN}</p>
+
+				<!-- IF S_SENT_JABBER -->
+					<div class="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 px-4 py-3 rounded-lg text-sm font-bold">
+						{L_IM_SENT_JABBER}
+					</div>
+				<!-- ENDIF -->
+
+				<fieldset class="flex flex-col gap-4">
+					<div class="flex flex-col">
+						<label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{L_IM_RECIPIENT}{L_COLON}</label>
+						<div class="text-sm font-bold text-slate-900 dark:text-slate-200 flex items-center gap-2">
+							{USERNAME}
+							<!-- IF S_NO_SEND_JABBER --> <span class="text-slate-500 font-normal">[{IM_CONTACT}]</span><!-- ENDIF -->
+							<!-- IF PRESENCE_IMG --> <span>{PRESENCE_IMG}</span><!-- ENDIF -->
+						</div>
+					</div>
+
+					<!-- IF S_SEND_JABBER -->
+						<div class="flex flex-col mt-2">
+							<label for="message" class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{L_IM_MESSAGE}{L_COLON}</label>
+							<textarea name="message" id="message" rows="5" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white"></textarea>
+						</div>
+						<div class="mt-2">
+							<input name="submit" type="submit" value="{L_IM_SEND}" class="w-full px-6 py-2 bg-primary hover:bg-primary/90 text-white font-bold text-sm rounded-lg shadow-sm transition-colors cursor-pointer" />
+						</div>
+					<!-- ELSE IF S_NO_SEND_JABBER -->
+						<div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-400 px-4 py-3 rounded-lg text-sm mt-2">
+							{L_IM_NO_JABBER}
+						</div>
+					<!-- ENDIF -->
+					{S_FORM_TOKEN}
+				</fieldset>
+
+			</div>
+		</div>
+	</form>
+
+	<div class="text-center pt-2">
+		<a href="#" onclick="window.close(); return false;" class="text-sm font-bold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300 transition-colors inline-flex items-center gap-1.5"><i class="icon fa-times fa-fw"></i> {L_CLOSE_WINDOW}</a>
+	</div>
+
+</main>
+
+<!-- INCLUDE simple_footer.html -->

@@ -1,0 +1,134 @@
+<!-- INCLUDE mcp_header.html -->
+
+<form id="mcp" method="post" action="{S_MCP_ACTION}">
+
+<!-- IF not S_PM -->
+<fieldset class="flex flex-wrap items-center gap-2 mb-4">
+	<label for="fo" class="text-sm font-semibold text-slate-700 dark:text-slate-300">{L_FORUM}{L_COLON} 
+		<select name="f" id="fo" class="ml-2 px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-md shadow-sm text-sm focus:ring-2 focus:ring-blue-500">{S_FORUM_OPTIONS}</select>
+	</label>
+	<input type="submit" name="sort" value="{L_GO}" class="px-4 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-sm font-semibold rounded-md border border-slate-300 dark:border-slate-600 transition-colors cursor-pointer" />
+	{S_FORM_TOKEN}
+</fieldset>
+<!-- ENDIF -->
+
+<h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">{L_TITLE}</h2>
+
+<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden mb-6">
+	<div class="p-4 sm:p-6">
+
+	<p class="text-sm text-slate-600 dark:text-slate-400 mb-6">{L_EXPLAIN}</p>
+
+	<!-- IF .postrow -->
+		<div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+			<div class="text-sm text-slate-600 dark:text-slate-400 flex items-center gap-2">
+				{TOTAL_REPORTS}
+				<!-- IF .pagination -->
+					<!-- INCLUDE pagination.html -->
+				<!-- ELSE -->
+					 &bull; {PAGE_NUMBER}
+				<!-- ENDIF -->
+			</div>
+		</div>
+
+		<ul class="topiclist missing-column">
+			<li class="header">
+				<dl class="flex items-center text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider pb-3 border-b border-slate-200 dark:border-slate-700 mb-4">
+					<dt class="flex-1">
+						<div class="list-inner">{L_VIEW_DETAILS}</div>
+					</dt>
+					<dd class="hidden sm:block w-48 text-left sm:text-right pr-4">
+						<span>{L_REPORTER}<!-- IF not S_PM --> &amp; {L_FORUM}<!-- ENDIF --></span>
+					</dd>
+					<dd class="w-16 text-center">{L_MARK}</dd>
+				</dl>
+			</li>
+		</ul>
+		<ul class="topiclist cplist missing-column space-y-3">
+
+		<!-- BEGIN postrow -->
+			<li class="bg-white border border-slate-200 dark:bg-slate-800 dark:border-slate-700 rounded-lg p-3 sm:px-4 flex flex-wrap items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+				<dl class="flex-1 flex flex-wrap items-center w-full">
+					<!-- IF S_PM -->
+					<dt class="flex-1 min-w-0">
+						<div class="list-inner">
+							<a href="{postrow.U_VIEW_DETAILS}" class="font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 truncate inline-block max-w-[85%] align-middle">{postrow.PM_SUBJECT}</a>
+							<!-- IF postrow.ATTACH_ICON_IMG --> <i class="icon fa-paperclip fa-fw text-slate-400" aria-hidden="true"></i><!-- ENDIF -->
+							<span class="text-xs text-slate-500 dark:text-slate-400 block mt-1">{L_MESSAGE_BY_AUTHOR} {postrow.PM_AUTHOR_FULL} &raquo; {postrow.PM_TIME}</span>
+							<span class="text-xs text-slate-500 dark:text-slate-400 block">{L_MESSAGE_TO} {postrow.RECIPIENTS}</span>
+							<div class="sm:hidden text-xs text-slate-600 dark:text-slate-400 mt-2">
+								{L_REPORTER}{L_COLON} {postrow.REPORTER_FULL} &laquo; {postrow.REPORT_TIME}
+							</div>
+						</div>
+					</dt>
+					<dd class="hidden sm:block w-48 text-right pr-4 text-xs text-slate-600 dark:text-slate-400 truncate">
+						<span>{postrow.REPORTER_FULL} <br /> {postrow.REPORT_TIME}</span>
+					</dd>
+					<!-- ELSE -->
+					<dt class="flex-1 min-w-0">
+						<div class="list-inner">
+							<a href="{postrow.U_VIEW_DETAILS}" class="font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 truncate inline-block max-w-[85%] align-middle">{postrow.POST_SUBJECT}</a>
+							<!-- IF postrow.ATTACH_ICON_IMG --> <i class="icon fa-paperclip fa-fw text-slate-400" aria-hidden="true"></i><!-- ENDIF -->
+							<span class="text-xs text-slate-500 dark:text-slate-400 block mt-1">{L_POSTED} {L_POST_BY_AUTHOR} {postrow.POST_AUTHOR_FULL} &raquo; {postrow.POST_TIME}</span>
+							<div class="sm:hidden text-xs text-slate-600 dark:text-slate-400 mt-2">
+								{L_REPORTER}{L_COLON} {postrow.REPORTER_FULL} &laquo; {postrow.REPORT_TIME}<br />
+								<!-- IF postrow.U_VIEWFORUM -->{L_FORUM}{L_COLON} <a href="{postrow.U_VIEWFORUM}" class="hover:underline text-blue-600 dark:text-blue-400">{postrow.FORUM_NAME}</a><!-- ELSE -->{postrow.FORUM_NAME}<!-- ENDIF -->
+							</div>
+						</div>
+					</dt>
+					<dd class="hidden sm:block w-48 text-right pr-4 text-xs text-slate-600 dark:text-slate-400 truncate">
+						<span>{postrow.REPORTER_FULL} &laquo; {postrow.REPORT_TIME}<br />
+						<!-- IF postrow.U_VIEWFORUM --><a href="{postrow.U_VIEWFORUM}" class="hover:underline text-blue-600 dark:text-blue-400">{postrow.FORUM_NAME}</a><!-- ELSE -->{postrow.FORUM_NAME}<!-- ENDIF --></span>
+					</dd>
+					<!-- ENDIF -->
+					<dd class="w-16 text-center">
+						<input type="checkbox" name="report_id_list[]" value="{postrow.REPORT_ID}" class="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+					</dd>
+				</dl>
+			</li>
+		<!-- END postrow -->
+		</ul>
+
+		<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-6">
+			<div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+				<!-- INCLUDE display_options.html -->
+				<!-- IF TOPIC_ID -->
+				<label class="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300 cursor-pointer">
+					<input type="hidden" name="t" value="0">
+					<input type="checkbox" class="radio w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" name="t" value="{TOPIC_ID}" checked="checked" onClick="document.getElementById('mcp').submit()" /> 
+					<strong>{L_ONLY_TOPIC}</strong>
+				</label>
+				<!-- ENDIF -->
+			</div>
+
+			<div class="text-sm text-slate-600 dark:text-slate-400 flex items-center gap-2">
+				{TOTAL_REPORTS}
+				<!-- IF .pagination -->
+					<!-- INCLUDE pagination.html -->
+				<!-- ELSE -->
+					 &bull; {PAGE_NUMBER}
+				<!-- ENDIF -->
+			</div>
+		</div>
+
+	<!-- ELSE -->
+		<p class="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-6 text-center text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700"><strong>{L_NO_REPORTS}</strong></p>
+	<!-- ENDIF -->
+
+	</div>
+</div>
+
+<!-- IF .postrow -->
+	<fieldset class="flex flex-wrap items-center justify-between gap-4 mt-4 mb-6">
+		<div class="flex items-center gap-2">
+			<input class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg shadow-sm transition-colors text-sm cursor-pointer" type="submit" value="{L_DELETE_REPORTS}" name="action[delete]" />
+			<!-- IF not S_CLOSED --><input class="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 font-semibold rounded-lg shadow-sm border border-slate-300 dark:border-slate-600 transition-colors text-sm cursor-pointer" type="submit" name="action[close]" value="{L_CLOSE_REPORTS}" /><!-- ENDIF -->
+		</div>
+		<div class="text-sm text-slate-600 dark:text-slate-400">
+			<a href="#" onclick="marklist('mcp', 'report_id_list', true); return false;" class="hover:text-blue-600 dark:hover:text-blue-400">{L_MARK_ALL}</a> :: <a href="#" onclick="marklist('mcp', 'report_id_list', false); return false;" class="hover:text-blue-600 dark:hover:text-blue-400">{L_UNMARK_ALL}</a>
+		</div>
+	</fieldset>
+<!-- ENDIF -->
+</form>
+
+<!-- INCLUDE mcp_footer.html -->

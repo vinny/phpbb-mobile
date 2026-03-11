@@ -1,0 +1,103 @@
+<fieldset class="flex flex-col gap-6">
+	<!-- IF not S_SHOW_DRAFTS -->
+
+		<!-- IF S_GROUP_OPTIONS -->
+			<div class="flex flex-col gap-2">
+				<label for="group_list" class="text-xs font-bold uppercase tracking-wider text-slate-500"><strong>{L_TO_ADD_GROUPS}{L_COLON}</strong></label>
+				<select name="group_list[]" id="group_list" multiple="multiple" size="3" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900/50 dark:text-white transition-colors">{S_GROUP_OPTIONS}</select>
+			</div>
+		<!-- ENDIF -->
+		<!-- IF S_ALLOW_MASS_PM -->
+		<div class="flex flex-col gap-2">
+			<!-- IF not S_EDIT_POST -->
+			<div class="flex flex-col gap-3">
+				<label class="flex flex-col gap-2 relative">
+					<strong class="text-xs font-bold uppercase tracking-wider text-slate-500">{L_TO_ADD_MASS}{L_COLON}</strong>
+					<textarea id="username_list" name="username_list" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900/50 dark:text-white transition-colors" cols="50" rows="2" tabindex="1"></textarea>
+				</label>
+				<div class="flex flex-wrap items-center gap-2">
+					<input type="submit" name="add_to" value="{L_ADD}" class="rounded-lg bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-primary dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600 cursor-pointer" tabindex="1" />
+					<input type="submit" name="add_bcc" value="{L_ADD_BCC}" class="rounded-lg bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-primary dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600 cursor-pointer" tabindex="1" />
+					<!-- EVENT posting_pm_header_find_username_before -->
+					<a href="{U_FIND_USERNAME}" onclick="find_username(this.href); return false;" class="text-sm font-medium text-primary hover:underline ml-2 flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">search</span>{L_FIND_USERNAME}</a>
+					<!-- EVENT posting_pm_header_find_username_after -->
+				</div>
+			</div>
+			<!-- ENDIF -->
+		</div>
+		<!-- IF .to_recipient or .bcc_recipient --><hr class="border-slate-200 dark:border-slate-700 my-2" /><!-- ENDIF -->
+		
+		<div class="flex flex-col sm:flex-row gap-6 w-full">
+			<div class="flex-1 flex flex-col gap-2">
+				<!-- IF .to_recipient -->
+					<div class="flex flex-col gap-2">
+						<label class="text-xs font-bold uppercase tracking-wider text-slate-500">{L_TO_MASS}{L_COLON}</label>
+						<ul class="flex flex-wrap gap-2">
+							<!-- BEGIN to_recipient -->
+							<li class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm dark:border-slate-700 dark:bg-slate-800">
+								<!-- IF not S_EDIT_POST -->
+									<button type="submit" name="remove_{to_recipient.TYPE}[{to_recipient.UG_ID}]" class="flex items-center justify-center text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-full w-5 h-5 transition-colors">
+										<span class="material-symbols-outlined text-[16px]">close</span><span class="sr-only">{L_REMOVE}</span>
+									</button>
+								<!-- ENDIF -->
+								<!-- IF to_recipient.IS_GROUP --><a href="{to_recipient.U_VIEW}" style="color: {to_recipient.COLOUR}"><strong class="font-semibold">{to_recipient.NAME}</strong></a><!-- ELSE --><span class="font-medium">{to_recipient.NAME_FULL}</span><!-- ENDIF -->
+							</li>
+							<!-- END to_recipient -->
+						</ul>
+					</div>
+				<!-- ENDIF -->
+			</div>
+			
+			<!-- IF .bcc_recipient -->
+			<div class="flex-1 flex flex-col gap-2">
+				<div class="flex flex-col gap-2">
+					<label class="text-xs font-bold uppercase tracking-wider text-slate-500">{L_BCC}{L_COLON}</label>
+					<ul class="flex flex-wrap gap-2">
+						<!-- BEGIN bcc_recipient -->
+						<li class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm dark:border-slate-700 dark:bg-slate-800">
+							<!-- IF not S_EDIT_POST -->
+								<button type="submit" name="remove_{bcc_recipient.TYPE}[{bcc_recipient.UG_ID}]" class="flex items-center justify-center text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-full w-5 h-5 transition-colors">
+									<span class="material-symbols-outlined text-[16px]">close</span><span class="sr-only">{L_REMOVE}</span>
+								</button>
+							<!-- ENDIF -->
+							<!-- IF bcc_recipient.IS_GROUP --><a href="{bcc_recipient.U_VIEW}" style="color: {bcc_recipient.COLOUR}"><strong class="font-semibold">{bcc_recipient.NAME}</strong></a><!-- ELSE --><span class="font-medium">{bcc_recipient.NAME_FULL}</span><!-- ENDIF -->
+						</li>
+						<!-- END bcc_recipient -->
+					</ul>
+				</div>
+			</div>
+			<!-- ENDIF -->
+		</div>
+		<!-- ELSE -->
+		<div class="flex flex-col gap-4">
+			<div class="flex flex-col gap-2 mb-2">
+				<label for="username_list" class="text-xs font-bold uppercase tracking-wider text-slate-500">{L_TO_ADD}{L_COLON}</label>
+				<!-- IF not S_EDIT_POST -->
+					<div class="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+						<input class="w-full sm:w-64 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900/50 dark:text-white transition-colors" type="text" name="username_list" id="username_list" size="20" value="" /> 
+						<input type="submit" name="add_to" value="{L_ADD}" class="w-full sm:w-auto rounded-lg bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-primary dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600 cursor-pointer" />
+						<a href="{U_FIND_USERNAME}" onclick="find_username(this.href); return false" class="text-sm font-medium text-primary hover:underline flex items-center gap-1 sm:ml-2"><span class="material-symbols-outlined text-[18px]">search</span>{L_FIND_USERNAME}</a>
+					</div>
+				<!-- ENDIF -->
+			</div>
+			<!-- IF .to_recipient -->
+				<div class="w-full">
+					<ul class="flex flex-wrap gap-2">
+						<!-- BEGIN to_recipient -->
+						<li class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm dark:border-slate-700 dark:bg-slate-800">
+							<!-- IF not S_EDIT_POST -->
+								<button type="submit" name="remove_{to_recipient.TYPE}[{to_recipient.UG_ID}]" class="flex items-center justify-center text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-full w-5 h-5 transition-colors">
+									<span class="material-symbols-outlined text-[16px]">close</span><span class="sr-only">{L_REMOVE}</span>
+								</button>
+							<!-- ENDIF -->
+							<!-- IF to_recipient.IS_GROUP --><a href="{to_recipient.U_VIEW}"><strong class="font-semibold">{to_recipient.NAME}</strong></a><!-- ELSE --><span class="font-medium">{to_recipient.NAME_FULL}</span><!-- ENDIF -->
+						</li>
+						<!-- END to_recipient -->
+					</ul>
+				</div>
+			<!-- ENDIF -->
+		</div>
+		<!-- ENDIF -->
+
+	<!-- ENDIF -->
+</fieldset>

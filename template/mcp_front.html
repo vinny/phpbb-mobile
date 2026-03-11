@@ -1,0 +1,221 @@
+<!-- INCLUDE mcp_header.html -->
+
+<h2 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-6">{PAGE_TITLE}</h2>
+
+<!-- EVENT mcp_front_latest_unapproved_before -->
+
+<!-- IF S_SHOW_UNAPPROVED -->
+	<form id="mcp_queue" method="post" action="{S_MCP_QUEUE_ACTION}">
+		<div class="rounded-xl border border-amber-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800 overflow-hidden mb-6">
+			<div class="border-b border-amber-100 bg-amber-50/50 px-4 py-3 sm:px-6 sm:py-4 dark:border-slate-700 dark:bg-slate-800/50">
+				<h3 class="text-lg font-bold text-amber-800 dark:text-amber-400 flex items-center gap-2">
+					<span class="material-symbols-outlined text-[20px]">pending_actions</span>
+					{L_LATEST_UNAPPROVED}
+				</h3>
+				<p class="text-sm text-amber-600 dark:text-slate-400 mt-1">{L_UNAPPROVED_TOTAL}</p>
+			</div>
+
+			<!-- IF .unapproved -->
+			<div class="flex flex-col divide-y divide-slate-100 dark:divide-slate-700/50">
+				<!-- BEGIN unapproved -->
+				<div class="p-4 sm:p-5 transition-colors hover:bg-slate-50/50 dark:hover:bg-slate-800/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+					<div class="flex items-start gap-4 flex-1 min-w-0">
+						<div class="flex flex-col min-w-0 gap-1 flex-1">
+							<div class="flex items-center gap-2">
+								<a href="{unapproved.U_POST_DETAILS}" class="text-base font-bold text-slate-800 hover:text-primary dark:text-slate-200 transition-colors truncate">{unapproved.SUBJECT}</a>
+								<!-- IF unapproved.ATTACH_ICON_IMG --><span class="material-symbols-outlined text-[16px] text-slate-400">attach_file</span><!-- ENDIF -->
+							</div>
+							<div class="text-xs text-slate-500 font-medium">
+								{L_POSTED} {L_POST_BY_AUTHOR} {unapproved.AUTHOR_FULL} &raquo; {unapproved.POST_TIME}
+							</div>
+						</div>
+					</div>
+					
+					<div class="flex flex-col sm:items-end gap-2 shrink-0 border-t border-slate-100 sm:border-0 pt-3 sm:pt-0 dark:border-slate-700/50">
+						<div class="text-xs text-slate-500 flex flex-col sm:items-end w-full">
+							<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">forum</span> <a href="{unapproved.U_TOPIC}" class="hover:text-primary hover:underline">{unapproved.TOPIC_TITLE}</a> <a href="{unapproved.U_MCP_TOPIC}" class="text-primary hover:underline ml-1">[{L_MODERATE}]</a></span>
+							<span class="flex items-center gap-1 mt-1"><span class="material-symbols-outlined text-[14px]">folder</span> <!-- IF unapproved.U_FORUM --><a href="{unapproved.U_FORUM}" class="hover:text-primary hover:underline">{unapproved.FORUM_NAME}</a><!-- ELSE -->{unapproved.FORUM_NAME}<!-- ENDIF --><!-- IF unapproved.U_MCP_FORUM --> <a href="{unapproved.U_MCP_FORUM}" class="text-primary hover:underline ml-1">[{L_MODERATE}]</a><!-- ENDIF --></span>
+						</div>
+						<label class="flex items-center gap-2 mt-2 cursor-pointer self-start sm:self-end">
+							<input type="checkbox" name="post_id_list[]" value="{unapproved.POST_ID}" class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" />
+							<span class="text-sm font-medium text-slate-700 dark:text-slate-300 sm:hidden">{{ lang('MARK') }}</span>
+						</label>
+					</div>
+				</div>
+				<!-- END unapproved -->
+			</div>
+			<!-- ENDIF -->
+			{S_FORM_TOKEN}
+		</div>
+
+		<!-- IF .unapproved -->
+		<fieldset class="flex flex-col sm:flex-row items-center gap-3 mb-6 bg-slate-50 dark:bg-slate-800/50 p-4 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+			{S_HIDDEN_FIELDS}
+			<input type="submit" name="action[disapprove]" value="{L_DISAPPROVE}" class="w-full sm:w-auto rounded-lg border border-red-300 bg-white px-4 py-2 text-sm font-bold text-red-700 shadow-sm transition-colors hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 dark:border-red-900/50 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/40 cursor-pointer" />
+			<input type="submit" name="action[approve]" value="{L_APPROVE}" class="w-full sm:w-auto rounded-lg bg-green-600 px-4 py-2 text-sm font-bold text-white shadow-sm transition-colors hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 cursor-pointer" />
+			<div class="w-full sm:w-auto sm:ml-auto flex items-center justify-center gap-2 text-sm font-medium">
+				<a href="#" onclick="marklist('mcp_queue', 'post_id_list', true); return false;" class="text-primary hover:underline">{L_MARK_ALL}</a>
+				<span class="text-slate-300 dark:text-slate-600">::</span>
+				<a href="#" onclick="marklist('mcp_queue', 'post_id_list', false); return false;" class="text-primary hover:underline">{L_UNMARK_ALL}</a>
+			</div>
+		</fieldset>
+		<!-- ENDIF -->
+	</form>
+<!-- ENDIF -->
+
+<!-- EVENT mcp_front_latest_reported_before -->
+
+<!-- IF S_SHOW_REPORTS -->
+	<div class="rounded-xl border border-red-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800 overflow-hidden mb-6">
+		<div class="border-b border-red-100 bg-red-50/50 px-4 py-3 sm:px-6 sm:py-4 dark:border-slate-700 dark:bg-slate-800/50">
+			<h3 class="text-lg font-bold text-red-800 dark:text-red-400 flex items-center gap-2">
+				<span class="material-symbols-outlined text-[20px]">report</span>
+				{L_LATEST_REPORTED}
+			</h3>
+			<p class="text-sm text-red-600 dark:text-slate-400 mt-1">{L_REPORTS_TOTAL}</p>
+		</div>
+
+		<!-- IF .report -->
+		<div class="flex flex-col divide-y divide-slate-100 dark:divide-slate-700/50">
+			<!-- BEGIN report -->
+			<div class="p-4 sm:p-5 transition-colors hover:bg-slate-50/50 dark:hover:bg-slate-800/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+				<div class="flex items-start gap-4 flex-1 min-w-0">
+					<div class="flex flex-col min-w-0 gap-1 flex-1">
+						<div class="flex items-center gap-2">
+							<a href="{report.U_POST_DETAILS}#reports" class="text-base font-bold text-slate-800 hover:text-primary dark:text-slate-200 transition-colors truncate">{report.SUBJECT}</a>
+							<!-- IF report.ATTACH_ICON_IMG --><span class="material-symbols-outlined text-[16px] text-slate-400">attach_file</span><!-- ENDIF -->
+						</div>
+						<div class="text-xs text-slate-500 font-medium">
+							{L_POSTED} {L_POST_BY_AUTHOR} {report.AUTHOR_FULL} &raquo; {report.POST_TIME}
+						</div>
+					</div>
+				</div>
+				
+				<div class="flex flex-col gap-1 shrink-0 border-t border-slate-100 sm:border-0 pt-3 sm:pt-0 dark:border-slate-700/50">
+					<div class="text-xs text-slate-600 dark:text-slate-400 flex items-center gap-1">
+						<span class="material-symbols-outlined text-[14px]">gavel</span>
+						{L_REPORTED} {L_POST_BY_AUTHOR} {report.REPORTER_FULL} {L_REPORTED_ON_DATE} {{ report.REPORT_TIME }}
+					</div>
+					<div class="text-xs text-slate-500 flex items-center gap-1">
+						<span class="material-symbols-outlined text-[14px]">folder</span>
+						{L_FORUM}{L_COLON} <a href="{report.U_FORUM}" class="hover:text-primary hover:underline">{report.FORUM_NAME}</a>
+					</div>
+				</div>
+			</div>
+			<!-- END report -->
+		</div>
+		<!-- ENDIF -->
+	</div>
+<!-- ENDIF -->
+
+<!-- EVENT mcp_front_latest_reported_pms_before -->
+
+<!-- IF S_SHOW_PM_REPORTS -->
+	<div class="rounded-xl border border-purple-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800 overflow-hidden mb-6">
+		<div class="border-b border-purple-100 bg-purple-50/50 px-4 py-3 sm:px-6 sm:py-4 dark:border-slate-700 dark:bg-slate-800/50">
+			<h3 class="text-lg font-bold text-purple-800 dark:text-purple-400 flex items-center gap-2">
+				<span class="material-symbols-outlined text-[20px]">report_gmailerrorred</span>
+				{L_LATEST_REPORTED_PMS}
+			</h3>
+			<p class="text-sm text-purple-600 dark:text-slate-400 mt-1">{L_PM_REPORTS_TOTAL}</p>
+		</div>
+
+		<!-- IF .pm_report -->
+		<div class="flex flex-col divide-y divide-slate-100 dark:divide-slate-700/50">
+			<!-- BEGIN pm_report -->
+			<div class="p-4 sm:p-5 transition-colors hover:bg-slate-50/50 dark:hover:bg-slate-800/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+				<div class="flex items-start gap-4 flex-1 min-w-0">
+					<div class="flex flex-col min-w-0 gap-1 flex-1">
+						<div class="flex items-center gap-2">
+							<a href="{pm_report.U_PM_DETAILS}" class="text-base font-bold text-slate-800 hover:text-primary dark:text-slate-200 transition-colors truncate">{pm_report.PM_SUBJECT}</a>
+							<!-- IF pm_report.ATTACH_ICON_IMG --><span class="material-symbols-outlined text-[16px] text-slate-400">attach_file</span><!-- ENDIF -->
+						</div>
+						<div class="text-xs text-slate-500 font-medium">
+							{L_MESSAGE_BY_AUTHOR} {pm_report.PM_AUTHOR_FULL} &raquo; {pm_report.PM_TIME}
+						</div>
+						<div class="text-xs text-slate-400">
+							{L_MESSAGE_TO} {pm_report.RECIPIENTS}
+						</div>
+					</div>
+				</div>
+				
+				<div class="flex flex-col sm:items-end shrink-0 border-t border-slate-100 sm:border-0 pt-3 sm:pt-0 dark:border-slate-700/50">
+					<div class="text-xs text-slate-600 dark:text-slate-400 flex items-center justify-end gap-1">
+						<span class="material-symbols-outlined text-[14px]">gavel</span>
+						{L_REPORTED} {L_POST_BY_AUTHOR} {pm_report.REPORTER_FULL} {L_REPORTED_ON_DATE} {pm_report.REPORT_TIME}
+					</div>
+				</div>
+			</div>
+			<!-- END pm_report -->
+		</div>
+		<!-- ENDIF -->
+	</div>
+<!-- ENDIF -->
+
+<!-- EVENT mcp_front_latest_logs_before -->
+
+<!-- IF S_SHOW_LOGS -->
+	<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800 overflow-hidden mb-6">
+		<div class="border-b border-slate-200 bg-slate-50/50 px-4 py-3 sm:px-6 sm:py-4 dark:border-slate-700 dark:bg-slate-800/50">
+			<h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+				<span class="material-symbols-outlined text-[20px] text-primary">history</span>
+				{L_LATEST_LOGS}
+			</h3>
+		</div>
+
+		<div class="overflow-x-auto">
+			<table class="w-full text-left text-sm text-slate-600 dark:text-slate-400">
+				<thead class="bg-slate-50 dark:bg-slate-900/50 text-xs font-bold uppercase tracking-wider text-slate-500 border-b border-slate-200 dark:border-slate-700 border-t border-slate-200 dark:border-slate-700 hidden md:table-header-group">
+					<tr>
+						<th scope="col" class="px-4 py-3 sm:px-6">{L_ACTION}</th>
+						<th scope="col" class="px-4 py-3 sm:px-6">{L_USERNAME}</th>
+						<th scope="col" class="px-4 py-3 sm:px-6">{L_IP}</th>
+						<th scope="col" class="px-4 py-3 sm:px-6">{L_VIEW_TOPIC}</th>
+						<th scope="col" class="px-4 py-3 sm:px-6">{L_VIEW_TOPIC_LOGS}</th>
+						<th scope="col" class="px-4 py-3 sm:px-6">{L_TIME}</th>
+					</tr>
+				</thead>
+				<tbody class="divide-y divide-slate-100 dark:divide-slate-700/50">
+				<!-- BEGIN log -->
+					<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors flex flex-col md:table-row">
+						<td class="px-4 py-3 sm:px-6 font-medium text-slate-900 dark:text-slate-200">
+							<span class="md:hidden font-bold text-xs uppercase text-slate-400 block mb-1">{L_ACTION}</span>
+							{log.ACTION}
+						</td>
+						<td class="px-4 py-3 sm:px-6">
+							<span class="md:hidden font-bold text-xs uppercase text-slate-400 block mb-1">{L_USERNAME}</span>
+							{log.USERNAME}
+						</td>
+						<td class="px-4 py-3 sm:px-6">
+							<span class="md:hidden font-bold text-xs uppercase text-slate-400 block mb-1">{L_IP}</span>
+							{log.IP}
+						</td>
+						<td class="px-4 py-3 sm:px-6">
+							<span class="md:hidden font-bold text-xs uppercase text-slate-400 block mb-1">{L_VIEW_TOPIC}</span>
+							<!-- IF log.U_VIEW_TOPIC --><a href="{log.U_VIEW_TOPIC}" title="{L_VIEW_TOPIC}" class="text-primary hover:underline">{L_VIEW_TOPIC}</a><!-- ELSE -->-<!-- ENDIF -->
+						</td>
+						<td class="px-4 py-3 sm:px-6">
+							<span class="md:hidden font-bold text-xs uppercase text-slate-400 block mb-1">{L_VIEW_TOPIC_LOGS}</span>
+							<!-- IF log.U_VIEWLOGS --><a href="{log.U_VIEWLOGS}" class="text-primary hover:underline">{L_VIEW_TOPIC_LOGS}</a><!-- ELSE -->-<!-- ENDIF -->
+						</td>
+						<td class="px-4 py-3 sm:px-6 whitespace-nowrap">
+							<span class="md:hidden font-bold text-xs uppercase text-slate-400 block mb-1">{L_TIME}</span>
+							{log.TIME}
+						</td>
+					</tr>
+				<!-- BEGINELSE -->
+					<tr>
+						<td colspan="6" class="px-4 py-8 text-center text-slate-500 bg-slate-50/50 dark:bg-slate-800/50">
+							{L_NO_ENTRIES}
+						</td>
+					</tr>
+				<!-- END log -->
+				</tbody>
+			</table>
+		</div>
+	</div>
+<!-- ENDIF -->
+
+<!-- EVENT mcp_front_latest_logs_after -->
+
+<!-- INCLUDE mcp_footer.html -->

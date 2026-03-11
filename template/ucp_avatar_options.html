@@ -1,0 +1,71 @@
+<div class="space-y-6">
+
+	<!-- IF not S_AVATARS_ENABLED -->
+		<p class="text-sm text-amber-700 bg-amber-50 border border-amber-200 p-4 rounded-xl dark:bg-amber-900/10 dark:border-amber-900/30 dark:text-amber-400">
+			{L_AVATAR_FEATURES_DISABLED}
+		</p>
+	<!-- ENDIF -->
+
+	<!-- IF ERROR -->
+		<div class="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600 dark:border-red-900/30 dark:bg-red-900/10 dark:text-red-400 font-medium">
+			{ERROR}
+		</div>
+	<!-- ENDIF -->
+
+	<div class="flex flex-col sm:flex-row gap-6 items-start sm:items-center p-4 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-700">
+		<div class="flex-1">
+			<label class="block text-sm font-bold text-slate-800 dark:text-white mb-1">{L_CURRENT_IMAGE}{L_COLON}</label>
+			<span class="block text-xs text-slate-500 dark:text-slate-400 max-w-sm">{L_AVATAR_EXPLAIN}</span>
+		</div>
+		<div class="flex flex-col items-center gap-3 w-full sm:w-auto">
+			<div class="w-24 h-24 sm:w-32 sm:h-32 shrink-0 rounded-xl overflow-hidden bg-white dark:bg-slate-800 ring-4 ring-primary/10 flex items-center justify-center shadow-sm">
+				<!-- IF AVATAR -->{AVATAR}<!-- ELSE --><img src="{T_THEME_PATH}/images/no_avatar.gif" alt="" class="opacity-50" /><!-- ENDIF -->
+			</div>
+			<!-- IF AVATAR -->
+			<label for="avatar_delete" class="flex items-center gap-2 cursor-pointer group">
+				<input type="checkbox" name="avatar_delete" id="avatar_delete" class="rounded border-slate-300 text-red-500 shadow-sm focus:border-red-500 focus:ring-red-500 dark:border-slate-600 dark:bg-slate-900 dark:checked:bg-red-500" />
+				<span class="text-sm font-medium text-slate-600 group-hover:text-red-600 dark:text-slate-400 dark:group-hover:text-red-400 transition-colors">{L_DELETE_AVATAR}</span>
+			</label>
+			<!-- ENDIF -->
+		</div>
+	</div>
+
+	<!-- IF S_AVATARS_ENABLED -->
+		<div class="border-t border-slate-100 dark:border-slate-700/50 pt-6">
+			<h3 class="text-base font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
+				<span class="material-symbols-outlined text-[18px] text-primary">image</span>
+				{L_AVATAR_SELECT}
+			</h3>
+			
+			<div class="flex flex-col gap-1.5 mb-6">
+				<label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{L_AVATAR_TYPE}{L_COLON}</label>
+				<select name="avatar_driver" id="avatar_driver" data-togglable-settings="true" class="w-full sm:w-80 rounded-lg border border-slate-300 bg-slate-50 py-2.5 pl-3 pr-8 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900/50 dark:text-white transition-colors">
+					<!-- BEGIN avatar_drivers -->
+					<option value="{avatar_drivers.DRIVER}"<!-- IF avatar_drivers.SELECTED --> selected="selected"<!-- ENDIF --> data-toggle-setting="#avatar_option_{avatar_drivers.DRIVER}">{avatar_drivers.L_TITLE}</option>
+					<!-- END avatar_drivers -->
+				</select>
+			</div>
+
+			<div id="avatar_options" class="bg-white dark:bg-slate-800 p-4 sm:p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+				<!-- BEGIN avatar_drivers -->
+					<div id="avatar_option_{avatar_drivers.DRIVER}">
+						<noscript>
+							<h3 class="text-sm font-bold mb-2 text-slate-800 dark:text-white">{avatar_drivers.L_TITLE}</h3>
+						</noscript>
+						<p class="text-sm text-slate-500 dark:text-slate-400 mb-4 pb-4 border-b border-slate-100 dark:border-slate-700/50">{avatar_drivers.L_EXPLAIN}</p>
+
+						<div>
+							{avatar_drivers.OUTPUT}
+						</div>
+					</div>
+				<!-- END avatar_drivers -->
+			</div>
+		</div>
+	<!-- ENDIF -->
+	
+	<!-- IF not S_GROUP_MANAGE -->
+		<div class="mt-8 flex flex-col sm:flex-row sm:justify-end gap-3 border-t border-slate-100 dark:border-slate-700/50 pt-4">
+			<input type="submit" name="submit" value="{L_SUBMIT}" class="w-full sm:w-auto py-3 sm:py-2 px-6 rounded-lg bg-primary text-white font-semibold text-sm shadow-sm hover:bg-primary/90 transition-colors cursor-pointer" />
+		</div>
+	<!-- ENDIF -->
+</div>

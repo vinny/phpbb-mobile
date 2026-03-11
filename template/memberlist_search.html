@@ -1,0 +1,98 @@
+<form method="post" action="{S_MODE_ACTION}" id="search_memberlist">
+<div class="flex flex-col gap-6" id="search_memberlist_form">
+	
+	<h2 class="text-lg font-bold text-slate-800 dark:text-slate-200 border-b border-slate-200 dark:border-slate-700 pb-2">{L_FIND_USERNAME}</h2>
+	<p class="text-sm text-slate-600 dark:text-slate-400">{L_FIND_USERNAME_EXPLAIN}</p>
+
+	<!-- EVENT memberlist_search_fields_before -->
+	<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+		<div class="flex flex-col gap-4">
+			<div class="flex flex-col">
+				<label for="username" class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{L_USERNAME}{L_COLON}</label>
+				<!-- IF U_LIVE_SEARCH --><div class="relative"><!-- ENDIF -->
+				<input type="text" name="username" id="username" value="{USERNAME}" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white"<!-- IF U_LIVE_SEARCH --> autocomplete="off" data-filter="phpbb.search.filter" data-ajax="member_search" data-min-length="3" data-url="{U_LIVE_SEARCH}" data-results="#user-search"<!-- ENDIF --> />
+				<!-- IF U_LIVE_SEARCH -->
+					<div class="absolute z-10 hidden mt-1 w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg" id="user-search">
+						<ul class="max-h-60 overflow-y-auto py-1 text-sm text-slate-700 dark:text-slate-300 search-results">
+							<li class="search-result-tpl px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700/50 cursor-pointer transition-colors"><span class="search-result"></span></li>
+						</ul>
+					</div>
+				</div>
+				<!-- ENDIF -->
+			</div>
+
+			<!-- IF S_EMAIL_SEARCH_ALLOWED -->
+			<div class="flex flex-col">
+				<label for="email" class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{L_EMAIL}{L_COLON}</label>
+				<input type="text" name="email" id="email" value="{EMAIL}" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white" />
+			</div>
+			<!-- ENDIF -->
+
+			<!-- IF S_JABBER_ENABLED -->
+			<div class="flex flex-col">
+				<label for="jabber" class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{L_JABBER}{L_COLON}</label>
+				<input type="text" name="jabber" id="jabber" value="{JABBER}" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white" />
+			</div>
+			<!-- ENDIF -->
+			
+			<div class="flex flex-col">
+				<label for="search_group_id" class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{L_GROUP}{L_COLON}</label>
+				<select name="search_group_id" id="search_group_id" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white">{S_GROUP_SELECT}</select>
+			</div>
+
+			<!-- EVENT memberlist_search_sorting_options_before -->
+			<div class="flex flex-col">
+				<label for="sk" class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{L_SORT_BY}{L_COLON}</label>
+				<div class="flex items-center gap-2">
+					<select name="sk" id="sk" class="flex-1 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white">{S_SORT_OPTIONS}</select>
+					<select name="sd" class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white">{S_ORDER_SELECT}</select>
+				</div>
+			</div>
+		</div>
+
+		<div class="flex flex-col gap-4">
+			<div class="flex flex-col">
+				<label for="joined" class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{L_JOINED}{L_COLON}</label>
+				<div class="flex flex-wrap sm:flex-nowrap gap-2 items-center">
+					<select name="joined_select" class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white">{S_JOINED_TIME_OPTIONS}</select> 
+					<input type="text" name="joined" id="joined" value="{JOINED}" class="flex-1 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500" placeholder="YYYY-MM-DD" />
+				</div>
+			</div>
+
+			<!-- IF S_VIEWONLINE -->
+			<div class="flex flex-col">
+				<label for="active" class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{L_LAST_ACTIVE}{L_COLON}</label>
+				<div class="flex flex-wrap sm:flex-nowrap gap-2 items-center">
+					<select name="active_select" class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white">{S_ACTIVE_TIME_OPTIONS}</select> 
+					<input type="text" name="active" id="active" value="{ACTIVE}" class="flex-1 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500" placeholder="YYYY-MM-DD" />
+				</div>
+			</div>
+			<!-- ENDIF -->
+			
+			<div class="flex flex-col">
+				<label for="count" class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{L_POSTS}{L_COLON}</label>
+				<div class="flex items-center gap-2">
+					<select name="count_select" class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white">{S_COUNT_OPTIONS}</select> 
+					<input type="number" min="0" name="count" id="count" value="{COUNT}" class="flex-1 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white" />
+				</div>
+			</div>
+
+			<!-- IF S_IP_SEARCH_ALLOWED -->
+			<div class="flex flex-col">
+				<label for="ip" class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{L_POST_IP}{L_COLON}</label>
+				<input type="text" name="ip" id="ip" value="{IP}" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white" />
+			</div>
+			<!-- ENDIF -->
+			<!-- EVENT memberlist_search_fields_after -->
+		</div>
+	</div>
+
+	<hr class="border-t border-slate-200 dark:border-slate-700" />
+
+	<div class="flex items-center justify-end gap-2">
+		<input type="submit" name="submit" value="{L_SEARCH}" class="px-6 py-2 rounded-lg bg-primary font-bold text-sm text-white shadow hover:bg-primary/90 transition-colors cursor-pointer" />
+		{S_FORM_TOKEN}
+	</div>
+
+</div>
+</form>

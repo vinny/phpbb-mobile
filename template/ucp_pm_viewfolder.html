@@ -1,0 +1,210 @@
+<!-- INCLUDE ucp_header.html -->
+
+<!-- IF not PROMPT -->
+	<!-- INCLUDE ucp_pm_message_header.html -->
+<!-- ENDIF -->
+
+<!-- IF PROMPT -->
+	<div class="flex items-center justify-between mb-6 border-b border-primary/10 pb-4">
+		<h2 class="text-base sm:text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
+			<span class="material-symbols-outlined text-[20px] text-primary">download</span>
+			{L_EXPORT_AS_CSV}
+		</h2>
+	</div>
+	<form id="viewfolder" method="post" action="{S_PM_ACTION}">
+	<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden mb-6">
+		<div class="p-6 sm:p-8 space-y-6">
+			<h3 class="text-lg font-bold text-slate-800 dark:text-white pb-2 border-b border-slate-100 dark:border-slate-700/50">{L_OPTIONS}</h3>
+			
+			<div class="space-y-4">
+				<div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+					<label for="delimiter" class="sm:w-1/4 text-sm font-bold text-slate-800 dark:text-white">{L_DELIMITER}{L_COLON}</label>
+					<input type="text" id="delimiter" name="delimiter" value="," class="flex-1 max-w-[100px] h-11 px-4 rounded-lg border border-slate-300 text-slate-800 focus:border-primary focus:ring-primary shadow-sm dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:focus:border-primary transition-all" />
+				</div>
+				<div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+					<label for="enclosure" class="sm:w-1/4 text-sm font-bold text-slate-800 dark:text-white">{L_ENCLOSURE}{L_COLON}</label>
+					<input type="text" id="enclosure" name="enclosure" value="&#034;" class="flex-1 max-w-[100px] h-11 px-4 rounded-lg border border-slate-300 text-slate-800 focus:border-primary focus:ring-primary shadow-sm dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:focus:border-primary transition-all" />
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="flex flex-col sm:flex-row justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-700/50">
+		<input type="hidden" name="export_option" value="CSV" />
+		<button type="submit" name="submit_export" class="px-6 py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-sm rounded-lg shadow-sm transition-colors flex items-center justify-center gap-2">
+			<span class="material-symbols-outlined text-[18px]">export_notes</span>
+			{L_EXPORT_FOLDER}
+		</button>
+		<button type="reset" name="reset" class="px-6 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 font-bold text-sm rounded-lg transition-colors flex items-center justify-center gap-2">
+			<span class="material-symbols-outlined text-[18px]">restart_alt</span>
+			{L_RESET}
+		</button>
+		{S_FORM_TOKEN}
+	</div>
+	</form>
+
+
+<!-- ELSE -->
+
+	<!-- IF NUM_REMOVED -->
+		<div class="mb-6 bg-red-50 dark:bg-red-900/10 p-4 rounded-xl shadow-sm border border-red-200 dark:border-red-900/30 text-sm text-red-600 dark:text-red-400 font-medium">
+			{RULE_REMOVED_MESSAGES}
+		</div>
+	<!-- ENDIF -->
+
+	<!-- IF NUM_NOT_MOVED -->
+		<div class="mb-6 bg-amber-50 dark:bg-amber-900/10 p-4 rounded-xl shadow-sm border border-amber-200 dark:border-amber-900/30 text-sm text-amber-700 dark:text-amber-500 font-medium">
+			<p>{NOT_MOVED_MESSAGES}<br />{RELEASE_MESSAGE_INFO}</p>
+		</div>
+	<!-- ENDIF -->
+
+	<!-- IF .messagerow -->
+		<div class="space-y-3">
+		<!-- BEGIN messagerow -->
+			<div class="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border<!-- IF messagerow.S_PM_UNREAD --> border-primary ring-1 ring-primary/20<!-- ELSE --> border-slate-200 dark:border-slate-700<!-- ENDIF --> flex items-start sm:items-center gap-4 transition-colors hover:bg-slate-50 dark:hover:bg-slate-700/50 relative group">
+				
+				<div class="shrink-0 pt-1 sm:pt-0 relative">
+					<!-- IF messagerow.S_PM_UNREAD and not messagerow.S_PM_DELETED -->
+						<div class="absolute -top-1 -right-1 w-3 h-3 bg-primary rounded-full border-2 border-white dark:border-slate-800 z-10 hidden sm:block animate-pulse"></div>
+					<!-- ENDIF -->
+					
+					<span class="material-symbols-outlined text-[28px] <!-- IF messagerow.S_PM_UNREAD -->text-primary sm:text-primary<!-- ELSE -->text-slate-400 sm:text-slate-300<!-- ENDIF -->">
+						<!-- IF messagerow.S_PM_UNREAD -->mail<!-- ELSE -->drafts<!-- ENDIF -->
+					</span>
+				</div>
+
+				<div class="flex-1 min-w-0 flex flex-col justify-center">
+					<div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 mb-1.5">
+						<!-- IF messagerow.S_PM_DELETED -->
+							<a href="{messagerow.U_REMOVE_PM}" class="text-sm font-bold text-red-500 hover:text-red-600 transition-colors truncate">{L_DELETE_MESSAGE}</a>
+							<span class="text-xs font-semibold text-red-500 bg-red-100 dark:bg-red-900/30 px-2 py-0.5 rounded-md">{L_MESSAGE_REMOVED_FROM_OUTBOX}</span>
+						<!-- ELSE -->
+							<a href="{messagerow.U_VIEW_PM}" class="text-base font-bold text-slate-800 dark:text-white hover:text-primary dark:hover:text-primary transition-colors truncate <!-- IF messagerow.S_PM_UNREAD -->text-primary dark:text-primary<!-- ENDIF -->">{messagerow.SUBJECT}</a>
+						<!-- ENDIF -->
+						
+						<!-- IF messagerow.S_AUTHOR_DELETED -->
+							<span class="text-xs font-medium text-slate-500 italic">{L_PM_FROM_REMOVED_AUTHOR}</span>
+						<!-- ENDIF -->
+					</div>
+
+					<div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
+						<span class="flex items-center gap-1.5">
+							<!-- IF S_SHOW_RECIPIENTS -->
+								<span class="material-symbols-outlined text-[16px]">forward_to_inbox</span>
+								<span class="font-medium text-slate-600 dark:text-slate-300">{L_MESSAGE_TO}</span> {messagerow.RECIPIENTS}
+							<!-- ELSE -->
+								<span class="material-symbols-outlined text-[16px]">person</span>
+								<span class="font-medium text-slate-600 dark:text-slate-300">{L_MESSAGE_BY_AUTHOR}</span> {messagerow.MESSAGE_AUTHOR_FULL}
+							<!-- ENDIF -->
+						</span>
+
+						<span class="flex items-center gap-1.5">
+							<span class="material-symbols-outlined text-[16px]">schedule</span>
+							{messagerow.SENT_TIME}
+						</span>
+
+						<!-- IF S_UNREAD -->
+							<span class="flex items-center gap-1.5">
+								<span class="material-symbols-outlined text-[16px]">folder</span>
+								<!-- IF messagerow.FOLDER --><a href="{messagerow.U_FOLDER}" class="hover:text-primary transition-colors">{messagerow.FOLDER}</a><!-- ELSE -->{L_UNKNOWN_FOLDER}<!-- ENDIF -->
+							</span>
+						<!-- ENDIF -->
+						
+						<!-- IF messagerow.S_PM_REPORTED -->
+							<a href="{messagerow.U_MCP_REPORT}" class="flex items-center gap-1 text-red-500 hover:text-red-600 font-semibold transition-colors" title="{PM_REPORTED}">
+								<span class="material-symbols-outlined text-[16px]">report</span> {L_REPORTED}
+							</a>
+						<!-- ENDIF -->
+						<!-- IF messagerow.ATTACH_ICON_IMG -->
+							<span class="flex items-center gap-1 text-slate-400" title="{L_TOTAL_ATTACHMENTS}">
+								<span class="material-symbols-outlined text-[16px]">attach_file</span>
+							</span>
+						<!-- ENDIF -->
+					</div>
+				</div>
+
+				<div class="shrink-0 flex items-center p-2">
+					<input type="checkbox" name="marked_msg_id[]" value="{messagerow.MESSAGE_ID}" class="w-5 h-5 rounded border-slate-300 text-primary shadow-sm focus:border-primary focus:ring-primary cursor-pointer transition-all dark:border-slate-600 dark:bg-slate-900 dark:checked:bg-primary" />
+				</div>
+			</div>
+		<!-- END messagerow -->
+		</div>
+	<!-- ELSE -->
+		<div class="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-8 text-center border border-slate-200 dark:border-slate-700 border-dashed">
+			<span class="material-symbols-outlined text-[48px] text-slate-300 dark:text-slate-600 mb-3 block">inbox</span>
+			<span class="text-sm font-medium text-slate-500 dark:text-slate-400">
+				<!-- IF S_COMPOSE_PM_VIEW and S_NO_AUTH_SEND_MESSAGE -->
+					<!-- IF S_USER_NEW -->{L_USER_NEW_PERMISSION_DISALLOWED}<!-- ELSE -->{L_NO_AUTH_SEND_MESSAGE}<!-- ENDIF -->
+				<!-- ELSE -->
+					{L_NO_MESSAGES}
+				<!-- ENDIF -->
+			</span>
+		</div>
+	<!-- ENDIF -->
+
+	<!-- IF FOLDER_CUR_MESSAGES neq 0 -->
+		<div class="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between py-4 border-y border-slate-100 dark:border-slate-700/50 gap-4">
+			
+			<div class="flex flex-col sm:flex-row sm:items-center gap-4">
+				<div class="flex items-center gap-2">
+					<label for="export_option" class="text-sm font-semibold text-slate-600 dark:text-slate-300 hidden xl:block">{L_EXPORT_FOLDER}{L_COLON}</label>
+					<div class="relative">
+						<select name="export_option" id="export_option" class="h-9 pl-3 pr-8 text-sm rounded-lg border border-slate-300 text-slate-800 focus:border-primary focus:ring-primary shadow-sm bg-white dark:border-slate-600 dark:bg-slate-900 dark:text-white transition-all appearance-none cursor-pointer">
+							<option value="CSV">{L_EXPORT_AS_CSV}</option><option value="CSV_EXCEL">{L_EXPORT_AS_CSV_EXCEL}</option><option value="XML">{L_EXPORT_AS_XML}</option>
+						</select>
+						<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[18px]">expand_more</span>
+					</div>
+					<button type="submit" name="submit_export" class="h-9 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm rounded-lg transition-colors dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-200">{L_GO}</button>
+				</div>
+			</div>
+			
+			<div class="flex flex-col sm:flex-row sm:items-center gap-4">
+				<div class="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400">
+					<a href="#" onclick="marklist('viewfolder', 'marked_msg', true); return false;" class="hover:text-primary transition-colors">{L_MARK_ALL}</a>
+					<span class="text-slate-300 dark:text-slate-600">&bull;</span>
+					<a href="#" onclick="marklist('viewfolder', 'marked_msg', false); return false;" class="hover:text-primary transition-colors">{L_UNMARK_ALL}</a>
+				</div>
+				
+				<div class="flex items-center gap-2">
+					<div class="relative w-full sm:w-auto">
+						<select name="mark_option" class="w-full sm:w-auto h-9 pl-3 pr-8 text-sm rounded-lg border border-slate-300 text-slate-800 focus:border-primary focus:ring-primary shadow-sm bg-white dark:border-slate-600 dark:bg-slate-900 dark:text-white transition-all appearance-none cursor-pointer">
+							{S_MARK_OPTIONS}{S_MOVE_MARKED_OPTIONS}
+						</select>
+						<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[18px]">expand_more</span>
+					</div>
+					<button type="submit" name="submit_mark" class="shrink-0 h-9 px-3 bg-primary hover:bg-primary/90 text-white font-bold text-sm rounded-lg shadow-sm transition-colors">{L_GO}</button>
+				</div>
+			</div>
+			
+		</div>
+
+		<div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6">
+			<div class="flex items-center gap-2">
+				<!-- INCLUDE display_options.html -->
+			</div>
+			
+			<input type="hidden" name="cur_folder_id" value="{CUR_FOLDER_ID}" />
+
+			<div class="flex items-center gap-4">
+				<div class="text-sm font-medium text-slate-600 dark:text-slate-400">
+					{TOTAL_MESSAGES}
+				</div>
+				<!-- IF .pagination -->
+					<div class="border-l border-slate-200 dark:border-slate-700 pl-4 hidden sm:block">
+						<!-- INCLUDE pagination.html -->
+					</div>
+				<!-- ELSE -->
+					<div class="text-sm font-medium text-slate-600 dark:text-slate-400 border-l border-slate-200 dark:border-slate-700 pl-4 hidden sm:block">
+						{PAGE_NUMBER}
+					</div>
+				<!-- ENDIF -->
+			</div>
+		</div>
+	<!-- ENDIF -->
+
+	</div>
+</div>
+
+	<!-- INCLUDE ucp_pm_message_footer.html -->
+<!-- ENDIF -->
+<!-- INCLUDE ucp_footer.html -->

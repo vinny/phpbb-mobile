@@ -1,0 +1,419 @@
+<!-- INCLUDE mcp_header.html -->
+
+<!-- IF S_MCP_REPORT -->
+	<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
+		<h2 class="text-lg sm:text-xl font-bold text-slate-800 dark:text-slate-200">
+			<!-- IF S_PM -->{L_PM_REPORT_DETAILS}<!-- ELSE -->{L_REPORT_DETAILS}<!-- ENDIF -->
+		</h2>
+	</div>
+
+	<div id="report" class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800 mb-6">
+		<div class="flex flex-col gap-3">
+			<h3 class="text-base font-bold text-slate-800 dark:text-slate-200">{L_REPORT_REASON}{L_COLON} {REPORT_REASON_TITLE}</h3>
+			<p class="text-sm text-slate-500 dark:text-slate-400">
+				{L_REPORTED} {L_POST_BY_AUTHOR} <strong>{REPORTER_FULL}</strong> &laquo; {REPORT_DATE}
+			</p>
+			<!-- IF S_REPORT_CLOSED -->
+				<p class="flex items-center gap-2 rounded-lg bg-amber-50 p-3 text-sm font-medium text-amber-700 border border-amber-200 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-900/50">
+					<span class="material-symbols-outlined text-[18px]">warning</span> {L_REPORT_CLOSED}
+				</p>
+			<!-- ENDIF -->
+			<div class="p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg text-sm text-slate-700 dark:text-slate-300 leading-relaxed border border-slate-200 dark:border-slate-700">
+				<!-- IF REPORT_TEXT -->
+					{REPORT_TEXT}
+				<!-- ELSE -->
+					{REPORT_REASON_DESCRIPTION}
+				<!-- ENDIF -->
+			</div>
+		</div>
+
+		<form method="post" id="mcp_report" action="{S_CLOSE_ACTION}" class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
+			<fieldset class="flex flex-wrap items-center gap-3">
+				{% EVENT mcp_post_report_buttons_top_before %}
+				<!-- IF not S_REPORT_CLOSED -->
+					<button type="submit" value="{L_CLOSE_REPORT}" name="action[close]" class="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-transform active:scale-95">
+						<span class="material-symbols-outlined text-[16px] inline-block align-text-bottom">check_circle</span> {L_CLOSE_REPORT}
+					</button>
+				<!-- ENDIF -->
+				<button type="submit" value="{L_DELETE_REPORT}" name="action[delete]" class="rounded-lg border border-red-200 bg-white px-4 py-2 text-sm font-bold text-red-600 shadow-sm transition-colors hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 dark:border-red-900/50 dark:bg-slate-800 dark:text-red-400 dark:hover:bg-red-900/20">
+					<span class="material-symbols-outlined text-[16px] inline-block align-text-bottom">delete</span> {L_DELETE_REPORT}
+				</button>
+				{% EVENT mcp_post_report_buttons_top_after %}
+				<input type="hidden" name="report_id_list[]" value="{REPORT_ID}" />
+				{S_FORM_TOKEN}
+			</fieldset>
+		</form>
+	</div>
+<!-- ELSE -->
+	<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
+		<h2 class="text-lg sm:text-xl font-bold text-slate-800 dark:text-slate-200">{L_POST_DETAILS}</h2>
+	</div>
+<!-- ENDIF -->
+
+<div class="rounded-xl border border-slate-200 bg-white p-4 sm:p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800 mb-6">
+	<div class="flex flex-col gap-4">
+		
+		<div class="flex flex-wrap items-start justify-between gap-4 border-b border-slate-100 pb-4 dark:border-slate-700/50">
+			<div class="flex flex-col gap-1 min-w-0 flex-1">
+				<h3 class="text-lg font-bold text-slate-900 dark:text-slate-100"><a href="{U_VIEW_POST}" class="hover:text-primary transition-colors break-words">{POST_SUBJECT}</a></h3>
+				
+				<!-- IF S_PM -->
+				<div class="text-sm text-slate-500 flex flex-col gap-0.5 mt-2">
+					<p><strong>{L_SENT_AT}{L_COLON}</strong> {POST_DATE}</p>
+					<p><strong>{L_PM_FROM}{L_COLON}</strong> {POST_AUTHOR_FULL}</p>
+					<!-- IF S_TO_RECIPIENT --><p><strong>{L_TO}{L_COLON}</strong> <!-- BEGIN to_recipient --><!-- IF to_recipient.NAME_FULL -->{to_recipient.NAME_FULL}<!-- ELSE --><a href="{to_recipient.U_VIEW}"<!-- IF to_recipient.COLOUR --> style="color:{to_recipient.COLOUR};"<!-- ENDIF --> class="font-medium hover:underline"><strong>{to_recipient.NAME}</strong></a><!-- ENDIF --><!-- IF not to_recipient.S_LAST_ROW -->, <!-- ENDIF --><!-- END to_recipient --></p><!-- ENDIF -->
+					<!-- IF S_BCC_RECIPIENT --><p><strong>{L_BCC}{L_COLON}</strong> <!-- BEGIN bcc_recipient --><!-- IF bcc_recipient.NAME_FULL -->{bcc_recipient.NAME_FULL}<!-- ELSE --><a href="{bcc_recipient.U_VIEW}"<!-- IF bcc_recipient.COLOUR --> style="color:{bcc_recipient.COLOUR};"<!-- ENDIF --> class="font-medium hover:underline"><strong>{bcc_recipient.NAME}</strong></a><!-- ENDIF --><!-- IF not bcc_recipient.S_LAST_ROW -->, <!-- ENDIF --><!-- END bcc_recipient --></p><!-- ENDIF -->
+				</div>
+				<!-- ELSE -->
+				<p class="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-2 flex-wrap">
+					<span class="material-symbols-outlined text-[16px]">description</span>
+					<span>{L_POSTED} {L_POST_BY_AUTHOR} <span class="font-medium">{POST_AUTHOR_FULL}</span> &raquo; {POST_DATE}</span>
+				</p>
+				<!-- ENDIF -->
+			</div>
+			
+			<div class="flex items-center gap-2 shrink-0">
+				<a href="#post_details" id="expand" onclick="viewableArea(getElementById('post_details'), true); var rev_text = this; if (rev_text.innerHTML.trim() == '{LA_EXPAND_VIEW}'){rev_text.innerHTML = '{LA_COLLAPSE_VIEW}'; } else if (rev_text.innerHTML.trim() == '{LA_COLLAPSE_VIEW}'){rev_text.innerHTML = '{LA_EXPAND_VIEW}';} return false;" class="rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-600 transition-colors hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600">
+					{L_EXPAND_VIEW}
+				</a>
+				<!-- IF U_EDIT -->
+					<a href="{U_EDIT}" title="{L_EDIT_POST}" class="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-600 transition-colors hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600">
+						<span class="material-symbols-outlined text-[18px]">edit</span>
+						<span class="sr-only">{L_EDIT_POST}</span>
+					</a>
+				<!-- ENDIF -->
+			</div>
+		</div>
+
+		{% if S_CAN_APPROVE %}
+		<!-- IF S_POST_UNAPPROVED -->
+			<form method="post" id="mcp_approve" action="{U_APPROVE_ACTION}">
+			<div class="flex flex-wrap items-center gap-3 rounded-lg bg-amber-50 p-3 border border-amber-200 dark:bg-amber-900/20 dark:border-amber-900/50">
+				<button type="submit" value="{L_DISAPPROVE}" name="action[disapprove]" class="rounded-lg border border-amber-600 bg-white px-4 py-1.5 text-sm font-bold text-amber-700 shadow-sm transition-colors hover:bg-amber-50 focus:outline-none dark:border-amber-700 dark:bg-slate-800 dark:text-amber-500">
+					{L_DISAPPROVE}
+				</button>
+				<button type="submit" value="{L_APPROVE}" name="action[approve]" class="rounded-lg bg-green-600 px-4 py-1.5 text-sm font-bold text-white shadow-sm hover:bg-green-700 focus:outline-none">
+					{L_APPROVE}
+				</button>
+				<!-- IF not S_FIRST_POST --><input type="hidden" name="mode" value="unapproved_posts" /><!-- ENDIF -->
+				<input type="hidden" name="post_id_list[]" value="{POST_ID}" />
+				{S_FORM_TOKEN}
+			</div>
+			</form>
+		<!-- ELSEIF S_POST_DELETED -->
+			<form method="post" id="mcp_approve" action="{U_APPROVE_ACTION}">
+			<div class="flex flex-wrap items-center gap-3 rounded-lg bg-red-50 p-3 border border-red-200 dark:bg-red-900/20 dark:border-red-900/50">
+				<!-- IF S_CAN_DELETE_POST -->
+				<button type="submit" value="{L_DELETE}" name="action[delete]" class="rounded-lg border border-red-600 bg-white px-4 py-1.5 text-sm font-bold text-red-600 shadow-sm transition-colors hover:bg-red-50 focus:outline-none dark:border-red-700 dark:bg-slate-800 dark:text-red-500">
+					{L_DELETE}
+				</button>
+				<!-- ENDIF -->
+				<button type="submit" value="{L_RESTORE}" name="action[restore]" class="rounded-lg bg-green-600 px-4 py-1.5 text-sm font-bold text-white shadow-sm hover:bg-green-700 focus:outline-none">
+					{L_RESTORE}
+				</button>
+				<!-- IF not S_FIRST_POST --><input type="hidden" name="mode" value="deleted_posts" /><!-- ENDIF -->
+				<input type="hidden" name="post_id_list[]" value="{POST_ID}" />
+				{S_FORM_TOKEN}
+			</div>
+			</form>
+		<!-- ENDIF -->
+		{% endif %}
+
+		{% if S_POST_REPORTED and not S_MCP_REPORT %}
+			<div class="flex items-center gap-2 rounded-lg bg-amber-50 p-3 text-sm font-medium text-amber-700 border border-amber-200 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-900/50">
+				<span class="material-symbols-outlined text-[18px]">warning</span>
+				<span class="sr-only">{{ lang('TOPIC_REPORTED') }}</span>
+				<a href="{{ U_MCP_REPORT }}" class="font-bold hover:underline">{{ lang('POST_REPORTED') }}</a>
+			</div>
+		{% endif %}
+
+		{% EVENT mcp_post_text_before %}
+
+		<div id="post_details" class="prose dark:prose-invert max-w-none text-slate-800 dark:text-slate-200 text-[15px] leading-relaxed break-words">
+			{POST_PREVIEW}
+		</div>
+
+		{% EVENT mcp_post_text_after %}
+
+		<!-- IF S_HAS_ATTACHMENTS -->
+			<div class="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700/50 dark:bg-slate-800/50">
+				<h4 class="mb-3 text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">{L_ATTACHMENTS}</h4>
+				<div class="flex flex-col gap-3">
+				<!-- BEGIN attachment -->
+					{attachment.DISPLAY_ATTACHMENT}
+				<!-- END attachment -->
+				</div>
+			</div>
+		<!-- ENDIF -->
+
+		<!-- IF DELETED_MESSAGE or DELETE_REASON -->
+			<div class="mt-4 rounded-lg bg-red-50 p-3 text-sm text-red-800 border border-red-200 dark:bg-red-900/20 dark:text-red-300 dark:border-red-900/50">
+				<strong class="font-bold">{DELETED_MESSAGE}</strong>
+				<!-- IF DELETE_REASON --><br /><strong>{L_REASON}{L_COLON}</strong> <em>{DELETE_REASON}</em><!-- ENDIF -->
+			</div>
+		<!-- ENDIF -->
+
+		<!-- IF SIGNATURE -->
+			<div id="sig{POST_ID}" class="mt-6 border-t border-slate-200 pt-4 text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">
+				{SIGNATURE}
+			</div>
+		<!-- ENDIF -->
+
+		<!-- IF S_MCP_REPORT and S_CAN_VIEWIP -->
+			<div class="mt-6 border-t border-slate-200 pt-4 text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">
+				<strong><!-- IF S_PM -->{L_THIS_PM_IP}<!-- ELSE -->{L_THIS_POST_IP}<!-- ENDIF -->{L_COLON}</strong>
+				<!-- IF U_WHOIS -->
+					<a href="{U_WHOIS}" class="text-primary hover:underline"><!-- IF POST_IPADDR -->{POST_IPADDR}<!-- ELSE -->{POST_IP}<!-- ENDIF --></a> (<!-- IF POST_IPADDR -->{POST_IP}<!-- ELSE --><a href="{U_LOOKUP_IP}" class="text-primary hover:underline">{L_LOOKUP_IP}</a><!-- ENDIF -->)
+				<!-- ELSE -->
+					<!-- IF POST_IPADDR -->{POST_IPADDR} ({POST_IP})<!-- ELSE -->{POST_IP}<!-- IF U_LOOKUP_IP --> (<a href="{U_LOOKUP_IP}" class="text-primary hover:underline">{L_LOOKUP_IP}</a>)<!-- ENDIF --><!-- ENDIF -->
+				<!-- ENDIF -->
+			</div>
+		<!-- ENDIF -->
+
+	</div>
+</div>
+
+<!-- IF S_CAN_LOCK_POST or S_CAN_DELETE_POST or S_CAN_CHGPOSTER or S_MCP_POST_ADDITIONAL_OPTS -->
+	<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800 overflow-hidden mb-6">
+		<div class="border-b border-slate-200 bg-slate-50/50 px-4 py-3 sm:px-6 sm:py-4 dark:border-slate-700 dark:bg-slate-800/50 flex items-center gap-2">
+			<span class="material-symbols-outlined text-[20px] text-primary">admin_panel_settings</span>
+			<h3 class="text-base font-bold text-slate-800 dark:text-slate-200">{L_MOD_OPTIONS}</h3>
+		</div>
+		
+		<div class="p-4 sm:p-6 flex flex-col gap-6">
+			<!-- IF S_CAN_CHGPOSTER -->
+				<form method="post" id="mcp_chgposter" action="{U_POST_ACTION}">
+					<fieldset class="flex flex-col gap-3">
+						<label class="text-sm font-bold text-slate-800 dark:text-slate-200">{L_CHANGE_POSTER}{L_COLON}</label>
+						<!-- IF S_USER_SELECT -->
+						<div class="flex flex-wrap items-center gap-2">
+							<select name="u" class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900 dark:text-white transition-colors">{S_USER_SELECT}</select>
+							<button type="submit" class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700" name="action[chgposter_ip]" value="{L_CONFIRM}">{L_CONFIRM}</button>
+						</div>
+						<!-- ENDIF -->
+						
+						<div class="flex flex-wrap items-center gap-2">
+							<input type="text" name="username" value="" class="rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900/50 dark:text-white transition-colors" placeholder="{L_USERNAME}" />
+							<button type="submit" class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700" name="action[chgposter]" value="{L_CONFIRM}">{L_CONFIRM}</button>
+							<a href="{U_FIND_USERNAME}" onclick="find_username(this.href); return false;" class="text-sm font-medium text-primary hover:underline ml-2">[{L_FIND_USERNAME}]</a>
+						</div>
+						{S_FORM_TOKEN}
+					</fieldset>
+				</form>
+			<!-- ENDIF -->
+
+			<!-- EVENT mcp_post_additional_options -->
+
+			<!-- IF S_CAN_LOCK_POST or S_CAN_DELETE_POST -->
+				<form method="post" id="mcp" action="{U_MCP_ACTION}">
+					<fieldset class="flex flex-col gap-3">
+						<label class="text-sm font-bold text-slate-800 dark:text-slate-200">{L_MOD_OPTIONS}{L_COLON}</label>
+						<div class="flex flex-wrap items-center gap-2">
+							<select name="action" class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900 dark:text-white transition-colors">
+								<!-- IF S_CAN_LOCK_POST --><!-- IF S_POST_LOCKED --><option value="unlock_post">{L_UNLOCK_POST} [{L_UNLOCK_POST_EXPLAIN}]</option><!-- ELSE --><option value="lock_post">{L_LOCK_POST} [{L_LOCK_POST_EXPLAIN}]</option><!-- ENDIF --><!-- ENDIF -->
+								<!-- IF S_CAN_DELETE_POST --><option value="delete_post">{L_DELETE_POST}</option><!-- ENDIF -->
+							</select>
+							<button type="submit" class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700">{L_SUBMIT}</button>
+						</div>
+						{S_FORM_TOKEN}
+					</fieldset>
+				</form>
+			<!-- ENDIF -->
+		</div>
+	</div>
+<!-- ENDIF -->
+
+
+<!-- IF S_MCP_QUEUE or S_MCP_REPORT or RETURN_TOPIC -->
+	<div class="mb-6 flex flex-wrap gap-2 text-sm font-medium text-slate-600 dark:text-slate-400 [&_a]:text-primary hover:[&_a]:underline">
+		<!-- IF S_MCP_QUEUE -->{RETURN_QUEUE} | {RETURN_TOPIC_SIMPLE} | {RETURN_POST}<!-- ELSEIF S_MCP_REPORT -->{RETURN_REPORTS}<!-- IF not S_PM --> | <a href="{U_VIEW_POST}">{L_VIEW_POST}</a> | <a href="{U_VIEW_TOPIC}">{L_VIEW_TOPIC}</a> | <a href="{U_VIEW_FORUM}">{L_VIEW_FORUM}</a><!-- ENDIF --><!-- ELSE -->{RETURN_TOPIC}<!-- ENDIF -->
+	</div>
+<!-- ENDIF -->
+
+<!-- IF S_MCP_QUEUE -->
+<!-- ELSE -->
+
+	<!-- IF S_SHOW_USER_NOTES -->
+		<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800 overflow-hidden mb-6" id="usernotes">
+			<div class="border-b border-slate-200 bg-slate-50/50 px-4 py-3 sm:px-6 sm:py-4 dark:border-slate-700 dark:bg-slate-800/50 flex items-center gap-2">
+				<span class="material-symbols-outlined text-[20px] text-primary">note_add</span>
+				<h3 class="text-base font-bold text-slate-800 dark:text-slate-200">{L_FEEDBACK}</h3>
+			</div>
+			
+			<div class="p-4 sm:p-6">
+			<form method="post" id="mcp_notes" action="{U_POST_ACTION}">
+
+			<!-- IF S_USER_NOTES -->
+				<div class="flex flex-col mb-6 gap-0">
+				<!-- BEGIN usernotes -->
+					<div class="flex flex-col sm:flex-row gap-4 py-4 border-b border-slate-100 dark:border-slate-700/50 last:border-0">
+						<div class="flex-1 flex flex-col gap-2">
+							<span class="text-xs text-slate-500 font-medium"><strong>{L_REPORTED_BY}{L_COLON} {usernotes.REPORT_BY}</strong> &laquo; {usernotes.REPORT_AT}</span>
+							<div class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">{usernotes.ACTION}</div>
+						</div>
+						<!-- IF S_CLEAR_ALLOWED -->
+						<div class="shrink-0">
+							<label class="flex items-center gap-2 cursor-pointer text-sm text-slate-600 hover:text-primary transition-colors">
+								<input type="checkbox" name="marknote[]" value="{usernotes.ID}" class="rounded border-slate-300 text-red-500 focus:ring-red-500 h-4 w-4" />
+							</label>
+						</div>
+						<!-- ENDIF -->
+					</div>
+				<!-- END usernotes -->
+				</div>
+
+				<!-- IF S_CLEAR_ALLOWED -->
+					<fieldset class="flex flex-wrap items-center gap-3 mb-6 pb-6 border-b border-slate-200 dark:border-slate-700">
+						<button type="submit" name="action[del_all]" class="rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm font-bold text-red-600 shadow-sm transition-colors hover:bg-red-100 focus:outline-none dark:border-red-900/50 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/40">{L_DELETE_ALL}</button>
+						<button type="submit" name="action[del_marked]" class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 focus:outline-none dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700">{L_DELETE_MARKED}</button>
+					</fieldset>
+				<!-- ENDIF -->
+			<!-- ENDIF -->
+
+			<fieldset class="flex flex-col gap-4">
+				<div>
+					<h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 mb-1">{L_ADD_FEEDBACK}</h3>
+					<p class="text-xs text-slate-500">{L_ADD_FEEDBACK_EXPLAIN}</p>
+				</div>
+				<textarea name="usernote" rows="4" class="w-full rounded-lg border border-slate-300 bg-slate-50 px-3 py-3 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900/50 dark:text-white transition-colors"></textarea>
+				
+				<div class="flex items-center gap-3">
+					<button type="submit" name="action[add_feedback]" class="rounded-lg bg-primary px-6 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-transform active:scale-95">{L_SUBMIT}</button>
+					<button type="reset" class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 focus:outline-none dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700">{L_RESET}</button>
+				</div>
+				{S_FORM_TOKEN}
+			</fieldset>
+			</form>
+
+			</div>
+		</div>
+	<!-- ENDIF -->
+
+	<!-- IF S_SHOW_REPORTS -->
+		<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800 overflow-hidden mb-6" id="reports">
+			<div class="border-b border-slate-200 bg-slate-50/50 px-4 py-3 sm:px-6 sm:py-4 dark:border-slate-700 dark:bg-slate-800/50 flex items-center gap-2">
+				<span class="material-symbols-outlined text-[20px] text-amber-500">report</span>
+				<h3 class="text-base font-bold text-slate-800 dark:text-slate-200">{L_MCP_POST_REPORTS}</h3>
+			</div>
+
+			<div class="p-4 sm:p-6 flex flex-col gap-4">
+			<!-- BEGIN reports -->
+				<div class="flex flex-col gap-2 p-4 rounded-lg bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-700">
+					<span class="text-xs text-slate-500 font-medium"><strong>{L_REPORTED_BY}{L_COLON} <!-- IF reports.U_REPORTER --><a href="{reports.U_REPORTER}" class="text-primary hover:underline">{reports.REPORTER}</a><!-- ELSE -->{reports.REPORTER}<!-- ENDIF --></strong> &laquo; {reports.REPORT_TIME}</span>
+					<p class="text-sm text-slate-700 dark:text-slate-300">
+						<em class="font-medium">{reports.REASON_TITLE}{L_COLON} {reports.REASON_DESC}</em>
+						<!-- IF reports.REPORT_TEXT --><br /><span class="mt-2 block p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md">{reports.REPORT_TEXT}</span><!-- ENDIF -->
+					</p>
+				</div>
+			<!-- END reports -->
+			</div>
+		</div>
+	<!-- ENDIF -->
+
+	<!-- IF S_CAN_VIEWIP and not S_MCP_REPORT -->
+		<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800 overflow-hidden mb-6" id="ip">
+			<div class="border-b border-slate-200 bg-slate-50/50 px-4 py-3 sm:px-6 sm:py-4 dark:border-slate-700 dark:bg-slate-800/50 flex items-center justify-between gap-4">
+				<div class="flex items-center gap-2">
+					<span class="material-symbols-outlined text-[20px] text-primary">router</span>
+					<h3 class="text-base font-bold text-slate-800 dark:text-slate-200">{L_THIS_POST_IP}</h3>
+				</div>
+				<div class="text-sm font-medium text-slate-700 dark:text-slate-300">
+					<!-- IF U_WHOIS -->
+						<a href="{U_WHOIS}" class="text-primary hover:underline"><!-- IF POST_IPADDR -->{POST_IPADDR}<!-- ELSE -->{POST_IP}<!-- ENDIF --></a> (<!-- IF POST_IPADDR -->{POST_IP}<!-- ELSE --><a href="{U_LOOKUP_IP}" class="text-primary hover:underline">{L_LOOKUP_IP}</a><!-- ENDIF -->)
+					<!-- ELSE -->
+						<!-- IF POST_IPADDR -->{POST_IPADDR} ({POST_IP})<!-- ELSE -->{POST_IP}<!-- IF U_LOOKUP_IP --> (<a href="{U_LOOKUP_IP}" class="text-primary hover:underline">{L_LOOKUP_IP}</a>)<!-- ENDIF --><!-- ENDIF -->
+					<!-- ENDIF -->
+				</div>
+			</div>
+			
+			<div class="p-0 overflow-x-auto">
+				<table class="w-full text-left text-sm text-slate-600 dark:text-slate-400">
+					<thead class="bg-slate-50 text-xs uppercase text-slate-500 dark:bg-slate-800/50 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700">
+						<tr>
+							<th class="px-6 py-3 font-bold">{L_OTHER_USERS}</th>
+							<th class="px-6 py-3 font-bold text-center w-32">{L_POSTS}</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+					<!-- BEGIN userrow -->
+					<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
+						<td class="px-6 py-3 sm:py-4 font-medium text-slate-900 dark:text-white"><!-- IF userrow.U_PROFILE --><a href="{userrow.U_PROFILE}" class="hover:text-primary transition-colors">{userrow.USERNAME}</a><!-- ELSE -->{userrow.USERNAME}<!-- ENDIF --></td>
+						<td class="px-6 py-3 sm:py-4 text-center"><a href="{userrow.U_SEARCHPOSTS}" title="{L_SEARCH_POSTS_BY} {userrow.USERNAME}" class="inline-flex items-center justify-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition-colors">{userrow.NUM_POSTS}</a></td>
+					</tr>
+					<!-- BEGINELSE -->
+						<tr>
+							<td colspan="2" class="px-6 py-6 text-center text-slate-500">{L_NO_MATCHES_FOUND}</td>
+						</tr>
+					<!-- END userrow -->
+					</tbody>
+				</table>
+			</div>
+
+			<!-- IF .pagination -->
+			<div class="px-6 py-4 border-t border-slate-200 dark:border-slate-700">
+				<!-- INCLUDE pagination.html -->
+			</div>
+			<!-- ENDIF -->
+		</div>
+
+		<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800 overflow-hidden mb-6">
+			<div class="border-b border-slate-200 bg-slate-50/50 px-4 py-3 sm:px-6 sm:py-4 dark:border-slate-700 dark:bg-slate-800/50 flex items-center justify-between gap-2">
+				<div class="flex items-center gap-2">
+					<span class="material-symbols-outlined text-[20px] text-primary">public</span>
+					<h3 class="text-base font-bold text-slate-800 dark:text-slate-200">{L_IPS_POSTED_FROM}</h3>
+				</div>
+				{% if U_LOOKUP_ALL %}
+					<a href="{U_LOOKUP_ALL}#ip" class="text-xs font-bold uppercase tracking-wider text-primary hover:text-primary/80 transition-colors">{L_LOOKUP_ALL}</a>
+				{% endif %}
+			</div>
+			
+			<div class="p-0 overflow-x-auto">
+				<table class="w-full text-left text-sm text-slate-600 dark:text-slate-400">
+					<thead class="bg-slate-50 text-xs uppercase text-slate-500 dark:bg-slate-800/50 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700">
+						<tr>
+							<th class="px-6 py-3 font-bold">{L_IPS_POSTED_FROM}</th>
+							<th class="px-6 py-3 font-bold text-center w-32">{L_POSTS}</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+					<!-- BEGIN iprow -->
+					<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
+						<td class="px-6 py-3 sm:py-4 font-medium text-slate-900 dark:text-white"><!-- IF iprow.HOSTNAME --><a href="{iprow.U_WHOIS}" class="hover:text-primary">{iprow.HOSTNAME}</a> ({iprow.IP})<!-- ELSE --><a href="{iprow.U_WHOIS}" class="hover:text-primary">{iprow.IP}</a> (<a href="{iprow.U_LOOKUP_IP}" class="text-primary hover:underline">{L_LOOKUP_IP}</a>)<!-- ENDIF --></td>
+						<td class="px-6 py-3 sm:py-4 text-center"><span class="inline-flex items-center justify-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-600 dark:bg-slate-800 dark:text-slate-300">{iprow.NUM_POSTS}</span></td>
+					</tr>
+					<!-- BEGINELSE -->
+						<tr>
+							<td colspan="2" class="px-6 py-6 text-center text-slate-500">{L_NO_MATCHES_FOUND}</td>
+						</tr>
+					<!-- END iprow -->
+					</tbody>
+				</table>
+			</div>
+
+			<!-- IF .pagination_ips -->
+			<div class="px-6 py-4 border-t border-slate-200 dark:border-slate-700">
+				<ul class="flex items-center flex-wrap gap-1">
+				<!-- BEGIN pagination_ips -->
+					<!-- IF pagination_ips.S_IS_PREV -->
+					<li><a class="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900 shadow-sm transition-colors dark:bg-slate-800/80 dark:text-slate-300 dark:hover:bg-slate-700" href="{pagination_ips.PAGE_URL}" rel="prev" role="button"><span class="material-symbols-outlined text-[18px]">chevron_left</span><span class="sr-only">{L_PREVIOUS}</span></a></li>
+					<!-- ELSEIF pagination_ips.S_IS_CURRENT -->
+					<li><span class="flex h-8 min-w-[32px] px-2 items-center justify-center rounded-lg bg-primary text-sm font-bold text-white shadow-sm">{pagination_ips.PAGE_NUMBER}</span></li>
+					<!-- ELSEIF pagination_ips.S_IS_ELLIPSIS -->
+					<li class="flex h-8 min-w-[32px] items-center justify-center text-slate-400" role="separator"><span>{L_ELLIPSIS}</span></li>
+					<!-- ELSEIF pagination_ips.S_IS_NEXT -->
+					<li><a class="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900 shadow-sm transition-colors dark:bg-slate-800/80 dark:text-slate-300 dark:hover:bg-slate-700" href="{pagination_ips.PAGE_URL}" rel="next" role="button"><span class="material-symbols-outlined text-[18px]">chevron_right</span><span class="sr-only">{L_NEXT}</span></a></li>
+					<!-- ELSE -->
+					<li><a class="flex h-8 min-w-[32px] px-2 items-center justify-center rounded-lg bg-slate-100 text-sm font-medium text-slate-600 hover:bg-slate-200 hover:text-slate-900 shadow-sm transition-colors dark:bg-slate-800/80 dark:text-slate-300 dark:hover:bg-slate-700" href="{pagination_ips.PAGE_URL}" role="button">{pagination_ips.PAGE_NUMBER}</a></li>
+					<!-- ENDIF -->
+				<!-- END pagination_ips -->
+				</ul>
+			</div>
+			<!-- ENDIF -->
+		</div>
+	<!-- ENDIF -->
+
+<!-- ENDIF -->
+
+<!-- IF S_TOPIC_REVIEW --><!-- INCLUDE posting_topic_review.html --><!-- ENDIF -->
+
+<!-- INCLUDE mcp_footer.html -->

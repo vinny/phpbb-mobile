@@ -1,0 +1,29 @@
+<!-- IF S_TYPE == 1 -->
+<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800 panel captcha-panel mb-6">
+	<div class="p-4 sm:p-6">
+		<h3 class="text-base font-bold text-slate-800 dark:text-slate-200 mb-2 captcha-title">{L_CONFIRMATION}</h3>
+		<p class="text-sm text-slate-600 dark:text-slate-400 mb-4">{L_CONFIRM_EXPLAIN}</p>
+
+		<fieldset class="flex flex-col gap-4">
+<!-- ENDIF -->
+
+			<div class="flex flex-col gap-3">
+				<label for="confirm_code" class="text-sm font-bold text-slate-800 dark:text-slate-200">{L_CONFIRM_CODE}{L_COLON}</label>
+				<div class="captcha captcha-image rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 inline-block self-start">
+					<img src="{CONFIRM_IMAGE_LINK}" alt="{L_CONFIRM_CODE}" class="block max-w-full" />
+				</div>
+				<div class="flex flex-wrap items-center gap-2">
+					<input type="text" name="confirm_code" id="confirm_code" size="8" maxlength="8" tabindex="{$CAPTCHA_TAB_INDEX}" class="w-full sm:w-auto rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900/50 dark:text-white transition-colors" title="{L_CONFIRM_CODE}" />
+					<!-- IF S_CONFIRM_REFRESH -->
+					<input type="submit" name="refresh_vc" id="refresh_vc" class="w-full sm:w-auto rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 cursor-pointer" value="{L_VC_REFRESH}" />
+					<!-- ENDIF -->
+					<input type="hidden" name="confirm_id" id="confirm_id" value="{CONFIRM_ID}" />
+				</div>
+				<span class="text-xs text-slate-500">{L_CONFIRM_CODE_EXPLAIN}</span>
+			</div>
+
+<!-- IF S_TYPE == 1 -->
+		</fieldset>
+	</div>
+</div>
+<!-- ENDIF -->

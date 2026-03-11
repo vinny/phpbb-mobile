@@ -1,0 +1,60 @@
+<!-- INCLUDE overall_header.html -->
+
+<div class="max-w-lg mx-auto py-8 px-4 sm:px-0">
+	
+	<!-- IF FORUM_NAME -->
+	<div class="mb-4 text-center">
+		<h2 class="text-xl sm:text-2xl font-bold text-slate-800 dark:text-white">
+			<a href="{U_VIEW_FORUM}" class="hover:text-primary transition-colors">{FORUM_NAME}</a>
+		</h2>
+	</div>
+	<!-- ENDIF -->
+
+	<form id="login_forum" method="post" action="{S_LOGIN_ACTION}">
+		{S_FORM_TOKEN}
+		
+		<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden mb-6">
+			<div class="p-6 sm:p-8">
+				
+				<div class="flex items-center gap-3 mb-6 border-b border-primary/10 pb-4">
+					<span class="material-symbols-outlined text-[28px] text-primary">lock</span>
+					<h3 class="text-xl font-bold text-slate-800 dark:text-white">{L_LOGIN}</h3>
+				</div>
+
+				<p class="text-sm text-slate-600 dark:text-slate-400 mb-6 bg-slate-50 dark:bg-slate-900/50 p-4 rounded-lg border border-slate-100 dark:border-slate-800">
+					{L_LOGIN_FORUM}
+				</p>
+
+				<!-- IF LOGIN_ERROR -->
+					<div class="mb-6 bg-red-50 dark:bg-red-900/10 p-4 rounded-xl shadow-sm border border-red-200 dark:border-red-900/30 text-sm text-red-600 dark:text-red-400 font-medium">
+						{LOGIN_ERROR}
+					</div>
+				<!-- ENDIF -->
+
+				<div class="space-y-6">
+					<div class="flex flex-col gap-1">
+						<label for="password" class="text-sm font-bold text-slate-800 dark:text-white">{L_PASSWORD}{L_COLON}</label>
+						<input type="password" tabindex="1" id="password" name="password" autocomplete="off" class="w-full h-11 px-4 rounded-lg border border-slate-300 text-slate-800 focus:border-primary focus:ring-primary shadow-sm dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:focus:border-primary transition-all mt-1" />
+					</div>
+
+					{S_LOGIN_REDIRECT}
+					{S_FORM_TOKEN_LOGIN}
+					
+					<div class="pt-2">
+						{S_HIDDEN_FIELDS}
+						<button type="submit" name="login" id="login" tabindex="2" class="w-full py-3.5 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl shadow-md transition-colors text-base flex items-center justify-center gap-2">
+							<span class="material-symbols-outlined">key</span>
+							{L_LOGIN}
+						</button>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+
+	</form>
+
+</div>
+
+<!-- INCLUDE jumpbox.html -->
+<!-- INCLUDE overall_footer.html -->

@@ -1,0 +1,51 @@
+<!-- EVENT attachment_file_before -->
+
+<!-- BEGIN _file -->
+	<!-- IF _file.S_DENIED -->
+	<p class="text-sm font-medium text-red-600 bg-red-50 p-3 rounded-lg border border-red-200 dark:bg-red-900/20 dark:border-red-900/50 dark:text-red-400 mb-2">[{_file.DENIED_MESSAGE}]</p>
+	<!-- ELSE -->
+		<!-- EVENT attachment_file_prepend -->
+
+		<!-- IF _file.S_THUMBNAIL -->
+		<div class="inline-flex flex-col bg-white dark:bg-slate-800 rounded-xl p-2 border border-slate-200 dark:border-slate-700 shadow-sm max-w-full my-2">
+			<a href="{_file.U_DOWNLOAD_LINK}" class="block overflow-hidden rounded-lg group"><img src="{_file.THUMB_IMAGE}" class="max-w-full h-auto rounded-lg group-hover:opacity-90 transition-opacity" alt="{% if _file.COMMENT %}{{ _file.COMMENT|e('html') }}{% else %}{{ _file.DOWNLOAD_NAME }}{% endif %}" title="{_file.DOWNLOAD_NAME} ({_file.FILESIZE} {_file.SIZE_LANG}) {_file.L_DOWNLOAD_COUNT}" /></a>
+			<!-- IF _file.COMMENT --><div class="mt-2 text-xs text-slate-600 dark:text-slate-400 text-center font-medium px-2 pb-1 truncate w-full">{_file.COMMENT}</div><!-- ENDIF -->
+		</div>
+		<!-- ENDIF -->
+
+		<!-- IF _file.S_IMAGE -->
+		<div class="inline-flex flex-col bg-white dark:bg-slate-800 rounded-xl p-2 border border-slate-200 dark:border-slate-700 shadow-sm max-w-full my-2">
+			<div class="cursor-pointer overflow-hidden rounded-lg relative group"><img src="{_file.U_INLINE_LINK}" class="max-w-full h-auto rounded-lg" alt="{% if _file.COMMENT %}{{ _file.COMMENT|e('html') }}{% else %}{{ _file.DOWNLOAD_NAME }}{% endif %}" onclick="viewableArea(this);" />
+				<div class="absolute inset-0 bg-black/5 group-hover:bg-transparent pointer-events-none transition-colors"></div>
+			</div>
+			<!-- IF _file.COMMENT --><div class="mt-2 text-xs italic text-slate-600 dark:text-slate-400 px-2">{_file.COMMENT}</div><!-- ENDIF -->
+			<div class="mt-2 px-2 pb-1 text-[11px] font-medium text-slate-500 uppercase tracking-wider flex items-center justify-between gap-4">
+				<span class="truncate">{_file.DOWNLOAD_NAME}</span>
+				<span class="shrink-0">({_file.FILESIZE} {_file.SIZE_LANG}) &bull; {_file.L_DOWNLOAD_COUNT}</span>
+			</div>
+		</div>
+		<!-- ENDIF -->
+
+		<!-- IF _file.S_FILE -->
+		<div class="flex flex-row items-center gap-3 bg-white dark:bg-slate-800 rounded-xl p-3 border border-slate-200 dark:border-slate-700 shadow-sm max-w-md w-full my-2">
+			<div class="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10 text-primary shrink-0">
+				<span class="material-symbols-outlined text-[20px]">files</span>
+			</div>
+			<div class="flex flex-col flex-1 min-w-0 ">
+				<a class="text-sm font-bold text-slate-800 dark:text-slate-200 hover:text-primary transition-colors flex items-center gap-1.5" href="{_file.U_DOWNLOAD_LINK}">
+					<!-- IF _file.UPLOAD_ICON -->{_file.UPLOAD_ICON}<!-- ENDIF -->
+					<span class="truncate">{_file.DOWNLOAD_NAME}</span>
+				</a>
+				<!-- IF _file.COMMENT --><div class="text-xs italic text-slate-600 dark:text-slate-400 truncate w-full mb-0.5">{_file.COMMENT}</div><!-- ENDIF -->
+				<div class="mt-0.5 text-[11px] text-slate-500 uppercase tracking-wider font-medium">({_file.FILESIZE} {_file.SIZE_LANG}) &bull; {_file.L_DOWNLOAD_COUNT}</div>
+			</div>
+			<a href="{_file.U_DOWNLOAD_LINK}" class="flex items-center justify-center w-9 h-9 rounded-full bg-slate-50 hover:bg-slate-100 text-slate-500 hover:text-primary dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-400 transition-colors shrink-0" title="{L_DOWNLOAD}">
+				<span class="material-symbols-outlined text-[18px]">download</span>
+			</a>
+		</div>
+		<!-- ENDIF -->
+
+		<!-- EVENT attachment_file_append -->
+	<!-- ENDIF -->
+<!-- END _file -->
+<!-- EVENT attachment_file_after -->

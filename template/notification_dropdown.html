@@ -1,0 +1,73 @@
+
+
+<div id="notification_list" class="dropdown notification_list border-l border-slate-200 dark:border-slate-800 animate-slide-in-right dropdown-extended" style="display: none;">
+	<div class="pointer hidden"><div class="pointer-inner"></div></div>
+	
+	<div class="dropdown-contents flex flex-col">
+		<div class="header shrink-0 flex flex-col p-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+			<div class="flex items-center justify-between">
+				<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight flex items-center gap-2 m-0 border-0 p-0 tracking-tight">
+					<span class="material-symbols-outlined text-[22px] text-slate-400">notifications</span>
+					{L_NOTIFICATIONS}
+				</h2>
+				<button type="button" onclick="jQuery('#notification_list_button').click(); return false;" class="text-slate-400 hover:text-red-500 dark:text-slate-500 dark:hover:text-red-400 transition-colors flex items-center justify-center p-1.5 -mr-1.5 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 outline-none cursor-pointer">
+					<span class="material-symbols-outlined text-[22px]">close</span>
+				</button>
+			</div>
+			<div class="flex items-center justify-between mt-3 pt-3 border-t border-slate-200 dark:border-slate-700/60 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+				<div class="flex items-center gap-3">
+					<a href="{U_NOTIFICATION_SETTINGS}" class="hover:text-primary transition-colors flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">settings</span> {L_SETTINGS}</a>
+					<a href="{U_VIEW_ALL_NOTIFICATIONS}" class="hover:text-primary transition-colors flex items-center gap-1 font-bold text-primary"><span class="material-symbols-outlined text-[14px]">visibility</span> {L_SEE_ALL}</a>
+				</div>
+				<!-- IF NOTIFICATIONS_COUNT -->
+					<div id="mark_all_notifications">
+						<a href="{U_MARK_ALL_NOTIFICATIONS}" data-ajax="notification.mark_all_read" class="text-primary hover:text-primary/70 transition-colors flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">done_all</span> {L_MARK_ALL_READ}</a>
+					</div>
+				<!-- ENDIF -->
+			</div>
+		</div>
+
+		{% EVENT notification_dropdown_footer_before %}
+
+		<ul class="flex-1 overflow-y-auto no-scrollbar flex flex-col m-0 p-0 list-none">
+			<!-- IF not .notifications -->
+				<li class="no_notifications p-8 text-center text-sm text-slate-500 dark:text-slate-400 flex flex-col items-center justify-center h-full m-0 border-0">
+					<span class="material-symbols-outlined text-[48px] text-slate-300 dark:text-slate-700 mb-4">notifications_paused</span>
+					{L_NO_NOTIFICATIONS}
+				</li>
+			<!-- ENDIF -->
+			<!-- BEGIN notifications -->
+				<li class="relative border-b border-slate-100 dark:border-slate-800/50 last:border-0 transition-colors <!-- IF notifications.UNREAD -->bg2 bg-primary/5 dark:bg-primary/10 hover:bg-primary/10 dark:hover:bg-primary/20<!-- ELSE -->hover:bg-slate-50 dark:hover:bg-slate-800/50<!-- ENDIF --><!-- IF notifications.STYLING --> {notifications.STYLING}<!-- ENDIF --><!-- IF not notifications.URL --> no-url<!-- ENDIF --> group p-0 m-0">
+					<!-- IF notifications.URL -->
+						<a class="notification-block flex gap-4 p-4 w-full h-full items-start" href="<!-- IF notifications.UNREAD -->{notifications.U_MARK_READ}" data-real-url="{notifications.URL}<!-- ELSE -->{notifications.URL}<!-- ENDIF -->">
+					<!-- ELSE -->
+						<div class="flex gap-4 p-4 w-full h-full items-start block">
+					<!-- ENDIF -->
+						<div class="notification-avatar-wrap shrink-0 size-10 rounded-full overflow-hidden bg-slate-100 dark:bg-slate-800 flex items-center justify-center ring-2 <!-- IF notifications.UNREAD -->ring-primary/30<!-- ELSE -->ring-transparent border border-slate-200 dark:border-slate-700<!-- ENDIF --> text-slate-400 mt-1">
+							<!-- IF notifications.AVATAR -->{notifications.AVATAR}<!-- ELSE --><span class="material-symbols-outlined text-[24px]">person</span><!-- ENDIF -->
+						</div>
+						<div class="notification_text flex-1 flex flex-col min-w-0 pr-8">
+							<p class="notification-title text-sm text-slate-900 dark:text-slate-200 leading-snug <!-- IF notifications.UNREAD -->font-bold<!-- ELSE -->font-medium<!-- ENDIF --> m-0 p-0">{notifications.FORMATTED_TITLE}</p>
+							<!-- IF notifications.REFERENCE --><p class="notification-reference text-xs text-slate-600 dark:text-slate-400 mt-1.5 line-clamp-2 m-0 p-0">{notifications.REFERENCE}</p><!-- ENDIF -->
+							<!-- IF notifications.FORUM --><p class="notification-forum text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mt-2 flex items-center gap-1 m-0 p-0"><span class="material-symbols-outlined text-[12px]">folder</span> {notifications.FORUM}</p><!-- ENDIF -->
+							<!-- IF notifications.REASON --><p class="notification-reason text-xs font-bold text-amber-600 dark:text-amber-500 mt-1.5 m-0 p-0">{notifications.REASON}</p><!-- ENDIF -->
+							<p class="notification-time text-[10px] font-bold text-slate-400 dark:text-slate-500/80 uppercase tracking-wider mt-2.5 m-0 p-0">{notifications.TIME}</p>
+						</div>
+					<!-- IF notifications.URL --></a><!-- ELSE --></div><!-- ENDIF -->
+					
+					<!-- IF notifications.UNREAD -->
+						<a href="{notifications.U_MARK_READ}" class="mark_read icon-mark absolute right-4 top-4 text-primary hover:text-primary/70 transition-colors z-10 bg-white dark:bg-slate-900 rounded-full flex shadow-sm ring-2 ring-white dark:ring-slate-900" data-ajax="notification.mark_read" title="{L_MARK_READ}">
+							 <span class="material-symbols-outlined text-[20px]" aria-hidden="true">check_circle</span><span class="sr-only">{L_MARK_READ}</span>
+						</a>
+					<!-- ELSE -->
+						<div class="absolute right-4 top-4 text-slate-300 dark:text-slate-700 opacity-0 group-hover:opacity-100 transition-opacity flex">
+							<span class="material-symbols-outlined text-[20px]" aria-hidden="true">check_circle</span>
+						</div>
+					<!-- ENDIF -->
+				</li>
+			<!-- END notifications -->
+		</ul>
+
+		{% EVENT notification_dropdown_footer_after %}
+	</div>
+</div>

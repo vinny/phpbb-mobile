@@ -1,0 +1,44 @@
+<!-- IF .avatar_local_cats -->
+<div class="space-y-6">
+	<div class="flex flex-col sm:flex-row sm:items-center gap-3 bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800">
+		<label for="category" class="text-sm font-bold text-slate-800 dark:text-white whitespace-nowrap">{L_AVATAR_CATEGORY}{L_COLON}</label>
+		<div class="flex flex-1 items-center gap-2">
+			<div class="relative flex-1">
+				<select name="avatar_local_cat" id="category" class="w-full h-10 pl-3 pr-8 appearance-none rounded-lg border border-slate-300 text-slate-800 focus:border-primary focus:ring-primary shadow-sm bg-white dark:border-slate-600 dark:bg-slate-900 dark:text-white transition-all text-sm cursor-pointer font-medium">
+					<!-- BEGIN avatar_local_cats -->
+					<option value="{avatar_local_cats.NAME}"<!-- IF avatar_local_cats.SELECTED --> selected="selected"<!-- ENDIF -->>{avatar_local_cats.NAME}</option>
+					<!-- END avatar_local_cats -->
+				</select>
+				<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[18px]">expand_more</span>
+			</div>
+			<button type="submit" name="avatar_local_go" class="h-10 px-4 bg-primary hover:bg-primary/90 text-white font-bold text-sm rounded-lg shadow-sm transition-colors flex items-center justify-center">
+				{L_GO}
+			</button>
+		</div>
+	</div>
+
+	<div id="gallery" class="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
+	<!-- BEGIN avatar_local_row -->
+	<!-- BEGIN avatar_local_col -->
+		<label for="av-{avatar_local_row.S_ROW_COUNT}-{avatar_local_row.avatar_local_col.S_ROW_COUNT}" class="relative group cursor-pointer">
+			<input type="radio" name="avatar_local_file" id="av-{avatar_local_row.S_ROW_COUNT}-{avatar_local_row.avatar_local_col.S_ROW_COUNT}" value="{avatar_local_row.avatar_local_col.AVATAR_FILE}"<!-- IF avatar_local_row.avatar_local_col.CHECKED --> checked="checked"<!-- ENDIF --> class="peer absolute opacity-0" />
+			
+			<div class="bg-white dark:bg-slate-800 rounded-xl p-3 border-2 border-slate-200 dark:border-slate-700 shadow-sm transition-all peer-checked:border-primary peer-checked:ring-4 peer-checked:ring-primary/10 peer-focus:border-primary hover:border-primary/50 flex flex-col items-center gap-2">
+				<div class="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center overflow-hidden rounded-lg bg-slate-50 dark:bg-slate-900/50">
+					<img src="{avatar_local_row.avatar_local_col.AVATAR_IMAGE}" alt="" class="max-w-full max-h-full object-contain transition-transform group-hover:scale-110" />
+				</div>
+				<div class="w-5 h-5 rounded-full border-2 border-slate-300 dark:border-slate-600 peer-checked:border-primary peer-checked:bg-primary flex items-center justify-center transition-all bg-white dark:bg-slate-700">
+					<span class="material-symbols-outlined text-white text-[14px]">check</span>
+				</div>
+			</div>
+		</label>
+	<!-- END avatar_local_col -->
+	<!-- END avatar_local_row -->
+	</div>
+</div>
+<!-- ELSE -->
+	<div class="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-8 text-center border border-slate-200 dark:border-slate-700 border-dashed">
+		<span class="material-symbols-outlined text-[48px] text-slate-300 dark:text-slate-600 mb-3 block">sentiment_dissatisfied</span>
+		<p class="text-sm font-medium text-slate-500 dark:text-slate-400"><strong>{L_NO_AVATARS}</strong></p>
+	</div>
+<!-- ENDIF -->

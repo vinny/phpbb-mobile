@@ -1,0 +1,22 @@
+<div class="space-y-6">
+	<div class="flex flex-col gap-2">
+		<label for="avatar_upload_file" class="text-sm font-bold text-slate-800 dark:text-white">{L_UPLOAD_AVATAR_FILE}{L_COLON}</label>
+		<div class="mt-1">
+			<input type="hidden" name="MAX_FILE_SIZE" value="{AVATAR_UPLOAD_SIZE}" />
+			<input type="file" name="avatar_upload_file" id="avatar_upload_file" class="block w-full text-sm text-slate-500 dark:text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer transition-all border border-slate-300 dark:border-slate-600 rounded-lg p-1.5 bg-slate-50 dark:bg-slate-900/50" accept="{{ AVATAR_ALLOWED_EXTENSIONS }}" />
+		</div>
+	</div>
+
+	<!-- IF S_UPLOAD_AVATAR_URL -->
+		<div class="flex flex-col gap-2 pt-2 border-t border-slate-100 dark:border-slate-700/50">
+			<label for="avatar_upload_url" class="text-sm font-bold text-slate-800 dark:text-white">{L_UPLOAD_AVATAR_URL}{L_COLON}</label>
+			<span class="text-xs text-slate-500 dark:text-slate-400">{L_UPLOAD_AVATAR_URL_EXPLAIN}</span>
+			<div class="mt-1 relative">
+				<span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+					<span class="material-symbols-outlined text-[20px]">upload</span>
+				</span>
+				<input type="url" name="avatar_upload_url" id="avatar_upload_url" value="" class="w-full h-11 pl-10 pr-4 rounded-lg border border-slate-300 text-slate-800 focus:border-primary focus:ring-primary shadow-sm dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:focus:border-primary transition-all" />
+			</div>
+		</div>
+	<!-- ENDIF -->
+</div>

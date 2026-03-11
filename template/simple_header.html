@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html dir="{S_CONTENT_DIRECTION}" lang="{S_USER_LANG}">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+{META}
+<title>{SITENAME} &bull; <!-- IF S_IN_MCP -->{L_MCP} &bull; <!-- ELSEIF S_IN_UCP -->{L_UCP} &bull; <!-- ENDIF -->{PAGE_TITLE}</title>
+
+<!-- Tailwind CSS & MobilePro Fonts Setup -->
+<link href="{T_THEME_PATH}/tailwind.css?assets_version={T_ASSETS_VERSION}" rel="stylesheet">
+<link href="{T_THEME_PATH}/fonts.css?assets_version={T_ASSETS_VERSION}" rel="stylesheet">
+
+<link href="{T_STYLESHEET_LINK}" rel="stylesheet">
+
+
+<!-- DEFINE $POPUP = 1 -->
+
+<!-- EVENT simple_header_head_append -->
+
+{$STYLESHEETS}
+
+<!-- EVENT simple_header_stylesheets_after -->
+
+</head>
+
+<body id="phpbb" class="nojs {S_CONTENT_DIRECTION} {BODY_CLASS} bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-slate-200 antialiased">
+<script>
+	// Initial theme set based on preference (Default to Light)
+	var isDark = localStorage.getItem('theme') === 'dark';
+	if (isDark) document.documentElement.classList.add('dark');
+</script>
+
+<!-- EVENT simple_header_body_before -->
+
+<div id="wrap" class="w-full max-w-4xl mx-auto p-4 md:p-8">
+	<a id="top" class="hidden" accesskey="t"></a>
+	<div id="page-body" role="main">

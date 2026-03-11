@@ -1,0 +1,235 @@
+<!-- INCLUDE overall_header.html -->
+
+<main class="flex-1 flex flex-col p-4 gap-6 pb-24 w-full max-w-3xl mx-auto">
+	<div class="flex items-center justify-between">
+		<h2 class="text-xl font-bold tracking-tight text-slate-800 dark:text-slate-100">{L_SEARCH}</h2>
+	</div>
+
+	<!-- EVENT search_body_form_before -->
+	<form method="get" action="{S_SEARCH_ACTION}" data-focus="keywords" class="flex flex-col gap-6">
+
+		<!-- Search Keywords Card -->
+		<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700/50 p-5 flex flex-col gap-4">
+			<!-- EVENT search_body_search_query_before -->
+			<!-- EVENT search_body_search_query_prepend -->
+			<label class="flex flex-col gap-2">
+				<span class="text-slate-900 dark:text-slate-100 text-base font-semibold">{L_SEARCH_KEYWORDS} <span class="text-xs font-normal text-slate-500 block mt-1">{L_SEARCH_KEYWORDS_EXPLAIN}</span></span>
+				<div class="relative mt-1">
+					<span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 material-symbols-outlined">search</span>
+					<input type="search" name="keywords" id="keywords" size="40" title="{L_SEARCH_KEYWORDS}" class="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-shadow" placeholder="{L_SEARCH_KEYWORDS}" />
+				</div>
+			</label>
+
+			<div class="grid grid-cols-2 gap-3 mt-2">
+				<label class="cursor-pointer group relative">
+					<input type="radio" name="terms" id="terms1" value="all" checked="checked" class="peer sr-only" />
+					<div class="flex items-center justify-center gap-2 py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 text-slate-500 peer-checked:bg-primary/10 peer-checked:border-primary peer-checked:text-primary transition-all text-sm font-medium">
+						{L_SEARCH_ALL_TERMS}
+					</div>
+				</label>
+				<label class="cursor-pointer group relative">
+					<input type="radio" name="terms" id="terms2" value="any" class="peer sr-only" />
+					<div class="flex items-center justify-center gap-2 py-2 px-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 text-slate-500 peer-checked:bg-primary/10 peer-checked:border-primary peer-checked:text-primary transition-all text-sm font-medium">
+						{L_SEARCH_ANY_TERMS}
+					</div>
+				</label>
+			</div>
+			<!-- EVENT search_body_search_query_append -->
+			<!-- EVENT search_body_search_query_after -->
+		</div>
+
+		<!-- Filters Section -->
+		<div class="flex flex-col gap-4">
+			<h3 class="text-slate-500 dark:text-slate-400 text-sm font-semibold uppercase tracking-wider ml-1">{L_SEARCH_OPTIONS}</h3>
+			
+			<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700/50 overflow-hidden flex flex-col">
+				<!-- EVENT search_body_search_options_before -->
+				<!-- EVENT search_body_search_options_prepend -->
+
+				<!-- Author -->
+				<label class="flex flex-col p-5 gap-2 border-b border-slate-100 dark:border-slate-700/50">
+					<span class="text-slate-900 dark:text-slate-100 text-base font-medium">{L_SEARCH_AUTHOR} <span class="text-xs font-normal text-slate-500 block mt-1">{L_SEARCH_AUTHOR_EXPLAIN}</span></span>
+					<div class="relative mt-1">
+						<span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 material-symbols-outlined text-[20px]">person</span>
+						<input type="search" name="author" id="author" size="40" title="{L_SEARCH_AUTHOR}" class="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-shadow" placeholder="{L_SEARCH_AUTHOR}" />
+					</div>
+				</label>
+
+				<!-- Search in Forums -->
+				<label class="flex flex-col p-5 gap-2 border-b border-slate-100 dark:border-slate-700/50">
+					<span class="text-slate-900 dark:text-slate-100 text-base font-medium">{L_SEARCH_FORUMS}</span>
+					<span class="text-xs text-slate-500">{L_SEARCH_FORUMS_EXPLAIN}</span>
+					<div class="relative mt-1">
+						<select name="fid[]" id="search_forum" multiple="multiple" size="6" title="{L_SEARCH_FORUMS}" class="w-full py-3 px-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-shadow">
+							{S_FORUM_OPTIONS}
+						</select>
+					</div>
+				</label>
+
+				<!-- Search Subforums -->
+				<div class="flex items-center justify-between p-5 gap-4 border-b border-slate-100 dark:border-slate-700/50">
+					<span class="text-slate-900 dark:text-slate-100 text-base font-medium">{L_SEARCH_SUBFORUMS}</span>
+					<div class="flex gap-4">
+						<label class="flex items-center gap-2 cursor-pointer">
+							<input type="radio" name="sc" id="search_child1" value="1" checked="checked" class="w-4 h-4 text-primary focus:ring-primary dark:bg-slate-800 dark:border-slate-600 border-slate-300" />
+							<span class="text-sm text-slate-700 dark:text-slate-300 font-medium">{L_YES}</span>
+						</label>
+						<label class="flex items-center gap-2 cursor-pointer">
+							<input type="radio" name="sc" id="search_child2" value="0" class="w-4 h-4 text-primary focus:ring-primary dark:bg-slate-800 dark:border-slate-600 border-slate-300" />
+							<span class="text-sm text-slate-700 dark:text-slate-300 font-medium">{L_NO}</span>
+						</label>
+					</div>
+				</div>
+
+				<!-- EVENT search_body_search_options_append -->
+				<!-- EVENT search_body_search_display_options_prepend -->
+
+				<!-- Display As -->
+				<div class="flex flex-col p-5 gap-3 border-b border-slate-100 dark:border-slate-700/50">
+					<span class="text-slate-900 dark:text-slate-100 text-base font-medium">{L_DISPLAY_RESULTS}</span>
+					<div class="grid grid-cols-2 gap-3 mt-1">
+						<label class="cursor-pointer">
+							<input type="radio" name="sr" id="show_results1" value="posts" checked="checked" class="peer sr-only" />
+							<div class="flex items-center justify-center gap-2 py-3 px-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 text-slate-500 peer-checked:bg-primary/10 peer-checked:border-primary peer-checked:text-primary transition-all">
+								<span class="material-symbols-outlined text-[20px]">chat</span>
+								<span class="font-medium text-sm">{L_POSTS}</span>
+							</div>
+						</label>
+						<label class="cursor-pointer">
+							<input type="radio" name="sr" id="show_results2" value="topics" class="peer sr-only" />
+							<div class="flex items-center justify-center gap-2 py-3 px-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 text-slate-500 peer-checked:bg-primary/10 peer-checked:border-primary peer-checked:text-primary transition-all">
+								<span class="material-symbols-outlined text-[20px]">topic</span>
+								<span class="font-medium text-sm">{L_TOPICS}</span>
+							</div>
+						</label>
+					</div>
+				</div>
+
+				<!-- Sort Results -->
+				<div class="flex flex-col p-5 gap-3 border-b border-slate-100 dark:border-slate-700/50">
+					<span class="text-slate-900 dark:text-slate-100 text-base font-medium">{L_RESULT_SORT}</span>
+					<div class="flex flex-col gap-3 mt-1">
+						<div class="[&_select]:w-full [&_select]:py-3 [&_select]:px-4 [&_select]:rounded-lg [&_select]:border-slate-200 [&_select]:dark:border-slate-700 [&_select]:bg-slate-50 [&_select]:dark:bg-slate-900/50 [&_select]:text-slate-900 [&_select]:dark:text-white [&_select]:focus:ring-primary/50">
+							{S_SELECT_SORT_KEY}
+						</div>
+						<div class="flex items-center justify-between px-1">
+							<label class="flex items-center gap-2 cursor-pointer">
+								<input type="radio" name="sd" id="sa" value="a" class="w-4 h-4 text-primary focus:ring-primary dark:bg-slate-800 dark:border-slate-600 border-slate-300" />
+								<span class="text-sm text-slate-700 dark:text-slate-300 font-medium">{L_SORT_ASCENDING}</span>
+							</label>
+							<label class="flex items-center gap-2 cursor-pointer">
+								<input type="radio" name="sd" id="sd" value="d" checked="checked" class="w-4 h-4 text-primary focus:ring-primary dark:bg-slate-800 dark:border-slate-600 border-slate-300" />
+								<span class="text-sm text-slate-700 dark:text-slate-300 font-medium">{L_SORT_DESCENDING}</span>
+							</label>
+						</div>
+					</div>
+				</div>
+
+				<!-- Result Days -->
+				<div class="flex flex-col p-5 gap-3 border-b border-slate-100 dark:border-slate-700/50">
+					<span class="text-slate-900 dark:text-slate-100 text-base font-medium">{L_RESULT_DAYS}</span>
+					<div class="[&_select]:w-full [&_select]:appearance-none [&_select]:py-3 [&_select]:pl-4 [&_select]:pr-10 [&_select]:rounded-lg [&_select]:border-slate-200 [&_select]:dark:border-slate-700 [&_select]:bg-slate-50 [&_select]:dark:bg-slate-900/50 [&_select]:text-slate-900 [&_select]:dark:text-white [&_select]:focus:ring-primary/50 relative mt-1">
+						{S_SELECT_SORT_DAYS}
+					</div>
+				</div>
+
+				<!-- Return first X characters -->
+				<label class="flex flex-col p-5 gap-2">
+					<span class="text-slate-900 dark:text-slate-100 text-base font-medium">{{ lang('RETURN_FIRST') }} <span class="text-xs font-normal text-slate-500 block mt-1">{{ lang('RETURN_FIRST_EXPLAIN') }}</span></span>
+					<div class="flex items-center gap-3 mt-1">
+						<input id="ch" name="ch" type="number" value="{{ DEFAULT_RETURN_CHARS }}" min="0" max="9999" title="{{ lang('RETURN_FIRST') }}" class="w-24 px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-shadow" />
+						<span class="text-sm text-slate-600 dark:text-slate-400 font-medium">{{ lang('POST_CHARACTERS') }}</span>
+					</div>
+				</label>
+
+				<!-- EVENT search_body_search_display_options_append -->
+				<!-- EVENT search_body_search_options_after -->
+			</div>
+		</div>
+
+		<!-- Search Scope Radio Group -->
+		<div class="flex flex-col gap-4">
+			<h3 class="text-slate-500 dark:text-slate-400 text-sm font-semibold uppercase tracking-wider ml-1">{L_SEARCH_WITHIN}</h3>
+			<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700/50 overflow-hidden">
+				
+				<label class="flex items-start gap-4 p-4 border-b border-slate-100 dark:border-slate-700/50 last:border-0 cursor-pointer group hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
+					<div class="mt-0.5 relative flex items-center">
+						<input type="radio" name="sf" id="sf1" value="all" checked="checked" class="peer h-5 w-5 appearance-none rounded-full border-2 border-slate-300 dark:border-slate-600 checked:border-primary checked:bg-primary transition-all" />
+						<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+					</div>
+					<div class="flex flex-col gap-1">
+						<span class="text-slate-900 dark:text-slate-100 font-medium leading-none">{L_SEARCH_TITLE_MSG}</span>
+					</div>
+				</label>
+				
+				<label class="flex items-start gap-4 p-4 border-b border-slate-100 dark:border-slate-700/50 last:border-0 cursor-pointer group hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
+					<div class="mt-0.5 relative flex items-center">
+						<input type="radio" name="sf" id="sf2" value="msgonly" class="peer h-5 w-5 appearance-none rounded-full border-2 border-slate-300 dark:border-slate-600 checked:border-primary checked:bg-primary transition-all" />
+						<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+					</div>
+					<div class="flex flex-col gap-1">
+						<span class="text-slate-900 dark:text-slate-100 font-medium leading-none">{L_SEARCH_MSG_ONLY}</span>
+					</div>
+				</label>
+
+				<label class="flex items-start gap-4 p-4 border-b border-slate-100 dark:border-slate-700/50 last:border-0 cursor-pointer group hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
+					<div class="mt-0.5 relative flex items-center">
+						<input type="radio" name="sf" id="sf3" value="titleonly" class="peer h-5 w-5 appearance-none rounded-full border-2 border-slate-300 dark:border-slate-600 checked:border-primary checked:bg-primary transition-all" />
+						<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+					</div>
+					<div class="flex flex-col gap-1">
+						<span class="text-slate-900 dark:text-slate-100 font-medium leading-none">{L_SEARCH_TITLE_ONLY}</span>
+					</div>
+				</label>
+
+				<label class="flex items-start gap-4 p-4 border-b border-slate-100 dark:border-slate-700/50 last:border-0 cursor-pointer group hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
+					<div class="mt-0.5 relative flex items-center">
+						<input type="radio" name="sf" id="sf4" value="firstpost" class="peer h-5 w-5 appearance-none rounded-full border-2 border-slate-300 dark:border-slate-600 checked:border-primary checked:bg-primary transition-all" />
+						<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+					</div>
+					<div class="flex flex-col gap-1">
+						<span class="text-slate-900 dark:text-slate-100 font-medium leading-none">{L_SEARCH_FIRST_POST}</span>
+					</div>
+				</label>
+
+			</div>
+		</div>
+
+		<!-- Sticky Bottom Search Button -->
+		<div class="sticky bottom-[80px] mt-6 left-0 right-0 !p-3 -mx-4 shadow-[0_-15px_15px_-15px_rgba(0,0,0,0.1)] z-40 bg-background-light dark:bg-background-dark pointer-events-none before:absolute before:inset-0 before:backdrop-blur-xl before:bg-background-light/95 before:dark:bg-background-dark/95 before:-z-10 before:border-t before:border-slate-200 before:dark:border-slate-800">
+			<!-- Note: the pointer-events-none on parent is to avoid blocking interactions outside the button area if background isn't purely solid. Button is pointer-events-auto -->
+			<div class="relative z-10 pointer-events-auto max-w-3xl mx-auto">
+				{S_HIDDEN_FIELDS}
+				<button type="submit" name="submit" class="w-full bg-primary hover:bg-primary/90 text-white font-bold text-[17px] h-14 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-primary/20 transition-transform active:scale-[0.98]">
+					<span class="material-symbols-outlined text-[24px]">search</span>
+					{L_SEARCH}
+				</button>
+			</div>
+		</div>
+
+	</form>
+	<!-- EVENT search_body_form_after -->
+
+	<!-- EVENT search_body_recent_search_before -->
+	<!-- IF .recentsearch -->
+	<div class="flex flex-col gap-4 mt-2">
+		<h3 class="text-slate-500 dark:text-slate-400 text-sm font-semibold uppercase tracking-wider ml-1">{L_RECENT_SEARCHES}</h3>
+		<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700/50 overflow-hidden">
+			<ul class="divide-y divide-slate-100 dark:divide-slate-700/50">
+			<!-- BEGIN recentsearch -->
+				<li class="flex items-center justify-between p-4 hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
+					<a href="{recentsearch.U_KEYWORDS}" class="font-medium text-slate-800 dark:text-slate-200 hover:text-primary dark:hover:text-primary transition-colors flex-1 truncate pr-4">{recentsearch.KEYWORDS}</a>
+					<span class="text-xs font-semibold text-slate-400 whitespace-nowrap bg-slate-100 dark:bg-slate-900 rounded-md px-2 py-1">{recentsearch.TIME}</span>
+				</li>
+			<!-- BEGINELSE -->
+				<li class="p-4 text-center text-slate-500 text-sm">{L_NO_RECENT_SEARCHES}</li>
+			<!-- END recentsearch -->
+			</ul>
+		</div>
+	</div>
+	<!-- ENDIF -->
+	<!-- EVENT search_body_recent_search_after -->
+
+</main>
+
+<!-- INCLUDE overall_footer.html -->

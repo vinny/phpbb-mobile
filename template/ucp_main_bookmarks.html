@@ -1,0 +1,175 @@
+<!-- INCLUDE ucp_header.html -->
+
+<form id="ucp" method="post" action="{S_UCP_ACTION}"{S_FORM_ENCTYPE}>
+
+	<div class="flex items-center justify-between mb-6 border-b border-primary/10 pb-4">
+		<h2 class="text-base sm:text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
+			<span class="material-symbols-outlined text-[20px] text-primary">bookmark</span>
+			{L_TITLE}
+		</h2>
+	</div>
+
+	<p class="text-sm text-slate-500 dark:text-slate-400 mb-6 leading-relaxed bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800">
+		{L_BOOKMARKS_EXPLAIN}
+	</p>
+
+	<!-- IF S_NO_DISPLAY_BOOKMARKS -->
+		<div class="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600 dark:border-red-900/30 dark:bg-red-900/10 dark:text-red-400 font-medium">
+			{L_BOOKMARKS_DISABLED}
+		</div>
+	<!-- ELSE -->
+
+		<!-- IF .topicrow -->
+			<div class="space-y-3 mb-8">
+				<!-- BEGIN topicrow -->
+					<!-- IF topicrow.S_DELETED_TOPIC -->
+						<div class="bg-red-50 dark:bg-red-900/10 p-4 rounded-xl shadow-sm border border-red-200 dark:border-red-900/30 flex items-center justify-between gap-4">
+							<div class="flex items-center gap-3">
+								<span class="material-symbols-outlined text-red-500 text-[20px]">delete_forever</span>
+								<strong class="text-sm text-red-700 dark:text-red-400 font-medium">{L_DELETED_TOPIC}</strong>
+							</div>
+							<div class="shrink-0 flex items-center">
+								<span class="text-xs font-medium text-slate-500 sm:hidden uppercase tracking-wide mr-3">{L_MARK}</span>
+								<input type="checkbox" name="t[{topicrow.TOPIC_ID}]" id="t{topicrow.TOPIC_ID}" class="w-5 h-5 rounded sm:rounded-md border-slate-300 text-red-500 shadow-sm focus:border-red-500 focus:ring-red-500 dark:border-slate-600 dark:bg-slate-900 dark:checked:bg-red-500 cursor-pointer transition-all" />
+							</div>
+						</div>
+					<!-- ELSE -->
+						<div class="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors hover:bg-slate-50 dark:hover:bg-slate-700/50 relative<!-- IF topicrow.S_TOPIC_REPORTED --> border-l-4 border-l-red-500<!-- ENDIF -->">
+							<div class="flex gap-4 sm:flex-1">
+								<!-- IF topicrow.S_UNREAD_TOPIC -->
+									<a href="{topicrow.U_NEWEST_POST}" class="absolute inset-0 z-0" title="{L_VIEW_UNREAD_POST}"></a>
+								<!-- ENDIF -->
+
+								<div class="hidden sm:flex shrink-0 w-10 h-10 rounded-lg bg-primary/5 text-primary items-center justify-center border border-primary/10">
+									<span class="material-symbols-outlined text-[20px]" <!-- IF topicrow.TOPIC_ICON_IMG and topicrow.S_TOPIC_ICONS -->style="background-image: url({T_ICONS_PATH}{topicrow.TOPIC_ICON_IMG}); background-repeat: no-repeat; width:100%; height:100%; display:inline-block;"<!-- ENDIF -->>
+										<!-- IF not topicrow.TOPIC_ICON_IMG -->forum<!-- ENDIF -->
+									</span>
+								</div>
+
+								<div class="flex-1 min-w-0 z-10">
+									<div class="flex items-start gap-2 mb-1">
+										<!-- IF topicrow.S_UNREAD_TOPIC -->
+											<a href="{topicrow.U_NEWEST_POST}" class="shrink-0 text-red-500 hover:text-red-600 transition-colors mt-0.5">
+												<span class="material-symbols-outlined text-[16px] animate-pulse">mark_email_unread</span>
+											</a>
+										<!-- ENDIF -->
+										<a href="{topicrow.U_VIEW_TOPIC}" class="text-base font-bold text-slate-800 dark:text-white hover:text-primary dark:hover:text-primary transition-colors line-clamp-2 leading-snug">{topicrow.TOPIC_TITLE}</a>
+										
+										<!-- IF topicrow.S_TOPIC_UNAPPROVED or topicrow.S_POSTS_UNAPPROVED -->
+											<a href="{topicrow.U_MCP_QUEUE}" class="shrink-0 text-sky-500 hover:text-sky-600 transition-colors mt-0.5" title="{L_TOPIC_UNAPPROVED}">
+												<span class="material-symbols-outlined text-[16px]">help</span>
+											</a>
+										<!-- ENDIF -->
+										<!-- IF topicrow.S_TOPIC_REPORTED -->
+											<a href="{topicrow.U_MCP_REPORT}" class="shrink-0 text-red-500 hover:text-red-600 transition-colors mt-0.5" title="{L_TOPIC_REPORTED}">
+												<span class="material-symbols-outlined text-[16px]">report</span>
+											</a>
+										<!-- ENDIF -->
+									</div>
+
+									{% EVENT ucp_main_bookmarks_topic_title_after %}
+
+									<!-- IF .topicrow.pagination -->
+										<div class="flex items-center gap-1 mt-2 mb-2">
+											<span class="material-symbols-outlined text-[14px] text-slate-400">pages</span>
+											<div class="flex gap-1">
+												<!-- BEGIN pagination -->
+													<!-- IF topicrow.pagination.S_IS_PREV -->
+													<!-- ELSEIF topicrow.pagination.S_IS_CURRENT --><span class="text-xs px-1.5 py-0.5 rounded bg-primary text-white font-medium">{topicrow.pagination.PAGE_NUMBER}</span>
+													<!-- ELSEIF topicrow.pagination.S_IS_ELLIPSIS --><span class="text-xs px-1 text-slate-400">{L_ELLIPSIS}</span>
+													<!-- ELSEIF topicrow.pagination.S_IS_NEXT -->
+													<!-- ELSE --><a href="{topicrow.pagination.PAGE_URL}" class="text-xs px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-primary/10 hover:text-primary transition-colors">{topicrow.pagination.PAGE_NUMBER}</a>
+													<!-- ENDIF -->
+												<!-- END pagination -->
+											</div>
+										</div>
+									<!-- ENDIF -->
+
+									<div class="flex items-center flex-wrap gap-x-3 gap-y-1 mt-1.5 text-xs text-slate-500 dark:text-slate-400">
+										<span class="flex items-center gap-1">
+											<span class="material-symbols-outlined text-[14px]">person</span>
+											{topicrow.TOPIC_AUTHOR_FULL}
+										</span>
+										<span class="flex items-center gap-1">
+											<span class="material-symbols-outlined text-[14px]">schedule</span>
+											{topicrow.FIRST_POST_TIME}
+										</span>
+										<!-- IF topicrow.ATTACH_ICON_IMG -->
+											<span class="flex items-center gap-1 text-primary">
+												<span class="material-symbols-outlined text-[14px]">attach_file</span>
+											</span>
+										<!-- ENDIF -->
+									</div>
+								</div>
+							</div>
+
+							<div class="flex items-center justify-between sm:justify-end gap-x-6 sm:gap-4 shrink-0 sm:pl-4 sm:border-l border-slate-100 dark:border-slate-700/50 pt-3 sm:pt-0 mt-3 sm:mt-0 z-10 w-full sm:w-auto">
+								<div class="text-xs text-left sm:text-right flex-1 sm:flex-initial">
+									<div class="uppercase tracking-wider text-[10px] font-bold text-slate-400 dark:text-slate-500 mb-0.5"><dfn class="hidden">{L_LAST_POST} </dfn>{L_LAST_POST}</div>
+									<div class="text-slate-600 dark:text-slate-300 font-medium mb-0.5">{topicrow.LAST_POST_AUTHOR_FULL}</div>
+									<div class="text-slate-400 flex items-center gap-1 sm:justify-end">
+										<span class="material-symbols-outlined text-[12px]">schedule</span>
+										<a href="{topicrow.U_LAST_POST}" class="hover:text-primary transition-colors">{topicrow.LAST_POST_TIME}</a>
+									</div>
+								</div>
+								
+								<div class="flex items-center gap-3">
+									<a href="{topicrow.U_LAST_POST}" class="w-8 h-8 rounded-full bg-slate-50 dark:bg-slate-900 flex items-center justify-center text-slate-400 hover:text-primary hover:bg-primary/10 transition-colors hidden sm:flex" title="{L_GOTO_LAST_POST}">
+										<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+									</a>
+									<div class="flex items-center shrink-0">
+										<span class="text-xs font-medium text-slate-500 sm:hidden uppercase tracking-wide mr-2">{L_MARK}</span>
+										<input type="checkbox" name="t[{topicrow.TOPIC_ID}]" id="t{topicrow.TOPIC_ID}" class="w-5 h-5 rounded sm:rounded-md border-slate-300 text-primary shadow-sm focus:border-primary focus:ring-primary dark:border-slate-600 dark:bg-slate-900 dark:checked:bg-primary cursor-pointer transition-all" />
+									</div>
+								</div>
+							</div>
+						</div>
+					<!-- ENDIF -->
+				<!-- END topicrow -->
+			</div>
+
+			<div class="flex flex-col sm:flex-row items-center justify-between gap-4 py-4 border-t border-slate-100 dark:border-slate-700/50">
+				<div class="text-sm text-slate-500 dark:text-slate-400 font-medium">
+					{TOTAL_TOPICS}
+				</div>
+				<!-- IF .pagination -->
+					<div class="flex items-center">
+						<!-- INCLUDE pagination.html -->
+					</div>
+				<!-- ELSE -->
+					<div class="text-sm text-slate-500 dark:text-slate-400 font-medium">
+						{PAGE_NUMBER}
+					</div>
+				<!-- ENDIF -->
+			</div>
+
+		<!-- ELSE -->
+			<div class="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-8 text-center border border-slate-200 dark:border-slate-700 border-dashed">
+				<span class="material-symbols-outlined text-[48px] text-slate-300 dark:text-slate-600 mb-3 block">bookmark_remove</span>
+				<span class="text-sm font-medium text-slate-500 dark:text-slate-400">{L_NO_BOOKMARKS}</span>
+			</div>
+		<!-- ENDIF -->
+
+	<!-- ENDIF -->
+
+	<!-- IF .topicrow and not S_NO_DISPLAY_BOOKMARKS -->
+		<div class="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4 border-t border-slate-100 dark:border-slate-700/50">
+			<div class="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400">
+				<a href="#" onclick="marklist('ucp', '', true); return false;" class="hover:text-primary transition-colors">{L_MARK_ALL}</a>
+				<span class="text-slate-300 dark:text-slate-600">&bull;</span>
+				<a href="#" onclick="marklist('ucp', '', false); return false;" class="hover:text-primary transition-colors">{L_UNMARK_ALL}</a>
+			</div>
+			<div class="w-full sm:w-auto">
+				{S_HIDDEN_FIELDS}
+				<button type="submit" name="unbookmark" value="{L_REMOVE_BOOKMARK_MARKED}" class="w-full sm:w-auto px-6 py-2.5 sm:py-2 bg-red-50 hover:bg-red-100 text-red-600 dark:bg-red-900/20 dark:hover:bg-red-900/30 dark:text-red-400 font-semibold text-sm rounded-lg transition-colors border border-red-200 dark:border-red-900/30 flex items-center justify-center gap-2">
+					<span class="material-symbols-outlined text-[18px]">bookmark_remove</span>
+					{L_REMOVE_BOOKMARK_MARKED}
+				</button>
+				{S_FORM_TOKEN}
+			</div>
+		</div>
+	<!-- ENDIF -->
+
+</form>
+
+<!-- INCLUDE ucp_footer.html -->

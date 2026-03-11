@@ -1,0 +1,37 @@
+<form method="post" action="{U_QR_ACTION}" id="qr_postform">
+<!-- EVENT quickreply_editor_panel_before -->
+<div class="px-4 mt-6 mb-6">
+	<div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+		<h2 class="mb-4 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+			<span class="material-symbols-outlined text-[18px] text-primary">reply</span>
+			{L_QUICKREPLY}
+		</h2>
+		
+		<fieldset class="flex flex-col gap-4">
+			<!-- EVENT quickreply_editor_subject_before -->
+			<div class="flex flex-col gap-1">
+				<label for="subject" class="text-xs font-bold uppercase tracking-wider text-slate-500">{L_SUBJECT}{L_COLON}</label>
+				<input type="text" name="subject" id="subject" size="45" maxlength="124" tabindex="2" value="{SUBJECT}" class="w-full rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900/50 dark:text-white transition-colors" />
+			</div>
+			
+			<!-- EVENT quickreply_editor_message_before -->
+			<div id="message-box" class="flex flex-col">
+				<textarea name="message" id="message" rows="7" tabindex="3" class="w-full rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900/50 dark:text-white min-h-[120px] resize-y transition-colors"></textarea>
+			</div>
+			<!-- EVENT quickreply_editor_message_after -->
+		</fieldset>
+		
+		<fieldset class="mt-4 flex flex-col sm:flex-row items-center gap-3">
+			{S_FORM_TOKEN}
+			{QR_HIDDEN_FIELDS}
+			<button type="submit" accesskey="s" tabindex="7" name="post" class="w-full sm:w-auto flex items-center justify-center gap-2 rounded-lg bg-primary px-6 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-transform active:scale-95 dark:focus:ring-offset-slate-800 cursor-pointer">
+				<span class="material-symbols-outlined text-[18px]">send</span> {L_SUBMIT}
+			</button>
+			<button type="submit" accesskey="f" tabindex="6" name="preview" id="qr_full_editor" class="w-full sm:w-auto flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-6 py-2.5 text-sm font-bold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 dark:focus:ring-offset-slate-800 cursor-pointer">
+				<span class="material-symbols-outlined text-[18px]">open_in_full</span> {L_FULL_EDITOR}
+			</button>
+		</fieldset>
+	</div>
+</div>
+<!-- EVENT quickreply_editor_panel_after -->
+</form>

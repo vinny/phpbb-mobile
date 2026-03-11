@@ -1,0 +1,200 @@
+/*  phpBB Style Sheet
+    --------------------------------------------------------------
+	phpBB style name: MobilePro
+	Based on style:   prosilver (this is the default phpBB3 style)
+	Original author:  Tom Beddard ( http://www.subBlue.com/ )
+	Modified by:      Vinny (https://github.com/vinny)
+    --------------------------------------------------------------
+*/
+
+:root {
+    /* Define the main color as an RGB code for Tailwind opacity to work */
+    --color-primary: 18 163 235;
+}
+
+/* Custom Scrollbar for better mobile UX */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent; 
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1; 
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8; 
+}
+
+/* Base resets & tweaks specifically for phpBB core elements not yet refactored */
+.pagination li a, .pagination li span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: max(884px, 100dvh);
+}
+
+/* Ensure phpBB hidden elements stay hidden but accessible */
+.hidden {
+    display: none !important;
+}
+
+/* Fix Tailwind image reset making parsed smilies block-level */
+img.smilies {
+    display: inline !important;
+    vertical-align: middle;
+}
+
+/* PhpBB essential overrides placeholder */
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
+/* Icons (Un)Subscribe forum */
+.icon-subscribe::before {
+	content: 'notifications';
+}
+
+.icon-unsubscribe::before {
+	content: 'notifications_active';
+}
+
+.icon-bookmark::before {
+	content: 'bookmark';
+}
+
+/* 
+ * Stable Notification Dropdown 
+ * phpBB's AJAX updates often conflict with the Tailwind CDN’s MutationObserver.
+ * We define the core layout here to prevent "flickering" or "transparency" issues.
+ */
+#notification_list,
+#notification_list.dropdown,
+div#notification_list.dropdown-extended {
+    position: fixed !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    right: 0 !important;
+    left: auto !important;
+    width: 85% !important;
+    max-width: 400px !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    min-height: 100vh !important;
+    z-index: 2000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 0 0 100vw rgba(0, 0, 0, 0.6) !important;
+    flex-direction: column !important;
+    display: none; /* Let phpBB JS handle showing/hiding */
+}
+
+/* When phpBB's core script makes it visible, ensure it uses flex */
+#notification_list[style*="display: block"],
+#notification_list.visible {
+    display: flex !important;
+}
+
+/* Ensure dropdown contents is flex when parent is block/flex */
+#notification_list .dropdown-contents {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    flex: 1 1 100% !important;
+    height: 100% !important;
+    width: 100% !important;
+    max-height: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+}
+
+#notification_list .header {
+    flex-shrink: 0 !important;
+    background-color: #f8fafc !important;
+}
+
+#notification_list ul {
+    flex: 1 1 auto !important;
+    overflow-y: auto !important;
+    display: block !important;
+    min-height: 100px !important;
+}
+
+/* Dark Mode - Extra High Specificity */
+html.dark #notification_list,
+html.dark div#notification_list,
+html.dark #notification_list .dropdown-contents {
+    background-color: #0f172a !important; /* Slate 900 */
+    color: #f1f5f9 !important;
+}
+
+html.dark #notification_list .header {
+    background-color: #1e293b !important; /* Slate 800 */
+}
+
+/* Fix for transparent text in Dark Mode */
+html.dark #notification_list .notification_text p,
+html.dark #notification_list .notification-title,
+html.dark #notification_list h2 {
+    color: #f1f5f9 !important;
+}
+
+html.dark #notification_list .notification-time,
+html.dark #notification_list .notification-reference,
+html.dark #notification_list .header a {
+    color: #94a3b8 !important;
+}
+
+/* Drawer width and visibility refinement */
+#notification_list {
+    min-width: 300px !important;
+}
+
+html.dark #notification_list {
+    border-left: 1px solid #334155 !important;
+}
+
+html.dark #notification_list a {
+    color: inherit;
+}
+
+html.dark #notification_list li:hover {
+    background-color: rgba(30, 41, 59, 0.8) !important;
+}
+
+html.dark #notification_list li.bg2 {
+    background-color: rgba(18, 163, 235, 0.15) !important;
+}
+
+html.dark #notification_list .notification-avatar-wrap {
+    background-color: #1e293b !important;
+    border: 1px solid #334155 !important;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Ensure the avatar img fits */
+.notification-avatar-wrap img { width: 100%; height: 100%; object-fit: cover; }

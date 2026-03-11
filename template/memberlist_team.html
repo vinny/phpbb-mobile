@@ -1,0 +1,73 @@
+<!-- INCLUDE overall_header.html -->
+
+<main class="flex flex-col px-4 pt-4 pb-8 space-y-6">
+
+	<h2 class="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-200">{PAGE_TITLE}</h2>
+
+	<form method="post" action="{S_MODE_ACTION}">
+
+		<div class="flex flex-col gap-6">
+		<!-- BEGIN group -->
+		<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+			
+			<div class="hidden sm:flex items-center text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider bg-slate-50 dark:bg-slate-900/50 p-4 border-b border-slate-200 dark:border-slate-700 gap-4">
+				<div class="flex-1 pr-4 flex items-center gap-2"><span class="rank-img text-[10px]">{L_RANK}</span> <!-- IF group.U_GROUP --><a href="{group.U_GROUP}" class="hover:text-primary transition-colors">{group.GROUP_NAME}</a><!-- ELSE -->{group.GROUP_NAME}<!-- ENDIF --></div>
+				<div class="w-48 text-center">{L_PRIMARY_GROUP}</div>
+				<!-- IF S_DISPLAY_MODERATOR_FORUMS --><div class="w-1/3 text-right">{L_MODERATOR}</div><!-- ENDIF -->
+			</div>
+
+			<div class="flex flex-col">
+				<!-- BEGIN user -->
+				<div class="flex flex-col sm:flex-row sm:items-center p-4 border-b border-slate-100 dark:border-slate-700/50 last:border-b-0 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors gap-3 sm:gap-4<!-- IF group.user.S_INACTIVE --> opacity-60<!-- ENDIF -->">
+					<div class="flex-1 flex flex-col sm:pr-4 min-w-0">
+						<div class="flex flex-wrap items-center gap-2">
+							<span class="rank-img text-sm"><!-- IF group.user.RANK_IMG -->{group.user.RANK_IMG}<!-- ELSE --><span class="font-bold text-slate-500 uppercase text-xs">{group.user.RANK_TITLE}</span><!-- ENDIF --></span>
+							<div class="flex items-center gap-1.5 text-base font-bold">
+								<!-- EVENT memberlist_team_username_prepend -->{group.user.USERNAME_FULL}<!-- IF group.user.S_INACTIVE --> <span class="text-xs font-semibold text-rose-500">({L_INACTIVE})</span><!-- ENDIF --><!-- EVENT memberlist_team_username_append -->
+							</div>
+						</div>
+					</div>
+
+					<div class="w-full sm:w-48 flex items-center justify-between sm:justify-center">
+						<span class="sm:hidden text-xs font-semibold text-slate-500 uppercase">{L_PRIMARY_GROUP}</span>
+						<span class="text-sm font-medium">
+							<!-- IF group.user.U_GROUP -->
+							<a<!-- IF group.user.GROUP_COLOR --> style="color: #{group.user.GROUP_COLOR}"<!-- ENDIF --> href="{group.user.U_GROUP}" class="hover:underline">{group.user.GROUP_NAME}</a>
+							<!-- ELSE -->
+							<span class="text-slate-700 dark:text-slate-300">{group.user.GROUP_NAME}</span>
+							<!-- ENDIF -->
+						</span>
+					</div>
+
+					<!-- IF S_DISPLAY_MODERATOR_FORUMS -->
+					<div class="w-full sm:w-1/3 flex flex-col sm:items-end justify-between sm:justify-end gap-1.5 pt-1 sm:pt-0">
+						<span class="sm:hidden text-xs font-semibold text-slate-500 uppercase">{L_MODERATOR}</span>
+						<div class="w-full sm:w-auto text-sm text-slate-600 dark:text-slate-400">
+							<!-- IF group.user.FORUM_OPTIONS -->
+								<select class="w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white max-w-full truncate">{group.user.FORUMS}</select>
+							<!-- ELSEIF group.user.FORUMS -->
+								{group.user.FORUMS}
+							<!-- ELSE -->
+								-
+							<!-- ENDIF -->
+						</div>
+					</div>
+					<!-- ENDIF -->
+				</div>
+				<!-- BEGINELSE -->
+				<div class="p-8 text-center text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/50">
+					{L_NO_MEMBERS}
+				</div>
+				<!-- END user -->
+			</div>
+		</div>
+		<!-- END group -->
+		</div>
+
+	</form>
+
+	<!-- INCLUDE jumpbox.html -->
+
+</main>
+
+<!-- INCLUDE overall_footer.html -->

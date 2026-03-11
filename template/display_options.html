@@ -1,0 +1,60 @@
+<details class="group relative w-full" id="display-options-dropdown">
+	<summary class="flex w-full items-center justify-between gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:bg-slate-50 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer list-none dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 [&::-webkit-details-marker]:hidden" title="{L_SORT_OPTIONS}">
+		<div class="flex items-center gap-2">
+			<span class="material-symbols-outlined text-[20px]">sort</span>
+			<span><!-- IF S_SORT_OPTIONS -->{L_SORT_OPTIONS}<!-- ELSE -->{L_DISPLAY}<!-- ENDIF --></span>
+		</div>
+		<span class="material-symbols-outlined text-[18px] transition-transform duration-200 group-open:rotate-180 text-slate-400">expand_more</span>
+	</summary>
+
+	<div class="absolute left-0 top-full z-50 mt-1.5 w-full origin-top rounded-xl border border-slate-200 bg-white p-4 shadow-xl outline-none dark:border-slate-700 dark:bg-slate-800">
+		<fieldset class="flex flex-col gap-3">
+		<!-- IF S_SORT_OPTIONS -->
+			<div class="flex flex-col gap-1">
+				<label for="sk" class="text-xs font-bold uppercase tracking-wider text-slate-500">{L_SORT_BY}</label>
+				<select name="sk" id="sk" class="w-full rounded-lg border border-slate-300 bg-slate-50 py-2 pl-3 pr-8 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900/50 dark:text-white appearance-none relative bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20class%3D%22feather%20feather-chevron-down%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] bg-[length:16px_16px] bg-[position:right_12px_center] bg-no-repeat cursor-pointer">{S_SORT_OPTIONS}</select>
+			</div>
+			<div class="flex flex-col gap-1">
+				<label for="sd" class="text-xs font-bold uppercase tracking-wider text-slate-500">{L_SORT_DIRECTION}</label>
+				<select name="sd" id="sd" class="w-full rounded-lg border border-slate-300 bg-slate-50 py-2 pl-3 pr-8 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900/50 dark:text-white appearance-none relative bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20class%3D%22feather%20feather-chevron-down%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] bg-[length:16px_16px] bg-[position:right_12px_center] bg-no-repeat cursor-pointer">{S_ORDER_SELECT}</select>
+			</div>
+			<hr class="border-t border-slate-100 dark:border-slate-700/50 my-1" />
+			<input type="submit" class="w-full rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer" name="sort" value="{L_SORT}" />
+		<!-- ELSE -->
+			<div class="flex flex-col gap-1">
+				<label for="st" class="text-xs font-bold uppercase tracking-wider text-slate-500">{L_DISPLAY}</label>
+				<!-- Deep injection to style phpBB generated selects -->
+				<div class="[&>select]:w-full [&>select]:rounded-lg [&>select]:border [&>select]:border-slate-300 [&>select]:bg-slate-50 [&>select]:py-2 [&>select]:pl-3 [&>select]:pr-8 [&>select]:text-sm [&>select]:text-slate-900 focus:[&>select]:border-primary focus:[&>select]:outline-none focus:[&>select]:ring-1 focus:[&>select]:ring-primary dark:[&>select]:border-slate-600 dark:[&>select]:bg-slate-900/50 dark:[&>select]:text-white [&>select]:appearance-none [&>select]:relative [&>select]:bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20class%3D%22feather%20feather-chevron-down%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] [&>select]:bg-[length:16px_16px] [&>select]:bg-[position:right_12px_center] [&>select]:bg-no-repeat [&>select]:cursor-pointer">
+					{S_SELECT_SORT_DAYS}
+				</div>
+			</div>
+			<!-- IF S_SELECT_SORT_KEY -->
+			<div class="flex flex-col gap-1">
+				<label for="sk" class="text-xs font-bold uppercase tracking-wider text-slate-500">{L_SORT_BY}</label>
+				<div class="flex flex-col sm:flex-row gap-2 w-full">
+					<div class="flex-1 [&>select]:w-full [&>select]:rounded-lg [&>select]:border [&>select]:border-slate-300 [&>select]:bg-slate-50 [&>select]:py-2 [&>select]:pl-3 [&>select]:pr-8 [&>select]:text-sm [&>select]:text-slate-900 focus:[&>select]:border-primary focus:[&>select]:outline-none focus:[&>select]:ring-1 focus:[&>select]:ring-primary dark:[&>select]:border-slate-600 dark:[&>select]:bg-slate-900/50 dark:[&>select]:text-white [&>select]:appearance-none [&>select]:relative [&>select]:bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20class%3D%22feather%20feather-chevron-down%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] [&>select]:bg-[length:16px_16px] [&>select]:bg-[position:right_12px_center] [&>select]:bg-no-repeat [&>select]:cursor-pointer">
+						{S_SELECT_SORT_KEY}
+					</div>
+					
+					<div class="shrink-0 sm:max-w-[140px] [&>select]:w-full [&>select]:rounded-lg [&>select]:border [&>select]:border-slate-300 [&>select]:bg-slate-50 [&>select]:py-2 [&>select]:pl-3 [&>select]:pr-8 [&>select]:text-sm [&>select]:text-slate-900 focus:[&>select]:border-primary focus:[&>select]:outline-none focus:[&>select]:ring-1 focus:[&>select]:ring-primary dark:[&>select]:border-slate-600 dark:[&>select]:bg-slate-900/50 dark:[&>select]:text-white [&>select]:appearance-none [&>select]:relative [&>select]:bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20class%3D%22feather%20feather-chevron-down%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] [&>select]:bg-[length:16px_16px] [&>select]:bg-[position:right_12px_center] [&>select]:bg-no-repeat [&>select]:cursor-pointer">
+						{S_SELECT_SORT_DIR}
+					</div>
+				</div>
+			</div>
+			<!-- ENDIF -->
+			<hr class="border-t border-slate-100 dark:border-slate-700/50 my-1" />
+			<input type="submit" class="w-full rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer" name="sort" value="{L_GO}" />
+		<!-- ENDIF -->
+		</fieldset>
+	</div>
+</details>
+
+<!-- Vanilla JS snippet to close the dropdown when clicking outside -->
+<script>
+	document.addEventListener('click', function(e) {
+		const details = document.getElementById('display-options-dropdown');
+		if (details && details.hasAttribute('open') && !details.contains(e.target)) {
+			details.removeAttribute('open');
+		}
+	});
+</script>

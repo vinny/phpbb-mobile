@@ -1,0 +1,73 @@
+<div class="flex items-center justify-between mb-4">
+	<h3 id="review" class="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
+		<span class="material-symbols-outlined text-[20px] text-primary">history</span>
+		{L_MESSAGE_HISTORY}{L_COLON}
+	</h3>
+	<button type="button" onclick="viewableArea(getElementById('topicreview'), true); var rev_text = this.querySelector('span:last-child'); if (rev_text.innerText == '{LA_EXPAND_VIEW}'){rev_text.innerText = '{LA_COLLAPSE_VIEW}'; } else if (rev_text.innerText == '{LA_COLLAPSE_VIEW}'){rev_text.innerText = '{LA_EXPAND_VIEW}'};" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 text-sm font-semibold rounded-lg transition-colors">
+		<span class="material-symbols-outlined text-[18px]">unfold_more</span>
+		<span>{L_EXPAND_VIEW}</span>
+	</button>
+</div>
+
+<!-- EVENT ucp_pm_history_review_before -->
+<div id="topicreview" class="space-y-4 mb-6">
+	<script>
+		bbcodeEnabled = {S_BBCODE_ALLOWED};
+	</script>
+	<!-- BEGIN history_row -->
+	<div class="relative flex flex-col rounded-xl bg-white p-4 sm:p-6 shadow-sm border border-slate-200 dark:bg-slate-800 dark:border-slate-700 transition-all" id="pr{history_row.MSG_ID}">
+		
+		<div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4 pb-4 border-b border-slate-100 dark:border-slate-700/50">
+			<div class="flex flex-col gap-1">
+				<h4 class="text-base font-bold text-slate-900 dark:text-white">
+					<a href="{history_row.U_VIEW_MESSAGE}" class="hover:text-primary transition-colors<!-- IF history_row.S_CURRENT_MSG --> text-primary<!-- ENDIF -->">{history_row.SUBJECT}</a>
+				</h4>
+				<div class="text-xs text-slate-500 flex items-center gap-2 flex-wrap">
+					<span class="flex items-center gap-1">
+						<span class="material-symbols-outlined text-[16px]">person</span>
+						<!-- EVENT ucp_pm_history_row_message_author_username_prepend --><span class="font-bold text-slate-700 dark:text-slate-300">{history_row.MESSAGE_AUTHOR_FULL}</span><!-- EVENT ucp_pm_history_row_message_author_username_append -->
+					</span>
+					
+					<span class="text-slate-300 dark:text-slate-600">&bull;</span>
+					
+					<span class="flex items-center gap-1">
+						<span class="material-symbols-outlined text-[16px]">schedule</span>
+						{history_row.SENT_DATE}
+					</span>
+				</div>
+			</div>
+			
+			<!-- DEFINE $SHOW_PM_HISTORY_POST_BUTTONS = (history_row.U_QUOTE or history_row.MESSAGE_AUTHOR_QUOTE) -->
+			<!-- EVENT ucp_pm_history_post_buttons_list_before -->
+			<!-- IF $SHOW_PM_HISTORY_POST_BUTTONS -->
+			<div class="flex items-center gap-1 shrink-0 bg-slate-50 dark:bg-slate-900/50 p-1.5 rounded-lg border border-slate-200 dark:border-slate-700">
+				<!-- EVENT ucp_pm_history_post_buttons_before -->
+				<a <!-- IF history_row.U_QUOTE -->href="{history_row.U_QUOTE}"<!-- ELSE -->href="#postingbox" onclick="addquote({history_row.MSG_ID}, '{history_row.MESSAGE_AUTHOR_QUOTE}', '{LA_WROTE}', {time:{history_row.MESSAGE_TIME},user_id:{history_row.USER_ID}});"<!-- ENDIF --> title="{L_QUOTE} {history_row.MESSAGE_AUTHOR}" class="flex items-center justify-center w-8 h-8 rounded-md bg-white dark:bg-slate-800 text-slate-500 hover:text-primary hover:bg-primary/5 dark:hover:bg-primary/10 shadow-sm transition-all">
+					<span class="material-symbols-outlined text-[18px]">format_quote</span>
+				</a>
+				<!-- EVENT ucp_pm_history_post_buttons_after -->
+			</div>
+			<!-- ENDIF -->
+			<!-- EVENT ucp_pm_history_post_buttons_list_after -->
+		</div>
+
+		<div class="prose prose-sm prose-slate dark:prose-invert max-w-none break-words">
+			<!-- IF history_row.MESSAGE -->
+				{history_row.MESSAGE}
+			<!-- ELSE -->
+				<div class="p-3 bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400 rounded-lg text-sm font-semibold">{L_MESSAGE_REMOVED_FROM_OUTBOX}</div>
+			<!-- ENDIF -->
+		</div>
+		<div id="message_{history_row.MSG_ID}" style="display: none;">{history_row.DECODED_MESSAGE}</div>
+		
+	</div>
+	<!-- END history_row -->
+</div>
+<!-- EVENT ucp_pm_history_review_after -->
+
+<div class="flex justify-end pt-4 border-t border-slate-100 dark:border-slate-700/50">
+	<a href="#cp-main" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 text-sm font-medium rounded-lg transition-colors">
+		<span class="material-symbols-outlined text-[18px]">arrow_upward</span>
+		{L_BACK_TO_TOP}
+	</a>
+</div>

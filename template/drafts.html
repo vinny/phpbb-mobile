@@ -1,0 +1,51 @@
+
+
+<!-- IF .draftrow -->
+<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800 overflow-hidden mb-6">
+	<div class="border-b border-slate-200 bg-slate-50/50 px-4 py-3 sm:px-6 sm:py-4 dark:border-slate-700 dark:bg-slate-800/50">
+		<h3 class="text-base sm:text-lg font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+			<span class="material-symbols-outlined text-[20px] text-primary">drafts</span>
+			{L_LOAD_DRAFT}
+		</h3>
+		<!-- IF L_LOAD_DRAFT_EXPLAIN -->
+		<p class="text-sm text-slate-600 dark:text-slate-400 mt-1">{L_LOAD_DRAFT_EXPLAIN}</p>
+		<!-- ENDIF -->
+	</div>
+
+	<div class="flex flex-col divide-y divide-slate-100 dark:divide-slate-700/50">
+		<!-- BEGIN draftrow -->
+		<div class="p-4 sm:p-5 transition-colors hover:bg-slate-50/50 dark:hover:bg-slate-800/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+			<div class="flex items-start gap-4 flex-1 min-w-0">
+				<div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary dark:bg-primary/20">
+					<span class="material-symbols-outlined text-[20px]">edit_document</span>
+				</div>
+				<div class="flex flex-col min-w-0 gap-1">
+					<a href="{draftrow.U_INSERT}" title="{L_LOAD_DRAFT}" class="text-base font-bold text-slate-800 hover:text-primary dark:text-slate-200 transition-colors truncate">{draftrow.DRAFT_SUBJECT}</a>
+					<div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-500 font-medium">
+						<!-- IF not S_PRIVMSGS -->
+							<!-- IF draftrow.S_LINK_TOPIC -->
+								<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">forum</span> {L_TOPIC}{L_COLON} <a href="{draftrow.U_VIEW}" class="hover:text-primary transition-colors hover:underline">{draftrow.TITLE}</a></span>
+							<!-- ELSEIF draftrow.S_LINK_FORUM -->
+								<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">folder</span> {L_FORUM}{L_COLON} <a href="{draftrow.U_VIEW}" class="hover:text-primary transition-colors hover:underline">{draftrow.TITLE}</a></span>
+							<!-- ELSE -->
+								<span class="text-slate-400">{L_NO_TOPIC_FORUM}</span>
+							<!-- ENDIF -->
+							<span class="hidden sm:inline text-slate-300 dark:text-slate-600">&bull;</span>
+						<!-- ENDIF -->
+						<span class="flex items-center gap-1 text-slate-500"><span class="material-symbols-outlined text-[14px] text-slate-400">schedule</span> {draftrow.DATE}</span>
+					</div>
+				</div>
+			</div>
+			
+			<div class="shrink-0 sm:ml-4">
+				<a href="{draftrow.U_INSERT}" class="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+					<span class="material-symbols-outlined text-[18px] text-primary">login</span>
+					<span class="sm:hidden">{L_LOAD_DRAFT}</span>
+					<span class="hidden sm:inline">{{ lang('POST') }}</span>
+				</a>
+			</div>
+		</div>
+		<!-- END draftrow -->
+	</div>
+</div>
+<!-- ENDIF -->

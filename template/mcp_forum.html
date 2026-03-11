@@ -1,0 +1,157 @@
+<!-- INCLUDE mcp_header.html -->
+
+<!-- DEFINE $CUSTOM_FIELDSET_CLASS = 'forum-selection2' -->
+
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
+	<h2 class="text-lg sm:text-xl font-bold text-slate-800 dark:text-slate-200">
+		<a href="{U_VIEW_FORUM}" class="hover:text-primary transition-colors">{L_FORUM}{L_COLON} {FORUM_NAME}</a>
+	</h2>
+</div>
+
+<!-- INCLUDE jumpbox.html -->
+
+<form method="post" id="mcp" action="{S_MCP_ACTION}">
+	<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800 overflow-hidden mb-6">
+		
+		<div class="border-b border-slate-200 bg-slate-50/50 px-4 py-3 sm:px-6 sm:py-4 dark:border-slate-700 dark:bg-slate-800/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+			<div class="text-sm text-slate-600 dark:text-slate-400 font-medium">
+				{TOTAL_TOPICS}
+			</div>
+			<!-- IF .pagination -->
+				<!-- INCLUDE pagination.html -->
+			<!-- ELSE -->
+				<span class="text-sm font-bold text-slate-500 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-lg">{PAGE_NUMBER}</span>
+			<!-- ENDIF -->
+		</div>
+
+		<!-- IF .topicrow -->
+		<div class="flex flex-col divide-y divide-slate-100 dark:divide-slate-700/50">
+			<!-- BEGIN topicrow -->
+			<div class="p-4 sm:p-5 transition-colors hover:bg-slate-50/50 dark:hover:bg-slate-800/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 <!-- IF topicrow.S_TOPIC_REPORTED -->bg-red-50/50 border-l-4 border-red-500 pl-3 sm:pl-4 dark:bg-red-900/10<!-- ENDIF -->">
+				<div class="flex items-start gap-4 flex-1 min-w-0" <!-- IF topicrow.TOPIC_ICON_IMG -->style="background-image: url({T_ICONS_PATH}{topicrow.TOPIC_ICON_IMG}); background-repeat: no-repeat; padding-left: 24px;"<!-- ENDIF -->>
+					
+					<!-- IF topicrow.S_UNREAD_TOPIC -->
+					<div class="flex mt-1 h-2 w-2 shrink-0 rounded-full bg-primary ring-4 ring-primary/20"></div>
+					<!-- ELSE -->
+					<div class="flex mt-1 h-2 w-2 shrink-0 rounded-full bg-slate-200 dark:bg-slate-700"></div>
+					<!-- ENDIF -->
+
+					<div class="flex flex-col min-w-0 gap-1 flex-1">
+						<div class="flex flex-wrap items-center gap-2">
+							<!-- EVENT mcp_forum_topic_title_before -->
+							<a href="{topicrow.U_VIEW_TOPIC}" class="text-base font-bold text-slate-800 hover:text-primary dark:text-slate-200 transition-colors break-words">{topicrow.TOPIC_TITLE}</a>
+							<!-- EVENT mcp_forum_topic_title_after -->
+
+							<!-- IF topicrow.ATTACH_ICON_IMG -->
+								<span class="material-symbols-outlined text-[16px] text-slate-400" title="{L_ATTACH_FORUM}">attach_file</span>
+							<!-- ENDIF -->
+							<!-- IF topicrow.S_TOPIC_UNAPPROVED or topicrow.S_POSTS_UNAPPROVED -->
+								<a href="{topicrow.U_MCP_QUEUE}" title="{L_TOPIC_UNAPPROVED}" class="text-amber-500 hover:text-amber-600 focus:outline-none"><span class="material-symbols-outlined text-[18px]">gavel</span></a>
+							<!-- ENDIF -->
+							<!-- IF topicrow.S_TOPIC_DELETED or topicrow.S_POSTS_DELETED -->
+								<a href="{topicrow.U_MCP_QUEUE}" title="{L_TOPIC_DELETED}" class="text-red-500 hover:text-red-600 focus:outline-none"><span class="material-symbols-outlined text-[18px]">delete</span></a>
+							<!-- ENDIF -->
+							<!-- IF topicrow.S_TOPIC_REPORTED -->
+								<a href="{topicrow.U_MCP_REPORT}" title="{L_TOPIC_REPORTED}" class="text-red-500 hover:text-red-600 focus:outline-none"><span class="material-symbols-outlined text-[18px]">report</span></a>
+							<!-- ENDIF -->
+
+							<!-- IF .topicrow.pagination -->
+							<div class="hidden sm:flex items-center gap-1 ml-2">
+								<!-- BEGIN pagination -->
+									<!-- IF topicrow.pagination.S_IS_PREV -->
+									<!-- ELSEIF topicrow.pagination.S_IS_CURRENT --><span class="inline-flex items-center justify-center min-w-[20px] h-5 px-1 bg-primary text-white text-[11px] font-bold rounded">{topicrow.pagination.PAGE_NUMBER}</span>
+									<!-- ELSEIF topicrow.pagination.S_IS_ELLIPSIS --><span class="text-slate-400 text-xs">...</span>
+									<!-- ELSEIF topicrow.pagination.S_IS_NEXT -->
+									<!-- ELSE --><a href="{topicrow.pagination.PAGE_URL}" class="inline-flex items-center justify-center min-w-[20px] h-5 px-1 bg-slate-100 text-slate-600 text-[11px] font-medium hover:bg-slate-200 hover:text-slate-900 rounded dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">{topicrow.pagination.PAGE_NUMBER}</a>
+									<!-- ENDIF -->
+								<!-- END pagination -->
+							</div>
+							<!-- ENDIF -->
+						</div>
+
+						<div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-500 mt-1">
+							{% EVENT topiclist_row_topic_by_author_before %}
+							<span>{L_POST_BY_AUTHOR} <span class="font-medium text-slate-700 dark:text-slate-300">{% EVENT mcp_forum_topic_author_username_prepend %}{topicrow.TOPIC_AUTHOR_FULL}{% EVENT mcp_forum_topic_author_username_append %}</span></span>
+							<span class="text-slate-300 dark:text-slate-600">&bull;</span>
+							<span>{topicrow.FIRST_POST_TIME}</span>
+							{% EVENT topiclist_row_topic_by_author_after %}
+							<span class="text-slate-300 dark:text-slate-600">&bull;</span>
+							<span class="flex items-center gap-1" title="{L_REPLIES}"><span class="material-symbols-outlined text-[14px]">chat_bubble</span> {topicrow.REPLIES}</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="flex flex-col sm:items-end gap-2 shrink-0 border-t border-slate-100 sm:border-0 pt-3 sm:pt-0 dark:border-slate-700/50">
+					<div class="text-xs text-slate-500 flex flex-col sm:items-end">
+						<span>{L_LAST_POST} <span class="font-medium text-slate-700 dark:text-slate-300">{% EVENT mcp_forum_last_post_author_username_prepend %}{topicrow.LAST_POST_AUTHOR_FULL}{% EVENT mcp_forum_last_post_author_username_append %}</span></span>
+						<span>{topicrow.LAST_POST_TIME}</span>
+					</div>
+					
+					<div class="flex flex-wrap items-center gap-2 mt-2 self-start sm:self-end text-sm">
+						<!-- IF topicrow.S_SELECT_TOPIC -->
+							<a href="{topicrow.U_SELECT_TOPIC}" class="flex items-center gap-1 font-bold text-primary hover:text-primary/80 transition-colors uppercase text-[11px] tracking-wider"><span class="material-symbols-outlined text-[14px]">checklist</span> {L_SELECT_MERGE}</a>
+						<!-- ENDIF -->
+						<!-- IF topicrow.S_MOVED_TOPIC and S_CAN_DELETE -->
+							<a href="{topicrow.U_DELETE_TOPIC}" class="flex items-center gap-1 font-bold text-red-500 hover:text-red-700 transition-colors uppercase text-[11px] tracking-wider"><span class="material-symbols-outlined text-[14px]">delete</span> {L_DELETE_SHADOW_TOPIC}</a>
+						<!-- ENDIF -->
+						<!-- IF not S_MERGE_SELECT -->
+							<!-- IF not topicrow.S_MOVED_TOPIC -->
+							<label class="flex items-center gap-2 cursor-pointer group">
+								<input type="checkbox" name="topic_id_list[]" value="{topicrow.TOPIC_ID}"<!-- IF topicrow.S_TOPIC_CHECKED --> checked="checked"<!-- ENDIF --> class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" />
+								<span class="sm:hidden font-medium text-slate-600 dark:text-slate-400">{L_MARK}</span>
+							</label>
+							<!-- ENDIF -->
+						<!-- ENDIF -->
+					</div>
+				</div>
+			</div>
+			<!-- END topicrow -->
+		</div>
+		<!-- ELSE -->
+		<div class="p-8 text-center bg-slate-50 dark:bg-slate-800/50">
+			<span class="material-symbols-outlined text-4xl text-slate-300 dark:text-slate-600 mb-2 block">forum</span>
+			<p class="text-slate-500 dark:text-slate-400 font-medium">{L_NO_TOPICS}</p>
+		</div>
+		<!-- ENDIF -->
+		
+		<div class="border-t border-slate-200 bg-slate-50/50 px-4 py-3 sm:px-6 sm:py-4 dark:border-slate-700 dark:bg-slate-800/50 flex flex-col gap-4">
+			<!-- INCLUDE display_options.html -->
+		</div>
+	</div>
+
+	<!-- EVENT mcp_forum_actions_before -->
+	<fieldset class="flex flex-col sm:flex-row items-center gap-3 mb-6 bg-slate-50 dark:bg-slate-800/50 p-4 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+		<!-- IF not S_MERGE_SELECT -->
+		<div class="relative w-full sm:w-auto">
+			<select name="action" class="w-full sm:w-auto appearance-none rounded-lg border border-slate-300 bg-white pl-4 pr-10 py-2.5 text-sm font-medium text-slate-700 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900 dark:text-slate-300">
+				<option value="" selected="selected">{L_SELECT_ACTION}</option>
+				<!-- IF S_CAN_DELETE --><option value="delete_topic">{L_DELETE}</option><!-- ENDIF -->
+				<!-- IF S_CAN_RESTORE --><option value="restore_topic">{L_RESTORE}</option><!-- ENDIF -->
+				<!-- IF S_CAN_MERGE --><option value="merge_topics">{L_MERGE}</option><!-- ENDIF -->
+				<!-- IF S_CAN_MOVE --><option value="move">{L_MOVE}</option><!-- ENDIF -->
+				<!-- IF S_CAN_FORK --><option value="fork">{L_FORK}</option><!-- ENDIF -->
+				<!-- IF S_CAN_LOCK --><option value="lock">{L_LOCK}</option><option value="unlock">{L_UNLOCK}</option><!-- ENDIF -->
+				<!-- IF S_CAN_SYNC --><option value="resync">{L_RESYNC}</option><!-- ENDIF -->
+				<!-- IF S_CAN_MAKE_NORMAL --><option value="make_normal">{L_MAKE_NORMAL}</option><!-- ENDIF -->
+				<!-- IF S_CAN_MAKE_STICKY --><option value="make_sticky">{L_MAKE_STICKY}</option><!-- ENDIF -->
+				<!-- IF S_CAN_MAKE_ANNOUNCE --><option value="make_announce">{L_MAKE_ANNOUNCE}</option><!-- ENDIF -->
+				<!-- IF S_CAN_MAKE_ANNOUNCE_GLOBAL --><option value="make_global">{L_MAKE_GLOBAL}</option><!-- ENDIF -->
+				<!-- EVENT mcp_forum_actions_append -->
+			</select>
+			<span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+				<span class="material-symbols-outlined text-slate-400">expand_more</span>
+			</span>
+		</div>
+		<input type="submit" value="{L_SUBMIT}" class="w-full sm:w-auto rounded-lg bg-primary px-4 py-2.5 text-sm font-bold text-white shadow-sm transition-colors hover:bg-primary/90 focus:outline-none cursor-pointer" />
+		<div class="w-full sm:w-auto sm:ml-auto flex flex-wrap items-center justify-center gap-2 text-sm font-medium">
+			<a href="#" onclick="marklist('mcp', 'topic_id_list', true); return false;" class="text-primary hover:underline px-2 py-1">{L_MARK_ALL}</a>
+			<span class="text-slate-300 dark:text-slate-600">::</span>
+			<a href="#" onclick="marklist('mcp', 'topic_id_list', false); return false;" class="text-primary hover:underline px-2 py-1">{L_UNMARK_ALL}</a>
+		</div>
+		<!-- ENDIF -->
+		{S_FORM_TOKEN}
+	</fieldset>
+	<!-- EVENT mcp_forum_actions_after -->
+</form>
+
+<!-- INCLUDE mcp_footer.html -->

@@ -1,0 +1,68 @@
+<div class="px-4 mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+	<!-- IF S_VIEWTOPIC -->
+	<a href="{U_VIEW_FORUM}" class="flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-primary transition-colors dark:text-slate-300" accesskey="r">
+		<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+		<span>{L_RETURN_TO_FORUM}</span>
+	</a>
+	<!-- ELSEIF S_VIEWFORUM -->
+	<a href="{U_INDEX}" class="flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-primary transition-colors dark:text-slate-300" accesskey="r">
+		<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+		<span>{L_RETURN_TO_INDEX}</span>
+	</a>
+	<!-- ELSEIF SEARCH_TOPIC -->
+	<a href="{U_SEARCH_TOPIC}" class="flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-primary transition-colors dark:text-slate-300" accesskey="r">
+		<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+		<span>{L_RETURN_TO_TOPIC}</span>
+	</a>
+	<!-- ELSEIF S_SEARCH_ACTION -->
+	<a href="{U_SEARCH}" title="{L_SEARCH_ADV}" class="flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-primary transition-colors dark:text-slate-300" accesskey="r">
+		<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+		<span>{L_GO_TO_SEARCH_ADV}</span>
+	</a>
+	<!-- ELSE -->
+	<div></div>
+	<!-- ENDIF -->
+
+	<!-- IF S_DISPLAY_JUMPBOX -->
+	<details class="group relative w-full sm:w-auto" id="jumpbox">
+		<summary class="flex w-full sm:w-auto min-w-[240px] max-w-full items-center justify-between gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:bg-slate-50 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer list-none dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 [&::-webkit-details-marker]:hidden" title="<!-- IF S_IN_MCP and S_MERGE_SELECT -->{L_SELECT_TOPICS_FROM}<!-- ELSEIF S_IN_MCP -->{L_MODERATE_FORUM}<!-- ELSE -->{L_JUMP_TO}<!-- ENDIF -->">
+			<div class="flex items-center gap-2 truncate">
+				<span class="truncate"><!-- IF S_IN_MCP and S_MERGE_SELECT -->{L_SELECT_TOPICS_FROM}<!-- ELSEIF S_IN_MCP -->{L_MODERATE_FORUM}<!-- ELSE -->{L_JUMP_TO}<!-- ENDIF --></span>
+			</div>
+			<span class="material-symbols-outlined text-[18px] transition-transform duration-200 group-open:rotate-180 text-slate-400 shrink-0">expand_more</span>
+		</summary>
+
+		<div class="absolute <!-- IF not S_IN_MCP -->bottom-full mb-1 origin-bottom<!-- ELSE -->top-full mt-1 origin-top<!-- ENDIF --> right-0 z-50 w-full sm:w-72 max-h-[50vh] overflow-y-auto overflow-x-hidden rounded-xl border border-slate-200 bg-white shadow-xl dark:border-slate-700 dark:bg-slate-800 flex flex-col no-scrollbar p-1">
+			<!-- BEGIN jumpbox_forums -->
+				<!-- IF jumpbox_forums.FORUM_ID neq -1 -->
+					<!-- IF jumpbox_forums.S_IS_CAT -->
+						<div class="flex items-center px-3 py-2 mt-1 text-xs font-bold uppercase tracking-wider text-slate-900 bg-slate-50/80 dark:bg-slate-900/50 dark:text-white rounded-md">
+							{jumpbox_forums.FORUM_NAME}
+						</div>
+					<!-- ELSE -->
+						<a href="{jumpbox_forums.LINK}" class="flex items-center gap-1 rounded-lg px-2 py-2 text-sm transition-colors text-slate-600 hover:bg-primary/10 hover:text-primary dark:text-slate-300 dark:hover:bg-primary/20 dark:hover:text-primary-light <!-- IF not jumpbox_forums.level -->font-bold text-slate-800 dark:text-slate-200<!-- ENDIF -->">
+							<span class="flex items-center shrink-0">
+								<!-- BEGIN level --><span class="w-3 inline-block"></span><!-- END level -->
+								<!-- IF jumpbox_forums.level -->
+									<span class="material-symbols-outlined text-[14px] text-slate-400 dark:text-slate-500 mr-1">subdirectory_arrow_right</span>
+								<!-- ENDIF -->
+							</span>
+							<span class="truncate">{jumpbox_forums.FORUM_NAME}</span>
+						</a>
+					<!-- ENDIF -->
+				<!-- ENDIF -->
+			<!-- END jumpbox_forums -->
+		</div>
+	</details>
+	
+	<!-- Vanilla JS snippet to close the dropdown when clicking outside -->
+	<script>
+		document.addEventListener('click', function(e) {
+			const details = document.getElementById('jumpbox');
+			if (details && details.hasAttribute('open') && !details.contains(e.target)) {
+				details.removeAttribute('open');
+			}
+		});
+	</script>
+	<!-- ENDIF -->
+</div>

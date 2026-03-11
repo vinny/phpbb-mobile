@@ -1,0 +1,151 @@
+<!-- INCLUDE mcp_header.html -->
+
+<form method="post" id="mcp" action="{U_POST_ACTION}">
+
+<h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">{L_TITLE}</h2>
+
+<!-- User Information Card -->
+<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden mb-6">
+	<div class="p-4 sm:p-6">
+
+	<h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4 pb-2 border-b border-slate-200 dark:border-slate-700">{USERNAME_FULL}</h3>
+
+	<div class="flex flex-col sm:flex-row gap-6 items-start">
+		<div class="shrink-0">
+			<!-- IF AVATAR_IMG --><div class="w-24 h-24 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 flex items-center justify-center">{AVATAR_IMG}</div><!-- ENDIF -->
+		</div>
+
+		<div class="flex-1 w-full">
+			<dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm">
+				<!-- IF RANK_TITLE --><dt class="font-semibold text-slate-700 dark:text-slate-300">{L_RANK}{L_COLON}</dt><dd class="text-slate-600 dark:text-slate-400">{RANK_TITLE}</dd><!-- ENDIF -->
+				<!-- IF RANK_IMG --><dt class="font-semibold text-slate-700 dark:text-slate-300"><!-- IF RANK_TITLE -->&nbsp;<!-- ELSE -->{L_RANK}{L_COLON}<!-- ENDIF --></dt><dd>{RANK_IMG}</dd><!-- ENDIF -->
+				<dt class="font-semibold text-slate-700 dark:text-slate-300">{L_JOINED}{L_COLON}</dt><dd class="text-slate-600 dark:text-slate-400">{JOINED}</dd>
+				<dt class="font-semibold text-slate-700 dark:text-slate-300">{L_TOTAL_POSTS}{L_COLON}</dt><dd class="text-slate-600 dark:text-slate-400">{POSTS}</dd>
+				<dt class="font-semibold text-slate-700 dark:text-slate-300">{L_WARNINGS}{L_COLON} </dt><dd class="text-slate-600 dark:text-slate-400">{WARNINGS}</dd>
+			</dl>
+		</div>
+	</div>
+
+	</div>
+</div>
+
+<!-- Add Feedback Card -->
+<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden mb-6">
+	<div class="p-4 sm:p-6">
+
+	<h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">{L_ADD_FEEDBACK}</h3>
+	<p class="text-sm text-slate-600 dark:text-slate-400 mb-4">{L_ADD_FEEDBACK_EXPLAIN}</p>
+
+	<fieldset>
+		<textarea name="usernote" id="usernote" rows="3" class="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-slate-900 dark:text-white transition-colors"></textarea>
+	</fieldset>
+
+	<fieldset class="mt-4 flex justify-start">
+		{S_HIDDEN_FIELDS}
+		<input type="submit" name="action[add_feedback]" value="{L_SUBMIT}" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-sm transition-colors cursor-pointer" />
+		{S_FORM_TOKEN}
+	</fieldset>
+
+	</div>
+</div>
+
+<!-- Notes List Card -->
+<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden mb-6">
+	<div class="p-4 sm:p-6">
+
+	<div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+		<div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 w-full sm:w-auto">
+			<label class="text-sm font-semibold text-slate-700 dark:text-slate-300 whitespace-nowrap">{L_SEARCH_KEYWORDS}{L_COLON}</label>
+			<div class="flex w-full sm:w-auto gap-2">
+				<input type="search" class="w-full sm:w-auto flex-1 px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-md shadow-sm text-sm focus:ring-2 focus:ring-blue-500 text-slate-900 dark:text-white" name="keywords" value="{S_KEYWORDS}" />
+				<input type="submit" class="px-4 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-sm font-semibold rounded-md border border-slate-300 dark:border-slate-600 transition-colors cursor-pointer" name="filter" value="{L_SEARCH}" />
+			</div>
+		</div>
+		<div class="text-sm text-slate-600 dark:text-slate-400 flex flex-wrap items-center gap-2">
+			{TOTAL_REPORTS}
+			<!-- IF .pagination -->
+				<!-- INCLUDE pagination.html -->
+			<!-- ELSE -->
+				 &bull; {PAGE_NUMBER}
+			<!-- ENDIF -->
+		</div>
+	</div>
+
+	<!-- Responsive list replacing the table -->
+	<div class="space-y-4">
+		<div class="hidden sm:flex items-center text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider pb-3 border-b border-slate-200 dark:border-slate-700">
+			<div class="w-1/4 pr-2">{L_REPORT_BY}</div>
+			<div class="w-1/6 text-center">{L_IP}</div>
+			<div class="w-1/6 text-center px-2">{L_TIME}</div>
+			<div class="flex-1 px-2">{L_ACTION_NOTE}</div>
+			<!-- IF S_CLEAR_ALLOWED --><div class="w-16 text-center pl-2">{L_MARK}</div><!-- ENDIF -->
+		</div>
+
+		<!-- BEGIN usernotes -->
+		<div class="flex flex-col sm:flex-row sm:items-center bg-slate-50 dark:bg-slate-800/50 rounded-lg p-3 sm:px-0 sm:bg-transparent sm:dark:bg-transparent sm:rounded-none border sm:border-0 border-slate-200 dark:border-slate-700 sm:border-b sm:border-slate-100 sm:dark:border-slate-700/50 pb-4 last:border-0 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors gap-2 sm:gap-0">
+			
+			<div class="w-full sm:w-1/4 pr-0 sm:pr-2 flex flex-col sm:block gap-1">
+				<span class="sm:hidden text-xs font-semibold text-slate-500 uppercase">{L_REPORT_BY}</span>
+				<span class="text-sm font-medium text-slate-900 dark:text-white">{usernotes.REPORT_BY}</span>
+			</div>
+			
+			<div class="w-full sm:w-1/6 text-left sm:text-center text-sm text-slate-500 dark:text-slate-400 flex sm:block items-center justify-between">
+				<span class="sm:hidden text-xs font-semibold text-slate-500 uppercase">{L_IP}</span>
+				<span class="break-all">{usernotes.IP}</span>
+			</div>
+
+			<div class="w-full sm:w-1/6 text-left sm:text-center text-sm text-slate-500 dark:text-slate-400 flex sm:block items-center justify-between mt-1 sm:mt-0 px-0 sm:px-2">
+				<span class="sm:hidden text-xs font-semibold text-slate-500 uppercase">{L_TIME}</span>
+				<span class="break-words">{usernotes.REPORT_AT}</span>
+			</div>
+
+			<div class="w-full flex-1 px-0 sm:px-2 text-sm text-slate-700 dark:text-slate-300 mt-2 sm:mt-0 border-t border-slate-200 dark:border-slate-700 sm:border-0 pt-2 sm:pt-0">
+				{usernotes.ACTION}
+			</div>
+
+			<!-- IF S_CLEAR_ALLOWED -->
+			<div class="w-full sm:w-16 text-right sm:text-center mt-2 sm:mt-0 pl-0 sm:pl-2">
+				<input type="checkbox" name="marknote[]" id="note-{usernotes.ID}" value="{usernotes.ID}" class="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+			</div>
+			<!-- ENDIF -->
+			
+		</div>
+		<!-- BEGINELSE -->
+		<div class="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-6 text-center text-slate-500 dark:text-slate-400">
+			{L_NO_ENTRIES}
+		</div>
+		<!-- END usernotes -->
+	</div>
+
+	<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-6">
+		<div class="flex items-center gap-4">
+			<!-- INCLUDE display_options.html -->
+		</div>
+		
+		<div class="text-sm text-slate-600 dark:text-slate-400 flex items-center gap-2">
+			{TOTAL_REPORTS}
+			<!-- IF .pagination -->
+				<!-- INCLUDE pagination.html -->
+			<!-- ELSE -->
+				 &bull; {PAGE_NUMBER}
+			<!-- ENDIF -->
+		</div>
+	</div>
+
+	</div>
+</div>
+
+<!-- IF S_CLEAR_ALLOWED -->
+<fieldset class="flex flex-wrap items-center justify-between gap-4 mt-4 mb-6">
+	<div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+		<input class="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-sm font-semibold rounded-md border border-slate-300 dark:border-slate-600 transition-colors cursor-pointer" type="submit" name="action[del_all]" value="{L_DELETE_ALL}" />
+		<input class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg shadow-sm transition-colors text-sm cursor-pointer" type="submit" name="action[del_marked]" value="{L_DELETE_MARKED}" />
+	</div>
+	<div class="text-sm text-slate-600 dark:text-slate-400">
+		<a href="#" onclick="marklist('mcp', 'marknote', true); return false;" class="hover:text-blue-600 dark:hover:text-blue-400">{L_MARK_ALL}</a> &bull; <a href="#" onclick="marklist('mcp', 'marknote', false); return false;" class="hover:text-blue-600 dark:hover:text-blue-400">{L_UNMARK_ALL}</a>
+	</div>
+</fieldset>
+<!-- ENDIF -->
+</form>
+
+<!-- INCLUDE mcp_footer.html -->

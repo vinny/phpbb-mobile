@@ -1,0 +1,46 @@
+<!-- INCLUDE ucp_header.html -->
+
+<main class="flex flex-col gap-6">
+	<!-- IF S_DRAFT_LOADED -->
+		<div class="rounded-xl border border-blue-200 bg-blue-50 p-4 shadow-sm dark:border-blue-900/50 dark:bg-blue-900/20">
+			<h3 class="text-sm font-bold uppercase tracking-wider text-blue-800 dark:text-blue-400 mb-1 flex items-center gap-2">
+				<span class="material-symbols-outlined text-[18px]">info</span>
+				{L_INFORMATION}
+			</h3>
+			<p class="text-sm text-blue-700 dark:text-blue-300">{L_DRAFT_LOADED_PM}</p>
+		</div>
+	<!-- ENDIF -->
+
+	<!-- IF S_SHOW_DRAFTS --><!-- INCLUDE drafts.html --><!-- ENDIF -->
+
+	<!-- IF S_DISPLAY_PREVIEW --><!-- INCLUDE posting_preview.html --><!-- ENDIF -->
+
+	<h2 class="posting-title text-2xl font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+		<span class="material-symbols-outlined text-[28px] text-primary">mail</span>
+		{L_TITLE}
+	</h2>
+
+	<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800" id="pmheader-postingbox">
+		<div class="p-4 sm:p-6">
+			<!-- EVENT posting_pm_layout_include_pm_header_before -->
+			<!-- INCLUDE posting_pm_header.html -->
+			<!-- EVENT posting_pm_layout_include_pm_header_after -->
+		</div>
+	</div>
+
+	<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800 panel" id="postingbox">
+		<div class="p-4 sm:p-6">
+			<!-- DEFINE $EXTRA_POSTING_OPTIONS = 1 -->
+			<!-- INCLUDE posting_editor.html -->
+		</div>
+	</div>
+
+	<!-- IF S_SHOW_ATTACH_BOX and FILTERS --><!-- INCLUDE posting_attach_body.html --><!-- ENDIF -->
+
+	<!-- IF S_DISPLAY_REVIEW --><!-- INCLUDE posting_topic_review.html --><!-- ENDIF -->
+
+	<!-- IF S_DISPLAY_HISTORY --><!-- INCLUDE ucp_pm_history.html --><!-- ENDIF -->
+
+</main>
+
+<!-- INCLUDE ucp_footer.html -->

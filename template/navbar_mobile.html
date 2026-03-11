@@ -1,0 +1,309 @@
+		<!-- EVENT navbar_mobile_overlay_before -->
+		<div id="mobile-nav-overlay" class="fixed inset-0 z-[100] bg-slate-900/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"></div>
+		
+		<div id="mobile-nav-drawer" class="fixed inset-y-0 left-0 z-[101] w-[85%] max-w-sm transform -translate-x-full transition-transform duration-300 ease-in-out bg-white dark:bg-slate-900 flex flex-col overflow-y-auto shadow-2xl">
+			
+			<div class="flex items-center p-4 pb-2 justify-between sticky top-0 bg-white dark:bg-slate-900 z-10">
+				<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1">{L_MENU}</h2>
+				<button id="close-nav-btn" class="text-slate-500 hover:text-primary dark:text-slate-400 cursor-pointer flex size-12 shrink-0 items-center justify-end outline-none">
+					<span class="material-symbols-outlined text-3xl">close</span>
+				</button>
+			</div>
+
+			<!-- EVENT navbar_mobile_drawer_prepend -->
+
+			<!-- EVENT navbar_mobile_profile_before -->
+			<div class="flex p-6 border-b border-slate-100 dark:border-slate-800">
+				<div class="flex w-full flex-col gap-4 items-center">
+					<!-- IF S_USER_LOGGED_IN -->
+						<div class="flex gap-4 flex-col items-center">
+							<div class="flex flex-col items-center justify-center">
+								<p class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight text-center">{CURRENT_USERNAME_SIMPLE}</p>
+							</div>
+						</div>
+						<div class="flex gap-3 w-full mt-2">
+							<a href="{U_LOGIN_LOGOUT}" class="flex-1 flex items-center justify-center gap-2 h-10 px-4 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors font-medium text-sm">
+								<span class="material-symbols-outlined text-lg">logout</span>
+								{L_LOGOUT}
+							</a>
+						</div>
+					<!-- ELSE -->
+						<div class="flex gap-4 flex-col items-center">
+							<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-24 w-24 ring-4 ring-primary/10 flex items-center justify-center bg-slate-100 dark:bg-slate-800">
+								<span class="material-symbols-outlined text-[48px] text-slate-400">person_off</span>
+							</div>
+						</div>
+						<div class="flex gap-3 w-full mt-2">
+							<a href="{U_LOGIN_LOGOUT}" class="flex-1 flex items-center justify-center gap-2 h-10 px-4 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors font-medium text-sm shadow-lg shadow-primary/30">
+								<span class="material-symbols-outlined text-lg">login</span>
+								{L_LOGIN}
+							</a>
+							<!-- IF S_REGISTER_ENABLED -->
+							<a href="{U_REGISTER}" class="flex-1 flex items-center justify-center gap-2 h-10 px-4 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors font-medium text-sm">
+								<span class="material-symbols-outlined text-lg">person_add</span>
+								{L_REGISTER}
+							</a>
+							<!-- ENDIF -->
+						</div>
+					<!-- ENDIF -->
+				</div>
+			</div>
+			<!-- EVENT navbar_mobile_profile_after -->
+
+			<div class="flex flex-col pb-8">
+				
+				<div class="pt-6">
+					<h3 class="text-slate-400 dark:text-slate-500 tracking-wider text-xs font-bold uppercase leading-tight px-6 text-left pb-3">{L_FORUM_INDEX}</h3>
+					<!-- EVENT navbar_mobile_main_nav_prepend -->
+					
+					<a href="{U_INDEX}" class="group flex items-center gap-4 px-6 min-h-[56px] justify-between hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-colors border-l-4 border-transparent hover:border-primary">
+						<div class="flex items-center gap-4">
+							<div class="text-primary flex items-center justify-center rounded-lg bg-primary/10 shrink-0 size-10 group-hover:bg-primary group-hover:text-white transition-colors">
+								<span class="material-symbols-outlined">home</span>
+							</div>
+							<p class="text-slate-900 dark:text-white text-[18px] font-medium leading-normal flex-1 truncate">{L_INDEX}</p>
+						</div>
+						<div class="shrink-0 text-slate-400 dark:text-slate-600 group-hover:text-primary transition-colors">
+							<span class="material-symbols-outlined">chevron_right</span>
+						</div>
+					</a>
+					
+					<!-- IF S_DISPLAY_SEARCH -->
+					<details class="group/search [&_summary::-webkit-details-marker]:hidden">
+						<summary class="group flex items-center gap-4 px-6 min-h-[56px] justify-between hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-colors border-l-4 border-transparent hover:border-primary outline-none select-none">
+							<div class="flex items-center gap-4 pointer-events-none">
+								<div class="text-slate-500 dark:text-slate-400 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 shrink-0 size-10 group-hover:bg-primary group-hover:text-white group-open/search:bg-primary group-open/search:text-white transition-colors">
+									<span class="material-symbols-outlined">search</span>
+								</div>
+								<p class="text-slate-900 dark:text-white text-[18px] font-medium leading-normal flex-1 truncate">{L_SEARCH}</p>
+							</div>
+							<div class="shrink-0 text-slate-400 dark:text-slate-600 group-hover:text-primary pointer-events-none group-open/search:rotate-90 transition-transform duration-200">
+								<span class="material-symbols-outlined">chevron_right</span>
+							</div>
+						</summary>
+						<div class="bg-slate-50/50 dark:bg-slate-800/30 w-full overflow-hidden">
+							<div class="flex flex-col py-3 px-6 pl-[72px] gap-1 border-l-4 border-transparent border-t border-slate-100 dark:border-slate-800/50">
+								<!-- IF S_REGISTERED_USER -->
+								<a href="{U_SEARCH_SELF}" class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary py-2.5 font-medium flex items-center gap-3">
+									<span class="material-symbols-outlined text-[20px]">history</span> {L_SEARCH_SELF}
+								</a>
+								<!-- ENDIF -->
+								<!-- IF S_USER_LOGGED_IN -->
+								<a href="{U_SEARCH_NEW}" class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary py-2.5 font-medium flex items-center gap-3">
+									<span class="material-symbols-outlined text-[20px]">fiber_new</span> {L_SEARCH_NEW}
+								</a>
+								<!-- ENDIF -->
+								<!-- IF S_LOAD_UNREADS -->
+								<a href="{U_SEARCH_UNREAD}" class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary py-2.5 font-medium flex items-center gap-3">
+									<span class="material-symbols-outlined text-[20px]">mark_email_unread</span> {L_SEARCH_UNREAD}
+								</a>
+								<!-- ENDIF -->
+								<a href="{U_SEARCH_UNANSWERED}" class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary py-2.5 font-medium flex items-center gap-3">
+									<span class="material-symbols-outlined text-[20px]">question_answer</span> {L_SEARCH_UNANSWERED}
+								</a>
+								<a href="{U_SEARCH_ACTIVE_TOPICS}" class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary py-2.5 font-medium flex items-center gap-3">
+									<span class="material-symbols-outlined text-[20px]">local_fire_department</span> {L_SEARCH_ACTIVE_TOPICS}
+								</a>
+								<a href="{U_SEARCH}" class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary py-2.5 font-medium flex items-center gap-3">
+									<span class="material-symbols-outlined text-[20px]">manage_search</span> {L_SEARCH_ADV}
+								</a>
+							</div>
+						</div>
+					</details>
+					<!-- ENDIF -->
+					
+					<a href="{U_FAQ}" rel="help" class="group flex items-center gap-4 px-6 min-h-[56px] justify-between hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-colors border-l-4 border-transparent hover:border-primary">
+						<div class="flex items-center gap-4">
+							<div class="text-slate-500 dark:text-slate-400 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 shrink-0 size-10 group-hover:bg-primary group-hover:text-white transition-colors">
+								<span class="material-symbols-outlined">help</span>
+							</div>
+							<p class="text-slate-900 dark:text-white text-[18px] font-medium leading-normal flex-1 truncate">{L_FAQ}</p>
+						</div>
+						<div class="shrink-0 text-slate-400 dark:text-slate-600 group-hover:text-primary transition-colors">
+							<span class="material-symbols-outlined">chevron_right</span>
+						</div>
+					</a>
+					<!-- EVENT navbar_mobile_main_nav_append -->
+				</div>
+
+				<!-- IF S_USER_LOGGED_IN -->
+				<div class="pt-6">
+					<h3 class="text-slate-400 dark:text-slate-500 tracking-wider text-xs font-bold uppercase leading-tight px-6 text-left pb-3">{L_PROFILE}</h3>
+					<!-- EVENT navbar_mobile_user_nav_prepend -->
+					
+					<a href="{U_PRIVATEMSGS}" class="group flex items-center gap-4 px-6 min-h-[56px] justify-between hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-colors border-l-4 border-transparent hover:border-primary">
+						<div class="flex items-center gap-4">
+							<div class="text-slate-500 dark:text-slate-400 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 shrink-0 size-10 group-hover:bg-primary group-hover:text-white transition-colors relative">
+								<span class="material-symbols-outlined">mail</span>
+								<!-- IF PRIVATE_MESSAGE_COUNT > 0 -->
+								<span class="absolute top-2 right-2 flex h-2.5 w-2.5">
+									<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+									<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500 border-2 border-white dark:border-slate-800"></span>
+								</span>
+								<!-- ENDIF -->
+							</div>
+							<div class="flex flex-col">
+								<p class="text-slate-900 dark:text-white text-[18px] font-medium leading-normal truncate">{L_PRIVATE_MESSAGES}</p>
+								<!-- IF PRIVATE_MESSAGE_COUNT > 0 -->
+								<span class="text-xs text-primary font-bold mt-0.5">{PRIVATE_MESSAGE_INFO}</span>
+								<!-- ENDIF -->
+							</div>
+						</div>
+						<div class="shrink-0 text-slate-400 dark:text-slate-600 group-hover:text-primary transition-colors">
+							<span class="material-symbols-outlined">chevron_right</span>
+						</div>
+					</a>
+					
+					<!-- IF U_ACP or U_MCP -->
+					<div class="group flex items-center gap-4 px-6 pt-3 mt-3 min-h-[56px] justify-between border-t border-slate-100 dark:border-slate-800 border-l-4 border-transparent">
+						<div class="flex items-center gap-4 w-full">
+							<!-- IF U_ACP -->
+							<a href="{U_ACP}" class="flex-1 text-center py-2 px-3 rounded-lg bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors text-xs font-bold uppercase tracking-wider">{L_ACP_SHORT}</a>
+							<!-- ENDIF -->
+							<!-- IF U_MCP -->
+							<a href="{U_MCP}" class="flex-1 text-center py-2 px-3 rounded-lg bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-colors text-xs font-bold uppercase tracking-wider">{L_MCP_SHORT}</a>
+							<!-- ENDIF -->
+						</div>
+					</div>
+					<!-- ENDIF -->
+					<!-- EVENT navbar_mobile_user_nav_append -->
+				</div>
+				<!-- ENDIF -->
+
+				<div class="pt-6">
+					<h3 class="text-slate-400 dark:text-slate-500 tracking-wider text-xs font-bold uppercase leading-tight px-6 text-left pb-3">{L_INFORMATION}</h3>
+					<!-- EVENT navbar_mobile_info_nav_prepend -->
+					
+					<!-- IF S_DISPLAY_MEMBERLIST -->
+					<a href="{U_MEMBERLIST}" class="group flex items-center gap-4 px-6 min-h-[56px] justify-between hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-colors border-l-4 border-transparent hover:border-primary">
+						<div class="flex items-center gap-4">
+							<div class="text-slate-500 dark:text-slate-400 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 shrink-0 size-10 group-hover:bg-primary group-hover:text-white transition-colors">
+								<span class="material-symbols-outlined">group</span>
+							</div>
+							<p class="text-slate-900 dark:text-white text-[18px] font-medium leading-normal flex-1 truncate">{L_MEMBERLIST}</p>
+						</div>
+						<div class="shrink-0 text-slate-400 dark:text-slate-600 group-hover:text-primary transition-colors">
+							<span class="material-symbols-outlined">chevron_right</span>
+						</div>
+					</a>
+					<!-- ENDIF -->
+					
+					<!-- IF U_TEAM -->
+					<a href="{U_TEAM}" class="group flex items-center gap-4 px-6 min-h-[56px] justify-between hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-colors border-l-4 border-transparent hover:border-primary">
+						<div class="flex items-center gap-4">
+							<div class="text-slate-500 dark:text-slate-400 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 shrink-0 size-10 group-hover:bg-primary group-hover:text-white transition-colors">
+								<span class="material-symbols-outlined">shield_person</span>
+							</div>
+							<p class="text-slate-900 dark:text-white text-[18px] font-medium leading-normal flex-1 truncate">{L_THE_TEAM}</p>
+						</div>
+						<div class="shrink-0 text-slate-400 dark:text-slate-600 group-hover:text-primary transition-colors">
+							<span class="material-symbols-outlined">chevron_right</span>
+						</div>
+					</a>
+					<!-- ENDIF -->
+
+					<!-- IF U_CONTACT_US -->
+					<a href="{U_CONTACT_US}" class="group flex items-center gap-4 px-6 min-h-[56px] justify-between hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-colors border-l-4 border-transparent hover:border-primary">
+						<div class="flex items-center gap-4">
+							<div class="text-slate-500 dark:text-slate-400 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 shrink-0 size-10 group-hover:bg-primary group-hover:text-white transition-colors">
+								<span class="material-symbols-outlined">contact_support</span>
+							</div>
+							<p class="text-slate-900 dark:text-white text-[18px] font-medium leading-normal flex-1 truncate">{L_CONTACT_US}</p>
+						</div>
+						<div class="shrink-0 text-slate-400 dark:text-slate-600 group-hover:text-primary transition-colors">
+							<span class="material-symbols-outlined">chevron_right</span>
+						</div>
+					</a>
+					<!-- ENDIF -->
+					<!-- EVENT navbar_mobile_info_nav_append -->
+				</div>
+			</div>
+
+			<!-- EVENT navbar_mobile_drawer_append -->
+		</div>
+
+		<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			const openBtn = document.getElementById("mobile-menu-toggle");
+			const closeBtn = document.getElementById("close-nav-btn");
+			const overlay = document.getElementById("mobile-nav-overlay");
+			const drawer = document.getElementById("mobile-nav-drawer");
+			const body = document.body;
+
+			function openDrawer() {
+				overlay.classList.remove("opacity-0", "pointer-events-none");
+				drawer.classList.remove("-translate-x-full");
+				body.style.overflow = "hidden"; // Prevent scrolling
+			}
+
+			function closeDrawer() {
+				overlay.classList.add("opacity-0", "pointer-events-none");
+				drawer.classList.add("-translate-x-full");
+				body.style.overflow = ""; // Restore scrolling
+			}
+
+			if(openBtn) {
+				openBtn.addEventListener("click", openDrawer);
+			}
+			
+			if(closeBtn) {
+				closeBtn.addEventListener("click", closeDrawer);
+			}
+			
+			if(overlay) {
+				overlay.addEventListener("click", closeDrawer);
+			}
+
+			// Prevent background scrolling when notification drawer opens
+			const notificationList = document.getElementById("notification_list");
+			if (notificationList) {
+				const observer = new MutationObserver(function(mutations) {
+					mutations.forEach(function(mutation) {
+						if (mutation.attributeName === "style") {
+							const isVisible = notificationList.style.display !== "none";
+							if (isVisible) {
+								body.style.overflow = "hidden";
+							} else {
+								// Only restore scroll if mobile drawer isn't also open
+								if (drawer && drawer.classList.contains("-translate-x-full")) {
+									body.style.overflow = "";
+								}
+							}
+						}
+					});
+				});
+
+				observer.observe(notificationList, { attributes: true, attributeFilter: ['style'] });
+			}
+			// --- Dark Mode Toggle Logic ---
+			const themeToggleBtn = document.getElementById("theme-toggle");
+			const themeToggleIcon = document.getElementById("theme-toggle-icon");
+
+			function updateThemeIcon(isDark) {
+				if (themeToggleIcon) {
+					themeToggleIcon.textContent = isDark ? "light_mode" : "dark_mode";
+				}
+			}
+
+			// Set initial icon based on root class
+			const initialIsDark = document.documentElement.classList.contains('dark');
+			updateThemeIcon(initialIsDark);
+
+			if (themeToggleBtn) {
+				themeToggleBtn.addEventListener("click", function() {
+					const isCurrentlyDark = document.documentElement.classList.contains('dark');
+					
+					if (isCurrentlyDark) {
+						document.documentElement.classList.remove('dark');
+						localStorage.setItem('theme', 'light');
+						updateThemeIcon(false);
+					} else {
+						document.documentElement.classList.add('dark');
+						localStorage.setItem('theme', 'dark');
+						updateThemeIcon(true);
+					}
+				});
+			}
+		});
+		</script>
+		<!-- EVENT navbar_mobile_script_after -->

@@ -1,0 +1,101 @@
+<!-- INCLUDE overall_header.html -->
+
+<div class="max-w-2xl mx-auto py-8 px-4 sm:px-0">
+	<form action="{S_LOGIN_ACTION}" method="post" id="login" data-focus="<!-- IF S_ADMIN_AUTH -->{PASSWORD_CREDENTIAL}<!-- ELSE -->{USERNAME_CREDENTIAL}<!-- ENDIF -->">
+
+		<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden mb-6">
+			<div class="p-6 sm:p-8">
+				
+				<div class="flex items-center gap-3 mb-6 border-b border-primary/10 pb-4">
+					<span class="material-symbols-outlined text-[28px] text-primary">login</span>
+					<h2 class="text-xl sm:text-2xl font-bold text-slate-800 dark:text-white"><!-- IF LOGIN_EXPLAIN -->{LOGIN_EXPLAIN}<!-- ELSE -->{L_LOGIN}<!-- ENDIF --></h2>
+				</div>
+
+				<!-- IF LOGIN_ERROR -->
+					<div class="mb-6 bg-red-50 dark:bg-red-900/10 p-4 rounded-xl shadow-sm border border-red-200 dark:border-red-900/30 text-sm text-red-600 dark:text-red-400 font-medium">
+						{LOGIN_ERROR}
+					</div>
+				<!-- ENDIF -->
+
+				<div class="space-y-6">
+					<div class="flex flex-col gap-1">
+						<label for="{USERNAME_CREDENTIAL}" class="text-sm font-bold text-slate-800 dark:text-white">{L_USERNAME}{L_COLON}</label>
+						<input type="text" tabindex="1" name="{USERNAME_CREDENTIAL}" id="{USERNAME_CREDENTIAL}" value="{USERNAME}" autocomplete="username" class="w-full h-11 px-4 rounded-lg border border-slate-300 text-slate-800 focus:border-primary focus:ring-primary shadow-sm dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:focus:border-primary transition-all mt-1" />
+					</div>
+
+					<div class="flex flex-col gap-1">
+						<div class="flex items-center justify-between">
+							<label for="{PASSWORD_CREDENTIAL}" class="text-sm font-bold text-slate-800 dark:text-white">{L_PASSWORD}{L_COLON}</label>
+							<!-- IF S_DISPLAY_FULL_LOGIN and U_SEND_PASSWORD -->
+								<a href="{U_SEND_PASSWORD}" class="text-xs font-semibold text-primary hover:text-primary/80 transition-colors">{L_FORGOT_PASS}</a>
+							<!-- ENDIF -->
+						</div>
+						<input type="password" tabindex="2" id="{PASSWORD_CREDENTIAL}" name="{PASSWORD_CREDENTIAL}" autocomplete="current-password" class="w-full h-11 px-4 rounded-lg border border-slate-300 text-slate-800 focus:border-primary focus:ring-primary shadow-sm dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:focus:border-primary transition-all mt-1" />
+						
+						<!-- IF S_DISPLAY_FULL_LOGIN and U_RESEND_ACTIVATION -->
+						<div class="mt-2 text-right">
+							<a href="{U_RESEND_ACTIVATION}" class="text-xs font-semibold text-slate-500 hover:text-primary transition-colors">{L_RESEND_ACTIVATION}</a>
+						</div>
+						<!-- ENDIF -->
+					</div>
+
+					<!-- IF CAPTCHA_TEMPLATE and S_CONFIRM_CODE -->
+						<!-- DEFINE $CAPTCHA_TAB_INDEX = 3 -->
+						<!-- INCLUDE {CAPTCHA_TEMPLATE} -->
+					<!-- ENDIF -->
+
+					<!-- IF S_DISPLAY_FULL_LOGIN -->
+					<div class="flex flex-col sm:flex-row sm:items-center gap-4 bg-slate-50 dark:bg-slate-900/50 p-4 rounded-lg border border-slate-100 dark:border-slate-800">
+						<!-- IF S_AUTOLOGIN_ENABLED -->
+						<label for="autologin" class="flex items-center gap-3 cursor-pointer group">
+							<input type="checkbox" name="autologin" id="autologin" tabindex="4" class="w-5 h-5 rounded border-slate-300 text-primary shadow-sm focus:border-primary focus:ring-primary dark:border-slate-600 dark:bg-slate-900 dark:checked:bg-primary cursor-pointer transition-all" />
+							<span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-primary transition-colors">{L_LOG_ME_IN}</span>
+						</label>
+						<!-- ENDIF -->
+						
+						<label for="viewonline" class="flex items-center gap-3 cursor-pointer group sm:ml-auto">
+							<input type="checkbox" name="viewonline" id="viewonline" tabindex="5" class="w-5 h-5 rounded border-slate-300 text-primary shadow-sm focus:border-primary focus:ring-primary dark:border-slate-600 dark:bg-slate-900 dark:checked:bg-primary cursor-pointer transition-all" />
+							<span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-primary transition-colors">{L_HIDE_ME}</span>
+						</label>
+					</div>
+					<!-- ENDIF -->
+				</div>
+			</div>
+		</div>
+
+		<!-- IF not S_ADMIN_AUTH and PROVIDER_TEMPLATE_FILE -->
+		<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden mb-6 p-6 sm:p-8">
+			<!-- INCLUDE {PROVIDER_TEMPLATE_FILE} -->
+		</div>
+		<!-- ENDIF -->
+
+		<div class="mt-6 mb-8">
+			{S_LOGIN_REDIRECT}
+			{S_FORM_TOKEN_LOGIN}
+			{S_HIDDEN_FIELDS}
+			<button type="submit" name="login" tabindex="6" class="w-full py-3.5 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl shadow-md transition-colors text-lg flex items-center justify-center gap-2">
+				<span class="material-symbols-outlined">login</span>
+				{L_LOGIN}
+			</button>
+		</div>
+
+		<!-- IF not S_ADMIN_AUTH and S_REGISTER_ENABLED -->
+		<div class="bg-slate-50 dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden text-center p-6 sm:p-8 shadow-sm">
+			<h3 class="text-lg font-bold text-slate-800 dark:text-white mb-2">{L_REGISTER}</h3>
+			<p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">{L_LOGIN_INFO}</p>
+			
+			<div class="text-xs font-semibold text-slate-500 mb-6">
+				<a href="{U_TERMS_USE}" class="hover:text-primary transition-colors">{L_TERMS_USE}</a> <span class="mx-2 opacity-50">|</span> <a href="{U_PRIVACY}" class="hover:text-primary transition-colors">{L_PRIVACY}</a>
+			</div>
+			
+			<a href="{U_REGISTER}" class="inline-flex items-center justify-center gap-2 px-8 py-3 bg-white dark:bg-slate-700 border-2 border-primary text-primary dark:text-white font-bold rounded-xl hover:bg-primary hover:text-white transition-all shadow-sm">
+				<span class="material-symbols-outlined">person_add</span>
+				{L_REGISTER}
+			</a>
+		</div>
+		<!-- ENDIF -->
+
+	</form>
+</div>
+
+<!-- INCLUDE overall_footer.html -->

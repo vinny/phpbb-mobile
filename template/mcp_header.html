@@ -1,0 +1,77 @@
+<!-- INCLUDE overall_header.html -->
+
+<main class="flex flex-col px-4 pt-4 pb-8 space-y-6">
+
+	<div class="flex items-center justify-between flex-wrap gap-4">
+		<h2 class="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+			<span class="material-symbols-outlined text-[28px] text-primary">gavel</span>
+			{L_MCP}
+		</h2>
+
+		<!-- IF U_MCP -->
+		<div class="flex flex-wrap items-center gap-2 text-sm font-medium text-slate-500 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-lg shadow-sm">
+			<!-- IF U_ACP -->
+				<a href="{U_ACP}" title="{L_ACP}" data-responsive-text="{L_ACP_SHORT}" class="hover:text-primary transition-colors">{L_ACP}</a>
+				<span class="text-slate-300 dark:text-slate-600">&bull;</span>
+			<!-- ENDIF -->
+			<a href="{U_MCP}" title="{L_MCP}" data-responsive-text="{L_MCP_SHORT}" class="hover:text-primary transition-colors">{L_MCP}</a>
+			<!-- IF U_MCP_FORUM -->
+				<span class="text-slate-300 dark:text-slate-600">&bull;</span>
+				<a href="{U_MCP_FORUM}" class="hover:text-primary transition-colors">{L_MODERATE_FORUM}</a>
+			<!-- ENDIF -->
+			<!-- IF U_MCP_TOPIC -->
+				<span class="text-slate-300 dark:text-slate-600">&bull;</span>
+				<a href="{U_MCP_TOPIC}" class="hover:text-primary transition-colors">{L_MODERATE_TOPIC}</a>
+			<!-- ENDIF -->
+			<!-- IF U_MCP_POST -->
+				<span class="text-slate-300 dark:text-slate-600">&bull;</span>
+				<a href="{U_MCP_POST}" class="hover:text-primary transition-colors">{L_MODERATE_POST}</a>
+			<!-- ENDIF -->
+		</div>
+		<!-- ENDIF -->
+	</div>
+
+	<div class="flex flex-col lg:flex-row gap-6">
+
+		<!-- NAVIGATION MENU (SIDEBAR) -->
+		<aside class="w-full lg:w-64 shrink-0 flex flex-col gap-6">
+			
+			<!-- Tabs (Primary l_block1) -->
+			<div class="flex overflow-x-auto no-scrollbar gap-2 pb-2 lg:pb-0 lg:flex-col lg:gap-1">
+				<!-- BEGIN l_block1 -->
+				<a href="{l_block1.U_TITLE}" class="whitespace-nowrap px-4 py-2 sm:py-2.5 rounded-lg font-semibold text-sm transition-colors <!-- IF l_block1.S_SELECTED -->bg-primary text-white shadow-sm<!-- ELSE -->bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800/50 dark:text-slate-300 dark:hover:bg-slate-800<!-- ENDIF -->">
+					{l_block1.L_TITLE}
+				</a>
+				<!-- END l_block1 -->
+			</div>
+
+			<!-- Sub Navigation (Secondary l_block2) -->
+			<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col">
+				<!-- BEGIN l_block1 -->
+					<!-- IF l_block1.S_SELECTED -->
+						<!-- BEGIN l_block2 -->
+							<a href="{l_block1.l_block2.U_TITLE}" class="group px-4 py-3 text-sm font-medium transition-colors border-b border-slate-100 dark:border-slate-700/50 last:border-b-0 flex items-center justify-between <!-- IF l_block1.l_block2.S_SELECTED -->bg-primary/5 text-primary border-l-2 border-l-primary<!-- ELSE -->text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 border-l-2 border-l-transparent<!-- ENDIF -->">
+								<span>{l_block1.l_block2.L_TITLE}<!-- IF l_block1.l_block2.ADD_ITEM --> <span class="bg-primary/10 text-primary text-[10px] font-bold px-1.5 py-0.5 rounded ml-1">{l_block1.l_block2.ADD_ITEM}</span><!-- ENDIF --></span>
+								<span class="material-symbols-outlined text-[18px] text-slate-400 group-hover:text-primary transition-colors">chevron_right</span>
+							</a>
+						<!-- END l_block2 -->
+					<!-- ENDIF -->
+				<!-- END l_block1 -->
+			</div>
+		</aside>
+
+		<!-- MAIN CONTENT PANEL -->
+		<div id="cp-main" class="flex-1 w-full min-w-0 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-4 sm:p-6 cp-main mcp-main panel-container relative">
+
+			<!-- IF MESSAGE -->
+			<div class="mb-6 rounded-lg bg-amber-50 p-4 text-amber-800 dark:bg-amber-900/20 dark:text-amber-200 border border-amber-200 dark:border-amber-900/50">
+				<h2 class="text-base font-bold mb-2 flex items-center gap-2">
+					<span class="material-symbols-outlined text-[20px]">notification_important</span>
+					{L_MESSAGE}
+				</h2>
+				<p class="text-sm">{MESSAGE}</p>
+				<!-- BEGIN return_links -->
+				<p class="text-sm mt-3 pt-3 border-t border-amber-200/50 dark:border-amber-800/50">{return_links.MESSAGE_LINK}</p>
+				<!-- END return_links -->
+			</div>
+			<!-- ENDIF -->

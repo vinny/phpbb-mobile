@@ -1,0 +1,73 @@
+<!-- INCLUDE overall_header.html -->
+
+<main class="flex flex-col gap-6 px-4 pt-4 pb-8">
+
+<!-- IF TOPIC_TITLE -->
+	<h2 class="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-200"><!-- EVENT posting_topic_title_before --><a href="{U_VIEW_TOPIC}" class="hover:text-primary transition-colors">{TOPIC_TITLE}</a><!-- EVENT posting_topic_title_after --></h2>
+<!-- ELSE -->
+	<h2 class="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-200"><a href="{U_VIEW_FORUM}" class="hover:text-primary transition-colors">{FORUM_NAME}</a></h2>
+<!-- ENDIF -->
+
+<!-- IF S_FORUM_RULES -->
+	<div class="rounded-xl border border-red-200 bg-red-50 p-4 shadow-sm dark:border-red-900/50 dark:bg-red-900/10">
+		<!-- IF U_FORUM_RULES -->
+			<a href="{U_FORUM_RULES}" class="flex items-center gap-2 text-sm font-bold text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300">
+				<span class="material-symbols-outlined text-[18px]">gavel</span>
+				{L_FORUM_RULES}
+			</a>
+		<!-- ELSE -->
+			<div class="flex items-start gap-2">
+				<span class="material-symbols-outlined text-[18px] text-red-500 mt-0.5">gavel</span>
+				<div class="text-[13px] leading-relaxed text-red-700 dark:text-red-300">
+					<strong class="block mb-1 font-bold text-red-800 dark:text-red-200">{L_FORUM_RULES}</strong>
+					{FORUM_RULES}
+				</div>
+			</div>
+		<!-- ENDIF -->
+	</div>
+<!-- ENDIF -->
+
+<form id="postform" method="post" action="{S_POST_ACTION}"{S_FORM_ENCTYPE}>
+
+<!-- IF S_DRAFT_LOADED -->
+	<div class="rounded-xl border border-blue-200 bg-blue-50 p-4 shadow-sm dark:border-blue-900/50 dark:bg-blue-900/10 mb-6">
+		<h3 class="mb-2 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-blue-800 dark:text-blue-200">
+			<span class="material-symbols-outlined text-[18px]">info</span>
+			{L_INFORMATION}
+		</h3>
+		<p class="text-[13px] leading-relaxed text-blue-700 dark:text-blue-300">{L_DRAFT_LOADED}</p>
+	</div>
+<!-- ENDIF -->
+
+<!-- IF S_SHOW_DRAFTS --><!-- INCLUDE drafts.html --><!-- ENDIF -->
+
+<!-- IF S_POST_REVIEW --><!-- INCLUDE posting_review.html --><!-- ENDIF -->
+
+<!-- IF S_DISPLAY_PREVIEW --><!-- INCLUDE posting_preview.html --><!-- ENDIF -->
+
+<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800 overflow-hidden panel" id="postingbox">
+	<div class="border-b border-slate-200 bg-slate-50/50 px-4 py-3 dark:border-slate-700 dark:bg-slate-800/50 flex items-center gap-2">
+		<span class="material-symbols-outlined text-[20px] text-primary">edit_square</span>
+		<h3 class="text-base font-bold text-slate-800 dark:text-slate-200">{L_POST_A}</h3>
+	</div>
+
+	<div class="p-4 sm:p-6">
+		<!-- DEFINE $EXTRA_POSTING_OPTIONS = 1 -->
+		<!-- INCLUDE posting_editor.html -->
+		<input type="hidden" name="show_panel" value="options-panel" />
+		{S_FORM_TOKEN}
+	</div>
+</div>
+
+<!-- IF S_SHOW_ATTACH_BOX and FILTERS --><!-- INCLUDE posting_attach_body.html --><!-- ENDIF -->
+
+<!-- IF S_SHOW_POLL_BOX or S_POLL_DELETE --><!-- INCLUDE posting_poll_body.html --><!-- ENDIF -->
+
+<!-- EVENT posting_layout_include_panel_body -->
+
+<!-- IF S_DISPLAY_REVIEW --><!-- INCLUDE posting_topic_review.html --><!-- ENDIF -->
+
+</form>
+
+</main>
+<!-- INCLUDE overall_footer.html -->

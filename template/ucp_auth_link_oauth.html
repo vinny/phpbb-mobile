@@ -1,0 +1,39 @@
+<!-- BEGIN oauth -->
+	<form id="ucp_oauth_{oauth.SERVICE_ID}" method="post" action="{S_UCP_ACTION}" class="mb-8 last:mb-0 pb-8 last:pb-0 border-b last:border-0 border-slate-100 dark:border-slate-700/50">
+		<h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4 flex items-center gap-2">
+			<span class="w-2 h-2 rounded-full bg-primary"></span>
+			{oauth.SERVICE_NAME}
+		</h3>
+
+		<div class="space-y-4">
+			<!-- IF oauth.UNIQUE_ID -->
+				<div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+					<label class="text-sm font-bold text-slate-800 dark:text-white sm:w-1/3">{L_UCP_AUTH_LINK_ID}{L_COLON}</label>
+					<div class="sm:flex-1">
+						<code class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium">{oauth.UNIQUE_ID}</code>
+					</div>
+				</div>
+				<div class="pt-2 flex flex-col sm:flex-row sm:justify-end">
+					<button type="submit" name="submit" value="{L_UCP_AUTH_LINK_UNLINK}" class="w-full sm:w-auto px-6 py-2.5 bg-red-50 hover:bg-red-100 text-red-600 dark:bg-red-900/20 dark:hover:bg-red-900/30 dark:text-red-400 font-semibold text-sm rounded-lg transition-colors border border-red-200 dark:border-red-900/30 flex items-center justify-center gap-2">
+						<span class="material-symbols-outlined text-[18px]">link_off</span>
+						{L_UCP_AUTH_LINK_UNLINK}
+					</button>
+				</div>
+			<!-- ELSE -->
+				<div class="flex flex-col gap-4">
+					<p class="text-sm text-slate-600 dark:text-slate-400 italic bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800">{L_UCP_AUTH_LINK_ASK}</p>
+					
+					<div class="flex flex-col sm:flex-row sm:justify-end">
+						<button type="submit" name="submit" value="{L_UCP_AUTH_LINK_LINK}" class="w-full sm:w-auto px-6 py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-sm rounded-lg shadow-sm transition-colors flex items-center justify-center gap-2">
+							<span class="material-symbols-outlined text-[18px]">link</span>
+							{L_UCP_AUTH_LINK_LINK}
+						</button>
+					</div>
+				</div>
+			<!-- ENDIF -->
+		</div>
+		{oauth.HIDDEN_FIELDS}
+		{S_HIDDEN_FIELDS}
+		{S_FORM_TOKEN}
+	</form>
+<!-- END oauth -->

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html dir="{S_CONTENT_DIRECTION}" lang="{S_USER_LANG}">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="robots" content="noindex" />
+{META}
+<title>{SITENAME} &bull; {PAGE_TITLE}</title>
+
+<link href="{T_THEME_PATH}/tailwind.css?assets_version={T_ASSETS_VERSION}" rel="stylesheet">
+<link href="{T_THEME_PATH}/fonts.css?assets_version={T_ASSETS_VERSION}" rel="stylesheet">
+<style>
+	body { font-family: 'Plus Jakarta Sans', sans-serif; }
+	@media print {
+		@page { margin: 1.5cm; }
+		.break-inside-avoid { break-inside: avoid; }
+	}
+</style>
+<!-- EVENT viewtopic_print_head_append -->
+</head>
+<body id="phpbb" class="{S_CONTENT_DIRECTION} bg-white text-slate-900 antialiased p-4 sm:p-8 max-w-4xl mx-auto">
+<div id="wrap" class="wrap">
+	<a id="top" class="top-anchor" accesskey="t"></a>
+
+	<header id="page-header" class="mb-8 border-b-2 border-slate-800 pb-4">
+		<h1 class="text-2xl font-bold tracking-tight mb-1">{SITENAME}</h1>
+		<p class="text-sm text-slate-500 mb-4">{SITE_DESCRIPTION}<br /><span class="text-slate-400 text-xs">{U_FORUM}</span></p>
+
+		<h2 class="text-xl font-bold leading-tight">{TOPIC_TITLE}</h2>
+		<p class="text-sm text-slate-400 mt-1">{U_TOPIC}</p>
+	</header>
+
+	<main id="page-body" class="page-body">
+		<div class="text-xs text-slate-500 mb-4 text-right font-medium">{PAGE_NUMBER}</div>
+		<!-- BEGIN postrow -->
+			<article class="post break-inside-avoid mb-8 pb-8 border-b border-slate-200 last:border-0 relative">
+				<h3 class="text-lg font-semibold mb-3">{postrow.POST_SUBJECT}</h3>
+				<div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 text-sm text-slate-600 mb-5 bg-slate-50 p-3.5 rounded-lg border border-slate-100">
+					<div class="author">{L_POST_BY_AUTHOR} <strong class="text-slate-900 font-bold">{postrow.POST_AUTHOR}</strong></div>
+					<div class="date text-xs tracking-wide uppercase">{L_POSTED}{L_COLON} <strong>{postrow.POST_DATE}</strong></div>
+				</div>
+				<div class="content prose prose-slate max-w-none text-[15px] leading-relaxed">
+					{postrow.MESSAGE}
+				</div>
+			</article>
+		<!-- END postrow -->
+	</main>
+
+	<footer id="page-footer" class="mt-12 pt-6 border-t border-slate-200 text-sm text-slate-500 flex justify-between items-end">
+		<div class="page-number text-xs font-medium leading-relaxed">{S_TIMEZONE}<br />{PAGE_NUMBER}</div>
+		<div class="copyright text-right text-xs leading-relaxed">
+			<p>{{ CREDIT_LINE }}</p>
+			{% if TRANSLATION_INFO %}
+			<p>{{ TRANSLATION_INFO }}</p>
+			{% endif %}
+		</div>
+	</footer>
+</div>
+
+</body>
+</html>

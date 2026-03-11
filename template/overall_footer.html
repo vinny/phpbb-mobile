@@ -1,0 +1,125 @@
+		<!-- EVENT overall_footer_content_after -->
+	</div>
+
+<!-- EVENT overall_footer_page_body_after -->
+
+<div id="page-footer" class="page-footer" role="contentinfo">
+	
+	<div class="mt-8 px-4 pb-24 text-center">
+		<!-- EVENT overall_footer_timezone_before -->
+		<div class="text-xs text-slate-500 font-medium mb-4">
+			{S_TIMEZONE}
+		</div>
+		<!-- EVENT overall_footer_timezone_after -->
+
+		<div class="copyright flex flex-col gap-2 rounded-xl bg-slate-50 dark:bg-slate-800/50 p-4 border border-slate-100 dark:border-slate-800">
+			<!-- EVENT overall_footer_copyright_prepend -->
+			
+			<p class="text-xs text-slate-500">
+				{{ CREDIT_LINE }}
+			</p>
+			
+			<!-- IF TRANSLATION_INFO -->
+			<p class="text-xs text-slate-500">
+				{{ TRANSLATION_INFO }}
+			</p>
+			<!-- ENDIF -->
+			
+			<!-- EVENT overall_footer_copyright_append -->
+			
+			<div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mt-2 text-xs font-semibold text-slate-600 dark:text-slate-400" role="menu">
+				<a href="{{ U_PRIVACY }}" title="{{ lang('PRIVACY_LINK') }}" role="menuitem" class="hover:text-primary transition-colors">{{ lang('PRIVACY_LINK') }}</a>
+				<span class="text-slate-300 dark:text-slate-600">&bull;</span>
+				<a href="{{ U_TERMS_USE }}" title="{{ lang('TERMS_LINK') }}" role="menuitem" class="hover:text-primary transition-colors">{{ lang('TERMS_LINK') }}</a>
+				
+				<!-- IF not S_IS_BOT -->
+				<br>
+				<a href="{U_DELETE_COOKIES}" data-ajax="true" data-refresh="true" role="menuitem" class="hover:text-primary transition-colors w-full sm:w-auto">{L_DELETE_COOKIES}</a>
+				<!-- ENDIF -->
+			</div>
+
+			<!-- IF DEBUG_OUTPUT -->
+			<p class="text-[10px] text-slate-400 mt-2">
+				{{ DEBUG_OUTPUT }}
+			</p>
+			<!-- ENDIF -->
+			
+			<!-- IF U_ACP -->
+			<p class="mt-2">
+				<a class="inline-block rounded bg-slate-200 dark:bg-slate-700 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors" href="{{ U_ACP }}">{{ lang('ACP') }}</a>
+			</p>
+			<!-- ENDIF -->
+		</div>
+	</div>
+
+	<div id="darkenwrapper" class="fixed inset-0 z-[100] bg-slate-900/60 backdrop-blur-sm" data-ajax-error-title="{L_AJAX_ERROR_TITLE}" data-ajax-error-text="{L_AJAX_ERROR_TEXT}" data-ajax-error-text-abort="{L_AJAX_ERROR_TEXT_ABORT}" data-ajax-error-text-timeout="{L_AJAX_ERROR_TEXT_TIMEOUT}" data-ajax-error-text-parsererror="{L_AJAX_ERROR_TEXT_PARSERERROR}" style="display: none;">
+		<div id="darken" class="absolute inset-0">&nbsp;</div>
+	</div>
+
+	<div id="phpbb_alert" class="phpbb_alert fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[101] w-[90%] max-w-sm sm:max-w-md bg-white dark:bg-slate-800 rounded-xl shadow-2xl overflow-hidden" data-l-err="{L_ERROR}" data-l-timeout-processing-req="{L_TIMEOUT_PROCESSING_REQ}" style="display: none;">
+		<a href="#" class="alert_close absolute top-3 right-4 text-slate-400 hover:text-red-500 z-10 transition-colors">
+			<span class="material-symbols-outlined text-2xl">close</span>
+		</a>
+		<h3 class="alert_title px-6 py-4 border-b border-slate-100 dark:border-slate-700/50 bg-slate-50 dark:bg-slate-800/80 text-lg font-bold text-slate-900 dark:text-white m-0">&nbsp;</h3>
+		<p class="alert_text p-6 text-slate-700 dark:text-slate-300 font-medium"></p>
+	</div>
+	
+	<div id="phpbb_confirm" class="phpbb_alert fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[101] w-[90%] max-w-sm sm:max-w-md bg-white dark:bg-slate-800 rounded-xl shadow-2xl overflow-hidden" style="display: none;">
+		<a href="#" class="alert_close absolute top-3 right-4 text-slate-400 hover:text-red-500 z-10 transition-colors">
+			<span class="material-symbols-outlined text-2xl">close</span>
+		</a>
+		<div class="alert_text p-6 text-slate-700 dark:text-slate-300 font-medium pt-8 pb-6"></div>
+	</div>
+</div>
+
+</div> <!-- Closing #wrap from overall_header.html -->
+
+<!-- INCLUDE navbar_footer.html -->
+
+<div>
+	<a id="bottom" class="anchor" accesskey="z"></a>
+	{% if not S_IS_BOT %}{{ RUN_CRON_TASK }}{% endif %}
+</div>
+
+<script src="{T_JQUERY_LINK}"></script>
+<!-- IF S_ALLOW_CDN --><script>window.jQuery || document.write('\x3Cscript src="{T_ASSETS_PATH}/javascript/jquery-3.7.1.min.js?assets_version={T_ASSETS_VERSION}">\x3C/script>');</script><!-- ENDIF -->
+<script src="{T_ASSETS_PATH}/javascript/core.js?assets_version={T_ASSETS_VERSION}"></script>
+<!-- INCLUDEJS forum_fn.js -->
+<!-- INCLUDEJS ajax.js -->
+
+<!-- IF S_COOKIE_NOTICE -->
+	<script src="{T_ASSETS_PATH}/cookieconsent/cookieconsent.min.js?assets_version={T_ASSETS_VERSION}"></script>
+	<script>
+		if (typeof window.cookieconsent === "object") {
+			window.addEventListener("load", function(){
+				window.cookieconsent.initialise({
+					"palette": {
+						"popup": {
+							"background": "#0F538A"
+						},
+						"button": {
+							"background": "#E5E5E5"
+						}
+					},
+					"theme": "classic",
+					"content": {
+						"message": "{LA_COOKIE_CONSENT_MSG}",
+						"dismiss": "{LA_COOKIE_CONSENT_OK}",
+						"link": "{LA_COOKIE_CONSENT_INFO}",
+						"href": "{UA_PRIVACY}"
+					}
+				});
+			});
+		}
+	</script>
+<!-- ENDIF -->
+
+<!-- EVENT overall_footer_after -->
+
+<!-- IF S_PLUPLOAD --><!-- INCLUDE plupload.html --><!-- ENDIF -->
+{$SCRIPTS}
+
+<!-- EVENT overall_footer_body_after -->
+
+</body>
+</html>

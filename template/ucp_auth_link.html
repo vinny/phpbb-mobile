@@ -1,0 +1,25 @@
+<!-- INCLUDE ucp_header.html -->
+
+<div class="flex items-center justify-between mb-6 border-b border-primary/10 pb-4">
+	<h2 class="text-base sm:text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
+		<span class="material-symbols-outlined text-[20px] text-primary">link</span>
+		{L_UCP_AUTH_LINK_TITLE}
+	</h2>
+</div>
+
+<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+	<div class="p-6 sm:p-8">
+		<!-- IF ERROR -->
+			<div class="mb-6 bg-red-50 dark:bg-red-900/10 p-4 rounded-xl shadow-sm border border-red-200 dark:border-red-900/30 text-sm text-red-600 dark:text-red-400 font-medium flex items-center gap-3">
+				<span class="material-symbols-outlined">error</span>
+				{ERROR}
+			</div>
+		<!-- ENDIF -->
+
+		<!-- IF PROVIDER_TEMPLATE_FILE -->
+			{% include PROVIDER_TEMPLATE_FILE %}
+		<!-- ENDIF -->
+	</div>
+</div>
+
+<!-- INCLUDE ucp_footer.html -->

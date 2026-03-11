@@ -1,0 +1,153 @@
+<!-- INCLUDE overall_header.html -->
+
+<script>
+	/**
+	* Change language
+	*/
+	function change_language(lang_iso)
+	{
+		document.cookie = '{COOKIE_NAME}_lang=' + lang_iso + '; path={COOKIE_PATH}';
+		document.forms['register'].change_lang.value = lang_iso;
+		document.forms['register'].submit.click();
+	}
+</script>
+
+<div class="max-w-2xl mx-auto py-8 px-4 sm:px-0">
+
+	{% if PROVIDER_TEMPLATE_FILE %}
+		<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden mb-6">
+			<div class="p-6 sm:p-8">
+				<h2 class="text-xl font-bold text-slate-800 dark:text-white mb-6 border-b border-slate-100 dark:border-slate-700/50 pb-4">{{ SITENAME }} - {{ lang('OAUTH_REGISTRATION') }}</h2>
+				{% include PROVIDER_TEMPLATE_FILE %}
+			</div>
+		</div>
+	{% endif %}
+
+	<form id="register" method="post" action="{S_UCP_ACTION}"{S_FORM_ENCTYPE}>
+
+		<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden mb-6">
+			<div class="p-6 sm:p-8">
+				<div class="flex items-center gap-3 mb-6 border-b border-primary/10 pb-4">
+					<span class="material-symbols-outlined text-[28px] text-primary">person_add</span>
+					<h2 class="text-xl sm:text-2xl font-bold text-slate-800 dark:text-white">{SITENAME} - {L_REGISTRATION}</h2>
+				</div>
+
+				<!-- IF ERROR -->
+					<div class="mb-6 bg-red-50 dark:bg-red-900/10 p-4 rounded-xl shadow-sm border border-red-200 dark:border-red-900/30 text-sm text-red-600 dark:text-red-400 font-medium">
+						{ERROR}
+					</div>
+				<!-- ENDIF -->
+				
+				<!-- IF L_REG_COND -->
+					<div class="mb-6 p-4 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800">
+						<strong class="text-sm font-medium text-slate-700 dark:text-slate-300 block">{L_REG_COND}</strong>
+					</div>
+				<!-- ENDIF -->
+
+				<div class="space-y-5">
+					<!-- EVENT ucp_register_credentials_before -->
+					
+					<div class="flex flex-col gap-1">
+						<label for="username" class="text-sm font-bold text-slate-800 dark:text-white">{L_USERNAME}{L_COLON}</label>
+						<span class="text-xs text-slate-500 dark:text-slate-400 mb-1">{L_USERNAME_EXPLAIN}</span>
+						<input type="text" tabindex="1" name="username" id="username" value="{USERNAME}" class="w-full h-11 px-4 rounded-lg border border-slate-300 text-slate-800 focus:border-primary focus:ring-primary shadow-sm dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:focus:border-primary transition-all" title="{L_USERNAME}" autocomplete="off" />
+					</div>
+					
+					<div class="flex flex-col gap-1">
+						<label for="new_password" class="text-sm font-bold text-slate-800 dark:text-white">{L_PASSWORD}{L_COLON}</label>
+						<span class="text-xs text-slate-500 dark:text-slate-400 mb-1">{L_PASSWORD_EXPLAIN}</span>
+						<input type="password" tabindex="2" name="new_password" id="new_password" value="{PASSWORD}" class="w-full h-11 px-4 rounded-lg border border-slate-300 text-slate-800 focus:border-primary focus:ring-primary shadow-sm dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:focus:border-primary transition-all" title="{L_NEW_PASSWORD}" autocomplete="off" />
+					</div>
+					
+					<div class="flex flex-col gap-1">
+						<label for="password_confirm" class="text-sm font-bold text-slate-800 dark:text-white">{L_CONFIRM_PASSWORD}{L_COLON}</label>
+						<input type="password" tabindex="3" name="password_confirm" id="password_confirm" value="{PASSWORD_CONFIRM}" class="w-full h-11 px-4 rounded-lg border border-slate-300 text-slate-800 focus:border-primary focus:ring-primary shadow-sm dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:focus:border-primary transition-all mt-1" title="{L_CONFIRM_PASSWORD}" autocomplete="off" />
+					</div>
+					
+					<div class="flex flex-col gap-1">
+						<label for="email" class="text-sm font-bold text-slate-800 dark:text-white">{L_EMAIL_ADDRESS}{L_COLON}</label>
+						<input type="email" tabindex="4" name="email" id="email" maxlength="100" value="{EMAIL}" class="w-full h-11 px-4 rounded-lg border border-slate-300 text-slate-800 focus:border-primary focus:ring-primary shadow-sm dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:focus:border-primary transition-all mt-1" title="{L_EMAIL_ADDRESS}" autocomplete="off" />
+					</div>
+
+					<!-- EVENT ucp_register_credentials_after -->
+				</div>
+
+				<hr class="my-8 border-slate-100 dark:border-slate-700/50" />
+
+				<div class="space-y-5">
+					<!-- EVENT ucp_register_options_before -->
+					{% if S_LANG_OPTIONS %}
+					<div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+						<label for="lang" class="text-sm font-bold text-slate-800 dark:text-white sm:w-1/3">{{ lang('LANGUAGE') ~ lang('COLON') }}</label>
+						<div class="sm:flex-1 relative">
+							<select name="lang" id="lang" onchange="change_language(this.value); return false;" tabindex="6" title="{{ lang('LANGUAGE') }}" class="w-full h-11 px-4 pr-10 appearance-none rounded-lg border border-slate-300 text-slate-800 focus:border-primary focus:ring-primary shadow-sm bg-white dark:border-slate-600 dark:bg-slate-900 dark:text-white transition-all">
+								{{ S_LANG_OPTIONS }}
+							</select>
+							<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 mt-0.5 text-slate-400 pointer-events-none">expand_content</span>
+						</div>
+					</div>
+					{% endif %}
+
+					<!-- INCLUDE timezone_option.html -->
+
+					<!-- EVENT ucp_register_profile_fields_before -->
+					{% if PROFILE_FIELDS_REQUIRED %}
+						<div class="p-3 rounded-lg bg-sky-50 text-sky-700 dark:bg-sky-900/20 dark:text-sky-400 text-sm font-medium border border-sky-100 dark:border-sky-900/30">
+							{L_ITEMS_REQUIRED}
+						</div>
+					{% endif %}
+
+					<!-- BEGIN profile_fields -->
+					<div class="flex flex-col gap-1 pt-2">
+						<label<!-- IF profile_fields.FIELD_ID --> for="{profile_fields.FIELD_ID}"<!-- ENDIF --> class="text-sm font-bold text-slate-800 dark:text-white">
+							{profile_fields.LANG_NAME}{L_COLON}<!-- IF profile_fields.S_REQUIRED --><span class="text-red-500 ml-1">*</span><!-- ENDIF -->
+						</label>
+						<!-- IF profile_fields.LANG_EXPLAIN --><span class="text-xs text-slate-500 dark:text-slate-400 mb-1">{profile_fields.LANG_EXPLAIN}</span><!-- ENDIF -->
+						<!-- IF profile_fields.ERROR --><span class="text-xs text-red-500 font-medium mb-1">{profile_fields.ERROR}</span><!-- ENDIF -->
+						
+						<!-- The FIELD inherently outputs its markup from phpBB, we may need to ensure styles match. -->
+						<div class="[&>input]:w-full [&>input]:h-11 [&>input]:px-4 [&>input]:rounded-lg [&>input]:border [&>input]:border-slate-300 [&>input]:text-slate-800 [&>input]:focus:border-primary [&>input]:focus:ring-primary [&>input]:shadow-sm [&>input]:dark:border-slate-600 [&>input]:dark:bg-slate-900 [&>input]:dark:text-white [&>input]:transition-all [&>textarea]:w-full [&>textarea]:p-4 [&>textarea]:rounded-lg [&>textarea]:border [&>textarea]:border-slate-300 [&>textarea]:text-slate-800 [&>textarea]:focus:border-primary [&>textarea]:focus:ring-primary [&>textarea]:shadow-sm [&>textarea]:dark:border-slate-600 [&>textarea]:dark:bg-slate-900 [&>textarea]:dark:text-white [&>textarea]:transition-all [&>select]:w-full [&>select]:h-11 [&>select]:px-4 [&>select]:rounded-lg [&>select]:border [&>select]:border-slate-300 [&>select]:text-slate-800 [&>select]:focus:border-primary [&>select]:focus:ring-primary [&>select]:shadow-sm [&>select]:bg-white [&>select]:dark:border-slate-600 [&>select]:dark:bg-slate-900 [&>select]:dark:text-white [&>select]:transition-all">
+							{profile_fields.FIELD}
+						</div>
+					</div>
+					<!-- END profile_fields -->
+
+					<!-- EVENT ucp_register_profile_fields_after -->
+				</div>
+			</div>
+		</div>
+
+		<!-- IF CAPTCHA_TEMPLATE -->
+			<!-- DEFINE $CAPTCHA_TAB_INDEX = 8 -->
+			<!-- INCLUDE {CAPTCHA_TEMPLATE} -->
+		<!-- ENDIF -->
+
+		<!-- IF S_COPPA -->
+		<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden mb-6">
+			<div class="p-6 sm:p-8">
+				<h4 class="text-base font-bold text-slate-800 dark:text-white flex items-center gap-2 mb-3">
+					<span class="material-symbols-outlined text-[18px] text-blue-500">policy</span>
+					{L_COPPA_COMPLIANCE}
+				</h4>
+				<p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+					{L_COPPA_EXPLAIN}
+				</p>
+			</div>
+		</div>
+		<!-- ENDIF -->
+
+		<!-- EVENT ucp_register_buttons_before -->
+
+		<div class="mt-6">
+			{S_HIDDEN_FIELDS}
+			<button type="submit" tabindex="9" name="submit" id="submit" class="w-full py-3.5 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl shadow-md transition-colors text-lg flex items-center justify-center gap-2">
+				<span class="material-symbols-outlined">person_add_disabled</span>
+				{L_SUBMIT}
+			</button>
+			{S_FORM_TOKEN}
+		</div>
+
+	</form>
+</div>
+
+<!-- INCLUDE overall_footer.html -->

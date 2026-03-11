@@ -1,0 +1,182 @@
+<!-- INCLUDE ucp_header.html -->
+
+<form id="ucp" method="post" action="{S_UCP_ACTION}"{S_FORM_ENCTYPE}>
+
+	<div class="flex items-center justify-between mb-6 border-b border-primary/10 pb-4">
+		<h2 class="text-base sm:text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
+			<span class="material-symbols-outlined text-[20px] text-primary">tune</span>
+			{L_TITLE}
+		</h2>
+	</div>
+
+	<!-- IF ERROR -->
+		<div class="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600 dark:border-red-900/30 dark:bg-red-900/10 dark:text-red-400 font-medium">
+			{ERROR}
+		</div>
+	<!-- ENDIF -->
+
+	<div class="space-y-6">
+		<!-- EVENT ucp_prefs_personal_prepend -->
+		
+		<div class="flex flex-col gap-2">
+			<label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{L_SHOW_EMAIL}{L_COLON}</label>
+			<div class="flex items-center gap-4">
+				<label for="viewemail1" class="flex items-center gap-2 cursor-pointer group">
+					<input type="radio" name="viewemail" id="viewemail1" value="1"<!-- IF S_VIEW_EMAIL --> checked="checked"<!-- ENDIF --> class="w-4 h-4 text-primary bg-slate-50 border-slate-300 focus:ring-primary dark:bg-slate-900 dark:border-slate-600 dark:checked:bg-primary transition-colors cursor-pointer" />
+					<span class="text-sm text-slate-700 group-hover:text-primary dark:text-slate-300 transition-colors font-medium">{L_YES}</span>
+				</label>
+				<label for="viewemail0" class="flex items-center gap-2 cursor-pointer group">
+					<input type="radio" name="viewemail" id="viewemail0" value="0"<!-- IF not S_VIEW_EMAIL --> checked="checked"<!-- ENDIF --> class="w-4 h-4 text-primary bg-slate-50 border-slate-300 focus:ring-primary dark:bg-slate-900 dark:border-slate-600 dark:checked:bg-primary transition-colors cursor-pointer" />
+					<span class="text-sm text-slate-700 group-hover:text-primary dark:text-slate-300 transition-colors font-medium">{L_NO}</span>
+				</label>
+			</div>
+		</div>
+
+		<div class="flex flex-col gap-2">
+			<label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{L_ADMIN_EMAIL}{L_COLON}</label>
+			<div class="flex items-center gap-4">
+				<label for="massemail1" class="flex items-center gap-2 cursor-pointer group">
+					<input type="radio" name="massemail" id="massemail1" value="1"<!-- IF S_MASS_EMAIL --> checked="checked"<!-- ENDIF --> class="w-4 h-4 text-primary bg-slate-50 border-slate-300 focus:ring-primary dark:bg-slate-900 dark:border-slate-600 dark:checked:bg-primary transition-colors cursor-pointer" />
+					<span class="text-sm text-slate-700 group-hover:text-primary dark:text-slate-300 transition-colors font-medium">{L_YES}</span>
+				</label>
+				<label for="massemail0" class="flex items-center gap-2 cursor-pointer group">
+					<input type="radio" name="massemail" id="massemail0" value="0"<!-- IF not S_MASS_EMAIL --> checked="checked"<!-- ENDIF --> class="w-4 h-4 text-primary bg-slate-50 border-slate-300 focus:ring-primary dark:bg-slate-900 dark:border-slate-600 dark:checked:bg-primary transition-colors cursor-pointer" />
+					<span class="text-sm text-slate-700 group-hover:text-primary dark:text-slate-300 transition-colors font-medium">{L_NO}</span>
+				</label>
+			</div>
+		</div>
+
+		<div class="flex flex-col gap-2">
+			<label class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+				{L_ALLOW_PM}{L_COLON}
+				<span class="block text-xs text-slate-500 dark:text-slate-400 font-normal mt-0.5">{L_ALLOW_PM_EXPLAIN}</span>
+			</label>
+			<div class="flex items-center gap-4">
+				<label for="allowpm1" class="flex items-center gap-2 cursor-pointer group">
+					<input type="radio" name="allowpm" id="allowpm1" value="1"<!-- IF S_ALLOW_PM --> checked="checked"<!-- ENDIF --> class="w-4 h-4 text-primary bg-slate-50 border-slate-300 focus:ring-primary dark:bg-slate-900 dark:border-slate-600 dark:checked:bg-primary transition-colors cursor-pointer" />
+					<span class="text-sm text-slate-700 group-hover:text-primary dark:text-slate-300 transition-colors font-medium">{L_YES}</span>
+				</label>
+				<label for="allowpm0" class="flex items-center gap-2 cursor-pointer group">
+					<input type="radio" name="allowpm" id="allowpm0" value="0"<!-- IF not S_ALLOW_PM --> checked="checked"<!-- ENDIF --> class="w-4 h-4 text-primary bg-slate-50 border-slate-300 focus:ring-primary dark:bg-slate-900 dark:border-slate-600 dark:checked:bg-primary transition-colors cursor-pointer" />
+					<span class="text-sm text-slate-700 group-hover:text-primary dark:text-slate-300 transition-colors font-medium">{L_NO}</span>
+				</label>
+			</div>
+		</div>
+
+		<!-- IF S_CAN_HIDE_ONLINE -->
+			<div class="flex flex-col gap-2">
+				<label class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+					{L_HIDE_ONLINE}{L_COLON}
+					<span class="block text-xs text-slate-500 dark:text-slate-400 font-normal mt-0.5">{L_HIDE_ONLINE_EXPLAIN}</span>
+				</label>
+				<div class="flex items-center gap-4">
+					<label for="hideonline1" class="flex items-center gap-2 cursor-pointer group">
+						<input type="radio" name="hideonline" id="hideonline1" value="1"<!-- IF S_HIDE_ONLINE --> checked="checked"<!-- ENDIF --> class="w-4 h-4 text-primary bg-slate-50 border-slate-300 focus:ring-primary dark:bg-slate-900 dark:border-slate-600 dark:checked:bg-primary transition-colors cursor-pointer" />
+						<span class="text-sm text-slate-700 group-hover:text-primary dark:text-slate-300 transition-colors font-medium">{L_YES}</span>
+					</label>
+					<label for="hideonline0" class="flex items-center gap-2 cursor-pointer group">
+						<input type="radio" name="hideonline" id="hideonline0" value="0"<!-- IF not S_HIDE_ONLINE --> checked="checked"<!-- ENDIF --> class="w-4 h-4 text-primary bg-slate-50 border-slate-300 focus:ring-primary dark:bg-slate-900 dark:border-slate-600 dark:checked:bg-primary transition-colors cursor-pointer" />
+						<span class="text-sm text-slate-700 group-hover:text-primary dark:text-slate-300 transition-colors font-medium">{L_NO}</span>
+					</label>
+				</div>
+			</div>
+		<!-- ENDIF -->
+
+		<!-- IF S_SELECT_NOTIFY -->
+			<div class="flex flex-col gap-2 border-t border-slate-100 dark:border-slate-700/50 pt-5 mt-2">
+				<label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{L_NOTIFY_METHOD}{L_COLON}</label>
+				<div class="flex flex-col gap-2">
+					<label for="notifymethod0" class="flex items-center gap-2 cursor-pointer group">
+						<input type="radio" name="notifymethod" id="notifymethod0" value="0"<!-- IF S_NOTIFY_EMAIL --> checked="checked"<!-- ENDIF --> class="w-4 h-4 text-primary bg-slate-50 border-slate-300 focus:ring-primary dark:bg-slate-900 dark:border-slate-600 dark:checked:bg-primary transition-colors cursor-pointer" />
+						<span class="text-sm text-slate-700 group-hover:text-primary dark:text-slate-300 transition-colors font-medium">{L_NOTIFY_METHOD_EMAIL}</span>
+					</label>
+					<label for="notifymethod1" class="flex items-center gap-2 cursor-pointer group">
+						<input type="radio" name="notifymethod" id="notifymethod1" value="1"<!-- IF S_NOTIFY_IM --> checked="checked"<!-- ENDIF --> class="w-4 h-4 text-primary bg-slate-50 border-slate-300 focus:ring-primary dark:bg-slate-900 dark:border-slate-600 dark:checked:bg-primary transition-colors cursor-pointer" />
+						<span class="text-sm text-slate-700 group-hover:text-primary dark:text-slate-300 transition-colors font-medium">{L_NOTIFY_METHOD_IM}</span>
+					</label>
+					<label for="notifymethod2" class="flex items-center gap-2 cursor-pointer group">
+						<input type="radio" name="notifymethod" id="notifymethod2" value="2"<!-- IF S_NOTIFY_BOTH --> checked="checked"<!-- ENDIF --> class="w-4 h-4 text-primary bg-slate-50 border-slate-300 focus:ring-primary dark:bg-slate-900 dark:border-slate-600 dark:checked:bg-primary transition-colors cursor-pointer" />
+						<span class="text-sm text-slate-700 group-hover:text-primary dark:text-slate-300 transition-colors font-medium">{L_NOTIFY_METHOD_BOTH}</span>
+					</label>
+				</div>
+			</div>
+		<!-- ENDIF -->
+
+		<div class="border-t border-slate-100 dark:border-slate-700/50 pt-5 mt-2 space-y-5">
+			<!-- IF S_MORE_LANGUAGES -->
+				<div class="flex flex-col gap-1.5">
+					<label for="lang" class="block text-sm font-medium text-slate-700 dark:text-slate-300">{L_BOARD_LANGUAGE}{L_COLON}</label>
+					<select name="lang" id="lang" class="w-full sm:w-80 rounded-lg border border-slate-300 bg-slate-50 py-2.5 pl-3 pr-8 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900/50 dark:text-white transition-colors">{S_LANG_OPTIONS}</select>
+				</div>
+			<!-- ENDIF -->
+
+			<!-- IF S_STYLE_OPTIONS and S_MORE_STYLES -->
+				<div class="flex flex-col gap-1.5">
+					<label for="user_style" class="block text-sm font-medium text-slate-700 dark:text-slate-300">{L_BOARD_STYLE}{L_COLON}</label>
+					<select name="user_style" id="user_style" class="w-full sm:w-80 rounded-lg border border-slate-300 bg-slate-50 py-2.5 pl-3 pr-8 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900/50 dark:text-white transition-colors">{S_STYLE_OPTIONS}</select>
+				</div>
+			<!-- ENDIF -->
+
+			<!-- INCLUDE timezone_option.html -->
+
+			<div class="flex flex-col gap-1.5">
+				<label for="dateoptions" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+					{L_BOARD_DATE_FORMAT}{L_COLON}
+					<span class="block text-xs text-slate-500 dark:text-slate-400 font-normal mt-0.5">{L_BOARD_DATE_FORMAT_EXPLAIN}</span>
+				</label>
+				<select name="dateoptions" id="dateoptions" onchange="if(this.value=='custom'){phpbb.toggleDisplay('custom_date',1);}else{phpbb.toggleDisplay('custom_date',-1);} if (this.value == 'custom') { document.getElementById('dateformat').value = default_dateformat; } else { document.getElementById('dateformat').value = this.value; }" class="w-full sm:w-80 rounded-lg border border-slate-300 bg-slate-50 py-2.5 pl-3 pr-8 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900/50 dark:text-white transition-colors">
+					{S_DATEFORMAT_OPTIONS}
+				</select>
+				<div id="custom_date" style="display:none;" class="mt-2">
+					<input type="text" name="dateformat" id="dateformat" value="{DATE_FORMAT}" maxlength="64" class="w-full sm:w-80 px-4 py-2.5 bg-slate-50 dark:bg-slate-900/50 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary text-sm text-slate-900 dark:text-white outline-none transition-all placeholder:text-slate-400" />
+				</div>
+			</div>
+		</div>
+		
+		<!-- EVENT ucp_prefs_personal_append -->
+	</div>
+
+	<div class="mt-8 flex flex-col sm:flex-row sm:justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-700/50">
+		<input type="reset" value="{L_RESET}" name="reset" class="w-full sm:w-auto py-3 sm:py-2 px-6 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold text-sm hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700 cursor-pointer" />
+		<input type="submit" name="submit" value="{L_SUBMIT}" class="w-full sm:w-auto py-3 sm:py-2 px-6 rounded-lg bg-primary text-white font-semibold text-sm shadow-sm hover:bg-primary/90 transition-colors cursor-pointer" />
+		{S_HIDDEN_FIELDS}
+		{S_FORM_TOKEN}
+	</div>
+
+</form>
+
+<script>
+	var date_format = '{A_DATE_FORMAT}';
+	var default_dateformat = '{A_DEFAULT_DATEFORMAT}';
+
+	function customDates()
+	{
+		var e = document.getElementById('dateoptions');
+
+		e.selectedIndex = e.length - 1;
+
+		// Loop and match date_format in menu
+		for (var i = 0; i < e.length; i++)
+		{
+			if (e.options[i].value == date_format)
+			{
+				e.selectedIndex = i;
+				break;
+			}
+		}
+
+		// Show/hide custom field
+		if (e.selectedIndex == e.length - 1)
+		{
+			phpbb.toggleDisplay('custom_date',1);
+		}
+		else
+		{
+			phpbb.toggleDisplay('custom_date',-1);
+		}
+	}
+
+	window.onload = customDates;
+</script>
+
+<!-- INCLUDE ucp_footer.html -->

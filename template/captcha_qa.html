@@ -1,0 +1,21 @@
+<!-- IF S_TYPE == 1 -->
+<div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800 panel captcha-panel mb-6">
+	<div class="p-4 sm:p-6">
+		<h3 class="text-base font-bold text-slate-800 dark:text-slate-200 mb-4 captcha-title">{L_CONFIRMATION}</h3>
+		<fieldset class="flex flex-col gap-4">
+<!-- ENDIF -->
+
+			<div class="flex flex-col gap-2">
+				<label for="answer" class="text-sm font-bold text-slate-800 dark:text-slate-200">{QA_CONFIRM_QUESTION}{L_COLON}</label>
+				<span class="text-xs text-slate-500 mb-1">{L_CONFIRM_QUESTION_EXPLAIN}</span>
+				<div class="captcha">
+					<input type="text" tabindex="{$CAPTCHA_TAB_INDEX}" name="qa_answer" id="answer" size="45" class="w-full sm:max-w-md rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900/50 dark:text-white transition-colors" title="{L_ANSWER}" />
+					<input type="hidden" name="qa_confirm_id" id="qa_confirm_id" value="{QA_CONFIRM_ID}" />
+				</div>
+			</div>
+
+<!-- IF S_TYPE == 1 -->
+		</fieldset>
+	</div>
+</div>
+<!-- ENDIF -->

@@ -1,0 +1,142 @@
+<!-- INCLUDE overall_header.html -->
+
+<div class="px-4 pt-4 pb-2 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400 font-medium">
+	<div class="text-center sm:text-left flex-1">
+		<!-- IF S_USER_LOGGED_IN -->
+		{LAST_VISIT_DATE}
+		<br class="sm:hidden" />
+		<span class="hidden sm:inline">&bull;</span> {CURRENT_TIME}
+		<!-- ELSE -->
+		{CURRENT_TIME}
+		<!-- ENDIF -->
+	</div>
+	<!-- EVENT index_body_markforums_before -->
+	<!-- IF U_MARK_FORUMS -->
+	<a href="{U_MARK_FORUMS}" accesskey="m" data-ajax="mark_forums_read" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-light hover:bg-primary hover:text-white dark:hover:bg-primary dark:hover:text-white transition-colors font-bold uppercase tracking-wider shrink-0">
+		<span class="material-symbols-outlined text-[16px]">done_all</span>
+		{L_MARK_FORUMS_READ}
+	</a>
+	<!-- ENDIF -->
+	<!-- EVENT index_body_markforums_after -->
+</div>
+
+<!-- INCLUDE forumlist_body.html -->
+
+<!-- EVENT index_body_forumlist_body_after -->
+
+<!-- IF not S_USER_LOGGED_IN and not S_IS_BOT -->
+<div class="px-4 mt-6">
+	<form method="post" action="{S_LOGIN_ACTION}" class="rounded-xl bg-white p-5 shadow-sm dark:bg-slate-800 border border-transparent dark:border-slate-700">
+		<div class="mb-4 flex items-center justify-between">
+			<h3 class="text-lg font-bold text-slate-800 dark:text-slate-200"><a href="{U_LOGIN_LOGOUT}" class="hover:text-primary transition-colors">{L_LOGIN_LOGOUT}</a></h3>
+			<!-- IF S_REGISTER_ENABLED -->
+			<a href="{U_REGISTER}" class="text-sm font-semibold text-primary hover:underline bg-primary/10 px-3 py-1 rounded-full">{L_REGISTER}</a>
+			<!-- ENDIF -->
+		</div>
+		
+		<fieldset class="flex flex-col gap-4">
+			<div>
+				<label for="username" class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">{L_USERNAME}{L_COLON}</label>
+				<input type="text" tabindex="1" name="username" id="username" class="w-full rounded-lg border-slate-300 bg-slate-50 px-4 py-2 text-slate-900 focus:border-primary focus:ring-primary dark:border-slate-600 dark:bg-slate-900/50 dark:text-white" title="{L_USERNAME}" autocomplete="username" />
+			</div>
+			
+			<div>
+				<div class="flex items-center justify-between mb-1">
+					<label for="password" class="block text-sm font-medium text-slate-700 dark:text-slate-300">{L_PASSWORD}{L_COLON}</label>
+					<!-- IF U_SEND_PASSWORD -->
+					<a href="{U_SEND_PASSWORD}" class="text-xs text-slate-500 hover:text-primary dark:text-slate-400">{L_FORGOT_PASS}</a>
+					<!-- ENDIF -->
+				</div>
+				<input type="password" tabindex="2" name="password" id="password" class="w-full rounded-lg border-slate-300 bg-slate-50 px-4 py-2 text-slate-900 focus:border-primary focus:ring-primary dark:border-slate-600 dark:bg-slate-900/50 dark:text-white" title="{L_PASSWORD}" autocomplete="current-password" />
+			</div>
+			
+			<div class="flex items-center justify-between mt-2">
+				<!-- IF S_AUTOLOGIN_ENABLED -->
+				<label for="autologin" class="flex items-center gap-2 cursor-pointer">
+					<input type="checkbox" tabindex="4" name="autologin" id="autologin" class="rounded border-slate-300 text-primary focus:ring-primary dark:border-slate-600 dark:bg-slate-900" />
+					<span class="text-sm text-slate-600 dark:text-slate-300">{L_LOG_ME_IN}</span>
+				</label>
+				<!-- ELSE -->
+				<div></div>
+				<!-- ENDIF -->
+				
+				<button type="submit" tabindex="5" name="login" class="rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition-colors active:scale-95">
+					{L_LOGIN}
+				</button>
+			</div>
+			{S_LOGIN_REDIRECT}
+			{S_FORM_TOKEN_LOGIN}
+		</fieldset>
+	</form>
+</div>
+<!-- ENDIF -->
+
+<!-- EVENT index_body_stat_blocks_before -->
+
+<div class="px-4 mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+	<!-- IF S_DISPLAY_ONLINE_LIST -->
+	<div class="rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800 border border-transparent dark:border-slate-700 flex flex-col">
+		<div class="flex items-center gap-2 mb-3">
+			<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400">
+				<span class="material-symbols-outlined text-lg">public</span>
+			</div>
+			<h3 class="text-base font-bold text-slate-800 dark:text-slate-200">
+				<!-- IF U_VIEWONLINE --><a href="{U_VIEWONLINE}" class="hover:text-primary transition-colors">{L_WHO_IS_ONLINE}</a><!-- ELSE -->{L_WHO_IS_ONLINE}<!-- ENDIF -->
+			</h3>
+		</div>
+		<p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed flex-1">
+			<!-- EVENT index_body_block_online_prepend -->
+			{TOTAL_USERS_ONLINE} <span class="text-xs text-slate-400">({L_ONLINE_EXPLAIN})</span><br />
+			<span class="block mt-1 font-medium">{RECORD_USERS}</span>
+			<!-- IF U_VIEWONLINE -->
+				<span class="block mt-2 pt-2 border-t border-slate-100 dark:border-slate-700">{LOGGED_IN_USER_LIST}</span>
+				<!-- IF LEGEND --><span class="block mt-2 text-xs italic opacity-80">{L_LEGEND}{L_COLON} {LEGEND}</span><!-- ENDIF -->
+			<!-- ENDIF -->
+			<!-- EVENT index_body_block_online_append -->
+		</p>
+	</div>
+	<!-- ENDIF -->
+
+	<!-- EVENT index_body_birthday_block_before -->
+
+	<!-- IF S_DISPLAY_BIRTHDAY_LIST -->
+	<div class="rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800 border border-transparent dark:border-slate-700 flex flex-col">
+		<div class="flex items-center gap-2 mb-3">
+			<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-pink-100 text-pink-600 dark:bg-pink-900/30 dark:text-pink-400">
+				<span class="material-symbols-outlined text-lg">cake</span>
+			</div>
+			<h3 class="text-base font-bold text-slate-800 dark:text-slate-200">{L_BIRTHDAYS}</h3>
+		</div>
+		<p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed overflow-hidden flex-1">
+			<!-- EVENT index_body_block_birthday_prepend -->
+			<!-- IF .birthdays -->{L_CONGRATULATIONS}{L_COLON} <strong><!-- BEGIN birthdays -->{birthdays.USERNAME}<!-- IF birthdays.AGE !== '' --> ({birthdays.AGE})<!-- ENDIF --><!-- IF not birthdays.S_LAST_ROW -->, <!-- ENDIF --><!-- END birthdays --></strong><!-- ELSE -->{L_NO_BIRTHDAYS}<!-- ENDIF -->
+			<!-- EVENT index_body_block_birthday_append -->
+		</p>
+	</div>
+	<!-- ENDIF -->
+
+	<!-- IF NEWEST_USER -->
+	<div class="rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800 border border-transparent dark:border-slate-700 flex flex-col md:col-span-2 lg:col-span-1">
+		<div class="flex items-center gap-2 mb-3">
+			<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
+				<span class="material-symbols-outlined text-lg">analytics</span>
+			</div>
+			<h3 class="text-base font-bold text-slate-800 dark:text-slate-200">{L_STATISTICS}</h3>
+		</div>
+		<div class="text-sm text-slate-500 dark:text-slate-400 flex flex-col gap-3 flex-1 [&_strong]:font-bold [&_strong]:text-slate-800 dark:[&_strong]:text-slate-200">
+			<!-- EVENT index_body_block_stats_prepend -->
+			<div class="flex items-center justify-between">{TOTAL_POSTS}</div>
+			<div class="flex items-center justify-between border-t border-slate-100 dark:border-slate-700 pt-3">{TOTAL_TOPICS}</div>
+			<div class="flex items-center justify-between border-t border-slate-100 dark:border-slate-700 pt-3">{TOTAL_USERS}</div>
+			<div class="flex items-center justify-between border-t border-slate-100 dark:border-slate-700 pt-3">
+				{NEWEST_USER}
+			</div>
+			<!-- EVENT index_body_block_stats_append -->
+		</div>
+	</div>
+	<!-- ENDIF -->
+</div>
+
+<!-- EVENT index_body_stat_blocks_after -->
+
+<!-- INCLUDE overall_footer.html -->

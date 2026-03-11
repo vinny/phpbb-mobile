@@ -1,0 +1,221 @@
+<!-- INCLUDE ucp_header.html -->
+
+<!-- INCLUDE ucp_pm_message_header.html -->
+
+	</div>
+</div>
+
+
+<!-- IF S_DISPLAY_HISTORY and (U_VIEW_PREVIOUS_HISTORY or U_VIEW_NEXT_HISTORY) -->
+	<div class="flex items-center justify-between mb-4 px-2">
+		<!-- IF U_VIEW_PREVIOUS_HISTORY -->
+			<a href="{U_VIEW_PREVIOUS_HISTORY}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 hover:text-primary transition-colors">
+				<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+				<span>{L_VIEW_PREVIOUS_HISTORY}</span>
+			</a>
+		<!-- ELSE -->
+			<div></div>
+		<!-- ENDIF -->
+		<!-- IF U_VIEW_NEXT_HISTORY -->
+			<a href="{U_VIEW_NEXT_HISTORY}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 hover:text-primary transition-colors">
+				<span>{L_VIEW_NEXT_HISTORY}</span>
+				<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+			</a>
+		<!-- ENDIF -->
+	</div>
+<!-- ENDIF -->
+
+<div id="post-{MESSAGE_ID}" class="relative flex flex-col rounded-xl bg-white p-6 shadow-sm dark:bg-slate-800 border border-slate-200 dark:border-slate-700 mb-6 transition-all duration-300<!-- IF S_ONLINE --> ring-1 ring-green-500/50<!-- ENDIF -->">
+
+	<div class="flex items-start justify-between mb-6 border-b border-slate-100 dark:border-slate-700/50 pb-6" id="profile{MESSAGE_ID}">
+		<div class="flex items-center gap-4">
+			<div class="relative shrink-0">
+				<!-- EVENT ucp_pm_viewmessage_avatar_before -->
+				<!-- IF AUTHOR_AVATAR -->
+					<div class="w-12 h-12 rounded-full overflow-hidden border-2 border-white dark:border-slate-700 shadow-sm [&>img]:w-full [&>img]:h-full [&>img]:object-cover">
+						<a href="{U_MESSAGE_AUTHOR}">{AUTHOR_AVATAR}</a>
+					</div>
+				<!-- ELSE -->
+					<div class="flex w-12 h-12 items-center justify-center rounded-full bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400 border-2 border-white dark:border-slate-700 shadow-sm">
+						<span class="material-symbols-outlined text-[24px]">person</span>
+					</div>
+				<!-- ENDIF -->
+				<!-- EVENT ucp_pm_viewmessage_avatar_after -->
+				
+				<!-- IF S_ONLINE -->
+				<span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-green-500 border-2 border-white dark:border-slate-800 rounded-full" title="{L_ONLINE}"></span>
+				<!-- ENDIF -->
+			</div>
+			
+			<div class="flex flex-col">
+				<div class="flex items-center gap-2">
+					{% EVENT ucp_pm_viewmessage_author_full_before %}
+					<h3 class="text-base font-bold text-slate-900 dark:text-white">
+						{MESSAGE_AUTHOR_FULL}
+					</h3>
+					{% EVENT ucp_pm_viewmessage_author_full_after %}
+					
+					<!-- EVENT ucp_pm_viewmessage_rank_before -->
+					<!-- IF RANK_TITLE -->
+						<span class="bg-primary/10 text-primary dark:text-white dark:bg-primary text-[10px] font-bold px-1.5 py-0.5 rounded tracking-wide uppercase hidden sm:inline-block">{RANK_TITLE}</span>
+					<!-- ENDIF -->
+					<!-- EVENT ucp_pm_viewmessage_rank_after -->
+				</div>
+				
+				<div class="text-xs text-slate-500 dark:text-slate-400 mt-0.5 flex items-center gap-1.5 flex-wrap">
+					<span class="flex items-center gap-1">
+						<span class="material-symbols-outlined text-[14px]">schedule</span> {SENT_DATE}
+					</span>
+					
+					<!-- IF S_TO_RECIPIENT -->
+					<span class="hidden sm:inline-block text-slate-300 dark:text-slate-600">&bull;</span>
+					<span class="flex items-center gap-1 truncate max-w-[200px]" title="{L_TO}{L_COLON}">
+						<span class="material-symbols-outlined text-[14px]">forward_to_inbox</span>
+						<!-- BEGIN to_recipient --><!-- IF to_recipient.NAME_FULL -->{to_recipient.NAME_FULL}<!-- ELSE --><a href="{to_recipient.U_VIEW}"<!-- IF to_recipient.COLOUR --> style="color:{to_recipient.COLOUR};"<!-- ENDIF -->><strong>{to_recipient.NAME}</strong></a><!-- ENDIF --><!-- IF not to_recipient.S_LAST_ROW -->, <!-- ENDIF --><!-- END to_recipient -->
+					</span>
+					<!-- ENDIF -->
+					
+					<!-- IF S_BCC_RECIPIENT -->
+					<span class="hidden sm:inline-block text-slate-300 dark:text-slate-600">&bull;</span>
+					<span class="flex items-center gap-1 truncate max-w-[200px]" title="{L_BCC}{L_COLON}">
+						<span class="material-symbols-outlined text-[14px]">visibility_off</span>
+						<!-- BEGIN bcc_recipient --><!-- IF bcc_recipient.NAME_FULL -->{bcc_recipient.NAME_FULL}<!-- ELSE --><a href="{bcc_recipient.U_VIEW}"<!-- IF bcc_recipient.COLOUR --> style="color:{bcc_recipient.COLOUR};"<!-- ENDIF -->><strong>{bcc_recipient.NAME}</strong></a><!-- ENDIF --><!-- IF not bcc_recipient.S_LAST_ROW -->, <!-- ENDIF --><!-- END bcc_recipient -->
+					</span>
+					<!-- ENDIF -->
+				</div>
+			</div>
+		</div>
+
+		<!-- DEFINE $SHOW_PM_POST_BUTTONS = (U_EDIT or U_DELETE or U_REPORT or U_QUOTE) -->
+		<!-- EVENT ucp_pm_viewmessage_post_buttons_list_before -->
+		<!-- IF $SHOW_PM_POST_BUTTONS -->
+		<div class="flex items-center gap-1 shrink-0">
+			<!-- EVENT ucp_pm_viewmessage_post_buttons_before -->
+			<!-- IF U_QUOTE -->
+				<a href="{U_QUOTE}" title="{L_POST_QUOTE_PM}" class="flex w-9 h-9 items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-700 dark:hover:text-slate-200 transition-colors">
+					<span class="material-symbols-outlined text-[20px]">format_quote</span>
+				</a>
+			<!-- ENDIF -->
+			<!-- IF U_EDIT -->
+				<a href="{U_EDIT}" title="{L_POST_EDIT_PM}" class="flex w-9 h-9 items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-700 dark:hover:text-slate-200 transition-colors">
+					<span class="material-symbols-outlined text-[18px]">edit</span>
+				</a>
+			<!-- ENDIF -->
+			<!-- IF U_DELETE -->
+				<a href="{U_DELETE}" title="{L_DELETE_MESSAGE}" class="flex w-9 h-9 items-center justify-center rounded-full text-slate-400 hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-900/30 transition-colors">
+					<span class="material-symbols-outlined text-[18px]">delete</span>
+				</a>
+			<!-- ENDIF -->
+			<!-- IF U_REPORT -->
+				<a href="{U_REPORT}" title="{L_REPORT_PM}" class="flex w-9 h-9 items-center justify-center rounded-full text-slate-400 hover:bg-amber-50 hover:text-amber-500 dark:hover:bg-amber-900/30 transition-colors">
+					<span class="material-symbols-outlined text-[18px]">flag</span>
+				</a>
+			<!-- ENDIF -->
+			<!-- EVENT ucp_pm_viewmessage_post_buttons_after -->
+		</div>
+		<!-- ENDIF -->
+		<!-- EVENT ucp_pm_viewmessage_post_buttons_list_after -->
+	</div>
+
+	<div class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed mb-4 break-words">
+		<h3 class="mb-4 text-lg font-bold leading-tight text-slate-900 dark:text-white">
+			{SUBJECT}
+		</h3>
+
+		<div class="prose prose-sm prose-slate dark:prose-invert max-w-none">
+			{MESSAGE}
+		</div>
+
+		<!-- IF S_HAS_ATTACHMENTS -->
+			<div class="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-4 dark:border-slate-700/50 dark:bg-slate-900/30">
+				<p class="mb-3 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-500">
+					<span class="material-symbols-outlined text-[16px]">attachment</span> {L_ATTACHMENTS}
+				</p>
+				<div class="flex flex-col gap-2">
+				<!-- BEGIN attachment -->
+					<div class="bg-white dark:bg-slate-800 rounded-lg p-3 border border-slate-100 dark:border-slate-700 shadow-sm">{attachment.DISPLAY_ATTACHMENT}</div>
+				<!-- END attachment -->
+				</div>
+			</div>
+		<!-- ENDIF -->
+
+		<!-- IF S_DISPLAY_NOTICE -->
+			<div class="mt-4 rounded bg-slate-100 p-2 text-xs text-slate-600 dark:bg-slate-700 dark:text-slate-300">{L_DOWNLOAD_NOTICE}</div>
+		<!-- ENDIF -->
+
+		<!-- IF EDITED_MESSAGE or EDIT_REASON -->
+			<div class="mt-4 rounded-lg p-3 text-xs text-slate-500 bg-slate-50 dark:bg-slate-700/50 dark:text-slate-400 border border-slate-100 dark:border-slate-700/50">
+				{EDITED_MESSAGE}
+				<!-- IF EDIT_REASON --><br /><strong>{L_REASON}{L_COLON}</strong> <em>{EDIT_REASON}</em><!-- ENDIF -->
+			</div>
+		<!-- ENDIF -->
+
+		<!-- IF SIGNATURE -->
+			<div id="sig{MESSAGE_ID}" class="mt-6 border-t border-slate-100 dark:border-slate-700/50 pt-4 text-xs text-slate-500 dark:text-slate-400 max-h-32 overflow-hidden relative break-words">
+				{SIGNATURE}
+				<div class="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white dark:from-slate-800 to-transparent"></div>
+			</div>
+		<!-- ENDIF -->
+	</div>
+
+</div>
+
+<!-- EVENT ucp_pm_viewmessage_options_before -->
+<!-- EVENT ucp_pm_viewmessage_options_before -->
+<!-- IF S_VIEW_MESSAGE -->
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between py-4 gap-4 mt-2">
+
+	<div class="flex flex-col sm:flex-row sm:items-center gap-4">
+		<!-- IF S_MARK_OPTIONS -->
+		<div class="flex items-center gap-2">
+			<label for="mark_option" class="sr-only">{L_MARK}</label>
+			<div class="relative w-full sm:w-auto">
+				<select name="mark_option" id="mark_option" class="w-full sm:w-auto h-9 pl-3 pr-8 text-sm rounded-lg border border-slate-300 text-slate-800 focus:border-primary focus:ring-primary shadow-sm bg-white dark:border-slate-600 dark:bg-slate-900 dark:text-white transition-all appearance-none cursor-pointer">
+					{S_MARK_OPTIONS}
+				</select>
+				<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[18px]">expand_more</span>
+			</div>
+			<button type="submit" name="submit_mark" class="shrink-0 h-9 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm rounded-lg transition-colors dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-200">{L_GO}</button>
+		</div>
+		<!-- ENDIF -->
+
+		<!-- IF not S_UNREAD and not S_SPECIAL_FOLDER -->
+		<div class="flex items-center gap-2">
+			<label for="dest_folder" class="text-sm font-semibold text-slate-600 dark:text-slate-300 hidden md:block">
+				<!-- IF S_VIEW_MESSAGE -->{L_MOVE_TO_FOLDER}{L_COLON}<!-- ELSE -->{L_MOVE_MARKED_TO_FOLDER}<!-- ENDIF -->
+			</label>
+			<div class="relative w-full sm:w-auto">
+				<select name="dest_folder" id="dest_folder" class="w-full sm:w-auto h-9 pl-3 pr-8 text-sm rounded-lg border border-slate-300 text-slate-800 focus:border-primary focus:ring-primary shadow-sm bg-white dark:border-slate-600 dark:bg-slate-900 dark:text-white transition-all appearance-none cursor-pointer">
+					{S_TO_FOLDER_OPTIONS}
+				</select>
+				<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[18px]">expand_more</span>
+			</div>
+			<button type="submit" name="move_pm" class="shrink-0 h-9 px-3 bg-primary hover:bg-primary/90 text-white font-bold text-sm rounded-lg shadow-sm transition-colors">{L_GO}</button>
+		</div>
+		<!-- ENDIF -->
+	</div>
+
+	<div class="flex items-center gap-2 justify-end">
+		<!-- IF U_PREVIOUS_PM -->
+			<a href="{U_PREVIOUS_PM}" class="flex items-center justify-center px-3 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 text-sm font-semibold rounded-lg transition-colors" title="{L_VIEW_PREVIOUS_PM}">
+				<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+			</a>
+		<!-- ENDIF -->
+		<!-- IF U_NEXT_PM -->
+			<a href="{U_NEXT_PM}" class="flex items-center justify-center px-3 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 text-sm font-semibold rounded-lg transition-colors" title="{L_VIEW_NEXT_PM}">
+				<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+			</a>
+		<!-- ENDIF -->
+	</div>
+	
+	<input type="hidden" name="marked_msg_id[]" value="{MSG_ID}" />
+	<input type="hidden" name="cur_folder_id" value="{CUR_FOLDER_ID}" />
+	<input type="hidden" name="p" value="{MSG_ID}" />
+</div>
+<!-- ENDIF -->
+
+<!-- INCLUDE ucp_pm_message_footer.html -->
+
+<!-- IF S_DISPLAY_HISTORY --><!-- INCLUDE ucp_pm_history.html --><!-- ENDIF -->
+
+<!-- INCLUDE ucp_footer.html -->

@@ -1,0 +1,97 @@
+<!-- INCLUDE overall_header.html -->
+
+<div class="max-w-2xl mx-auto py-8 px-4 sm:px-0">
+	<div class="mb-8">
+		<h2 class="text-xl sm:text-2xl font-bold text-slate-800 dark:text-white mb-3 flex items-center gap-3">
+			<span class="material-symbols-outlined text-[32px] text-primary">link</span>
+			{SITENAME} - {L_LOGIN_LINK}
+		</h2>
+		<p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800">
+			{L_LOGIN_LINK_EXPLAIN}
+		</p>
+	</div>
+
+	<!-- IF LOGIN_LINK_ERROR -->
+		<div class="mb-6 bg-red-50 dark:bg-red-900/10 p-4 rounded-xl shadow-sm border border-red-200 dark:border-red-900/30 text-sm text-red-600 dark:text-red-400 font-medium flex items-center gap-3">
+			<span class="material-symbols-outlined">error</span>
+			{LOGIN_LINK_ERROR}
+		</div>
+	<!-- ENDIF -->
+
+	<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+		<!-- Registration Card -->
+		<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col">
+			<div class="p-6 border-b border-slate-100 dark:border-slate-700/50 flex items-center gap-2">
+				<span class="material-symbols-outlined text-primary">person_add</span>
+				<h3 class="text-lg font-bold text-slate-800 dark:text-white">{L_REGISTER}</h3>
+			</div>
+			
+			<div class="p-6 flex-1 flex flex-col justify-between">
+				<p class="text-sm text-slate-500 dark:text-slate-400 mb-6">{L_REGISTRATION_FREE_EXPLAIN}</p>
+				
+				<form action="{REGISTER_ACTION}" method="post" id="register">
+					{S_HIDDEN_FIELDS}
+					<button type="submit" name="register" tabindex="1" value="{L_REGISTER}" class="w-full py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 font-bold text-sm rounded-lg transition-colors flex items-center justify-center gap-2 shadow-sm">
+						{L_REGISTER}
+					</button>
+				</form>
+			</div>
+		</div>
+
+		<!-- Login Card -->
+		<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col">
+			<div class="p-6 border-b border-slate-100 dark:border-slate-700/50 flex items-center gap-2">
+				<span class="material-symbols-outlined text-primary">login</span>
+				<h3 class="text-lg font-bold text-slate-800 dark:text-white">{L_LOGIN}</h3>
+			</div>
+			
+			<div class="p-6">
+				<!-- IF LOGIN_ERROR -->
+					<div class="mb-4 bg-red-50 dark:bg-red-900/10 p-3 rounded-lg border border-red-200 dark:border-red-900/30 text-xs text-red-600 dark:text-red-400 font-medium">
+						{LOGIN_ERROR}
+					</div>
+				<!-- ENDIF -->
+
+				<form action="{LOGIN_ACTION}" method="post" id="login" class="space-y-4">
+					<div>
+						<label for="{USERNAME_CREDENTIAL}" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1">{L_USERNAME}{L_COLON}</label>
+						<div class="relative">
+							<span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+								<span class="material-symbols-outlined text-[18px]">person</span>
+							</span>
+							<input type="text" tabindex="2" name="{USERNAME_CREDENTIAL}" id="{USERNAME_CREDENTIAL}" value="{LOGIN_USERNAME}" class="w-full h-10 pl-10 pr-4 rounded-lg border border-slate-300 text-slate-800 focus:border-primary focus:ring-primary shadow-sm dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:focus:border-primary transition-all text-sm" autocomplete="username" />
+						</div>
+					</div>
+					
+					<div>
+						<label for="{PASSWORD_CREDENTIAL}" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1">{L_PASSWORD}{L_COLON}</label>
+						<div class="relative">
+							<span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+								<span class="material-symbols-outlined text-[18px]">lock</span>
+							</span>
+							<input type="password" tabindex="3" id="{PASSWORD_CREDENTIAL}" name="{PASSWORD_CREDENTIAL}" class="w-full h-10 pl-10 pr-4 rounded-lg border border-slate-300 text-slate-800 focus:border-primary focus:ring-primary shadow-sm dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:focus:border-primary transition-all text-sm" autocomplete="current-password" />
+						</div>
+					</div>
+
+					<!-- IF CAPTCHA_TEMPLATE and S_CONFIRM_CODE -->
+						<div class="mt-4">
+							<!-- DEFINE $CAPTCHA_TAB_INDEX = 4 -->
+							<!-- INCLUDE {CAPTCHA_TEMPLATE} -->
+						</div>
+					<!-- ENDIF -->
+
+					{S_LOGIN_REDIRECT}
+					
+					<div class="pt-2">
+						{S_HIDDEN_FIELDS}
+						<button type="submit" name="login" tabindex="5" value="{L_LOGIN}" class="w-full py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-sm rounded-lg shadow-sm transition-colors flex items-center justify-center gap-2">
+							{L_LOGIN}
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- INCLUDE overall_footer.html -->

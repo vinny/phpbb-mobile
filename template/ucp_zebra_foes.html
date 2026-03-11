@@ -1,0 +1,75 @@
+<!-- INCLUDE ucp_header.html -->
+
+<form id="ucp" method="post" action="{S_UCP_ACTION}"{S_FORM_ENCTYPE}>
+
+	<div class="flex items-center justify-between mb-6 border-b border-primary/10 pb-4">
+		<h2 class="text-base sm:text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
+			<span class="material-symbols-outlined text-[20px] text-red-500">group_remove</span>
+			{L_TITLE}
+		</h2>
+	</div>
+
+	<p class="text-sm text-slate-500 dark:text-slate-400 mb-6 leading-relaxed bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800">
+		{L_FOES_EXPLAIN}
+	</p>
+
+	<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden mb-8">
+		<div class="p-6 sm:p-8 space-y-6">
+
+			<!-- IF ERROR -->
+				<div class="bg-red-50 dark:bg-red-900/10 p-4 rounded-xl shadow-sm border border-red-200 dark:border-red-900/30 text-sm text-red-600 dark:text-red-400 font-medium">
+					{ERROR}
+				</div>
+			<!-- ENDIF -->
+			
+			<div class="flex flex-col gap-2">
+				<label <!-- IF S_USERNAME_OPTIONS -->for="usernames"<!-- ENDIF --> class="text-sm font-bold text-slate-800 dark:text-white">{L_YOUR_FOES}{L_COLON}</label>
+				<span class="text-xs text-slate-500 dark:text-slate-400">{L_YOUR_FOES_EXPLAIN}</span>
+				
+				<div class="mt-1">
+					<!-- IF S_USERNAME_OPTIONS -->
+						<select name="usernames[]" id="usernames" multiple="multiple" size="5" class="w-full sm:w-1/2 p-3 text-sm rounded-lg border border-slate-300 text-slate-800 focus:border-red-500 focus:ring-red-500 shadow-sm bg-white dark:border-slate-600 dark:bg-slate-900 dark:text-white transition-all custom-scrollbar hidden-scroll">
+							{S_USERNAME_OPTIONS}
+						</select>
+					<!-- ELSE -->
+						<div class="p-4 rounded-lg bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 text-sm font-medium text-slate-600 dark:text-slate-400 flex items-center gap-2">
+							<span class="material-symbols-outlined text-slate-400">person_off</span>
+							<strong>{L_NO_FOES}</strong>
+						</div>
+					<!-- ENDIF -->
+				</div>
+			</div>
+			
+			<hr class="border-slate-100 dark:border-slate-700/50" />
+			
+			<div class="flex flex-col gap-2">
+				<label for="add" class="text-sm font-bold text-slate-800 dark:text-white">{L_ADD_FOES}{L_COLON}</label>
+				<span class="text-xs text-slate-500 dark:text-slate-400">{L_ADD_FOES_EXPLAIN}</span>
+				
+				<div class="mt-1 flex flex-col items-start gap-3">
+					<textarea name="add" id="add" rows="3" cols="30" class="w-full sm:w-1/2 p-4 text-sm rounded-lg border border-slate-300 text-slate-800 focus:border-red-500 focus:ring-red-500 shadow-sm dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:focus:border-red-500 transition-all custom-scrollbar hidden-scroll resize-y">{USERNAMES}</textarea>
+					
+					<a href="{U_FIND_USERNAME}" onclick="find_username(this.href); return false;" class="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 text-sm font-semibold rounded-lg transition-colors">
+						<span class="material-symbols-outlined text-[18px]">search</span>
+						{L_FIND_USERNAME}
+					</a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="mt-8 flex flex-col sm:flex-row sm:justify-end gap-4 pt-4 border-t border-slate-100 dark:border-slate-700/50">
+		<div class="w-full sm:w-auto">
+			{S_HIDDEN_FIELDS}
+			<button type="submit" name="submit" class="w-full sm:w-auto px-6 py-2.5 bg-primary hover:bg-primary/90 text-white font-bold text-sm rounded-lg shadow-sm transition-colors flex items-center justify-center gap-2">
+				<span class="material-symbols-outlined text-[18px]">save</span>
+				{L_SUBMIT}
+			</button>
+			{S_FORM_TOKEN}
+		</div>
+	</div>
+
+</form>
+
+<!-- INCLUDE ucp_footer.html -->

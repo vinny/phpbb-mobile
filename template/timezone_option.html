@@ -1,0 +1,28 @@
+<div class="flex flex-col gap-1.5">
+	<label for="timezone" class="block text-sm font-medium text-slate-700 dark:text-slate-300">{L_BOARD_TIMEZONE}{L_COLON}</label>
+	<!-- IF .timezone_date -->
+	<div id="tz_select_date" style="display: none;" class="flex flex-col gap-2 mb-2">
+		<select name="tz_date" id="tz_date" class="w-full sm:w-80 rounded-lg border border-slate-300 bg-slate-50 py-2.5 pl-3 pr-8 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900/50 dark:text-white transition-colors">
+			<option value="">{L_SELECT_CURRENT_TIME}</option>
+			<!-- BEGIN timezone_date -->
+				<option value="{timezone_date.VALUE}"<!-- IF timezone_date.SELECTED --> selected="selected"<!-- ENDIF -->>{timezone_date.TITLE}</option>
+			<!-- END timezone_date -->
+		</select>
+		<input type="button" id="tz_select_date_suggest" class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 focus:outline-none dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 w-fit cursor-pointer" style="display: none;" timezone-preselect="<!-- IF S_TZ_PRESELECT -->true<!-- ELSE -->false<!-- ENDIF -->" data-l-suggestion="{L_TIMEZONE_DATE_SUGGESTION}" value="{L_TIMEZONE_DATE_SUGGESTION}" />
+	</div>
+	<!-- ENDIF -->
+	<div>
+		<select name="tz" id="timezone" class="w-full sm:w-80 rounded-lg border border-slate-300 bg-slate-50 py-2.5 pl-3 pr-8 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900/50 dark:text-white transition-colors timezone">
+			<option value="">{L_SELECT_TIMEZONE}</option>
+			<!-- BEGIN timezone_select -->
+			<optgroup label="{timezone_select.LABEL}" data-tz-value="{timezone_select.VALUE}" class="bg-slate-100 dark:bg-slate-800 font-bold">
+				<!-- BEGIN timezone_options -->
+				<option title="{timezone_select.timezone_options.TITLE}" value="{timezone_select.timezone_options.VALUE}"<!-- IF timezone_select.timezone_options.SELECTED --> selected="selected"<!-- ENDIF --> class="bg-white dark:bg-slate-900 font-normal">{timezone_select.timezone_options.LABEL}</option>
+				<!-- END timezone_options -->
+			</optgroup>
+			<!-- END timezone_select -->
+		</select>
+
+		<!-- INCLUDEJS timezone.js -->
+	</div>
+</div>

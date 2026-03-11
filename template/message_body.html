@@ -1,0 +1,39 @@
+<!-- IF S_SIMPLE_MESSAGE -->
+	<!-- INCLUDE simple_header.html -->
+<!-- ELSE -->
+	<!-- INCLUDE overall_header.html -->
+<!-- ENDIF -->
+
+<div id="message" class="mx-auto max-w-2xl px-4 py-8 sm:px-0">
+	<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden text-center">
+		
+		<div class="px-6 py-8 sm:p-10 flex flex-col items-center justify-center">
+			
+			<div class="inline-flex items-center justify-center size-16 rounded-full bg-primary/10 text-primary dark:bg-primary/20 mb-6 shrink-0">
+				<span class="material-symbols-outlined text-[32px] font-light">info</span>
+			</div>
+			
+			<h2 class="message-title text-xl sm:text-2xl font-bold text-slate-900 dark:text-white leading-tight mb-4">{MESSAGE_TITLE}</h2>
+			
+			<div class="text-slate-600 dark:text-slate-300 text-base leading-relaxed max-w-lg mx-auto">
+				{MESSAGE_TEXT}
+			</div>
+
+			<!-- IF SCRIPT_NAME == "search" and not S_BOARD_DISABLED and not S_NO_SEARCH and L_RETURN_TO_SEARCH_ADV -->
+			<div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-700/50 w-full">
+				<a href="{U_SEARCH}" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-slate-100 hover:bg-primary hover:text-white dark:bg-slate-700/50 dark:hover:bg-primary dark:text-slate-200 font-semibold text-sm rounded-lg transition-all" accesskey="r">
+					<span class="material-symbols-outlined text-[20px] <!-- IF S_CONTENT_FLOW_BEGIN == 'right' -->rotate-180<!-- ENDIF -->">arrow_back</span>
+					<span>{L_GO_TO_SEARCH_ADV}</span>
+				</a>
+			</div>
+			<!-- ENDIF -->
+
+		</div>
+	</div>
+</div>
+
+<!-- IF S_SIMPLE_MESSAGE -->
+	<!-- INCLUDE simple_footer.html -->
+<!-- ELSE -->
+	<!-- INCLUDE overall_footer.html -->
+<!-- ENDIF -->

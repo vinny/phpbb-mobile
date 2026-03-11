@@ -1,0 +1,84 @@
+<!-- IF S_AJAX_REQUEST -->
+	<form action="{S_CONFIRM_ACTION}" method="post">
+		<h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-2">{MESSAGE_TITLE}</h3>
+		<p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-4">{MESSAGE_TEXT}</p>
+
+		<!-- IF not S_SHADOW_TOPICS -->
+			<fieldset class="flex flex-col gap-4 mb-6">
+				<!-- IF not S_SOFTDELETED and S_ALLOWED_DELETE and S_ALLOWED_SOFTDELETE -->
+					<div class="flex flex-col gap-1">
+						<label class="flex items-center gap-2 cursor-pointer text-sm font-bold text-red-600 dark:text-red-400">
+							<input id="delete_permanent_ajax" name="delete_permanent" type="checkbox" value="1" {S_CHECKED_PERMANENT} class="rounded border-red-300 text-red-600 focus:ring-red-600 h-4 w-4" />
+							{L_DELETE_PERMANENTLY}
+						</label>
+						<span class="text-xs text-slate-500 pl-6 cursor-default"><!-- IF S_TOPIC_MODE -->{DELETE_TOPIC_PERMANENTLY_EXPLAIN}<!-- ELSE -->{DELETE_POST_PERMANENTLY_EXPLAIN}<!-- ENDIF --></span>
+					</div>
+				<!-- ENDIF -->
+
+				{% EVENT confirm_delete_body_delete_reason_before %}
+
+				<div class="flex flex-col gap-1">
+					<label for="delete_reason_ajax" class="text-xs font-bold uppercase tracking-wider text-slate-500">{L_DELETE_REASON}{L_COLON}</label>
+					<span class="text-xs text-slate-500 mb-1">{L_DELETE_REASON_EXPLAIN}</span>
+					<input type="text" name="delete_reason" id="delete_reason_ajax" value="" maxlength="120" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-900/50 dark:text-white transition-colors" />
+				</div>
+			</fieldset>
+		<!-- ENDIF -->
+
+		<fieldset class="flex items-center gap-3">
+			<button type="button" name="confirm" value="{L_YES}" class="flex-1 rounded-lg bg-red-600 px-4 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 transition-colors cursor-pointer">{L_YES}</button>
+			<button type="button" name="cancel" value="{L_NO}" class="flex-1 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 cursor-pointer">{L_NO}</button>
+		</fieldset>
+	</form>
+
+<!-- ELSE -->
+
+<!-- INCLUDE overall_header.html -->
+
+<main class="px-4 py-8">
+	<form id="confirm" action="{S_CONFIRM_ACTION}" method="post" class="max-w-xl mx-auto">
+		<div class="rounded-xl border border-red-200 bg-white shadow-sm dark:border-red-900/50 dark:bg-slate-800 overflow-hidden panel">
+			<div class="border-b border-red-100 bg-red-50/50 px-4 sm:px-6 py-4 dark:border-red-900/30 dark:bg-red-900/10">
+				<h2 class="text-lg font-bold text-red-800 dark:text-red-400 flex items-center gap-2">
+					<span class="material-symbols-outlined text-[20px]">warning</span>
+					{MESSAGE_TITLE}
+				</h2>
+			</div>
+			
+			<div class="p-4 sm:p-6">
+				<p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-6">{MESSAGE_TEXT}</p>
+
+				<!-- IF not S_SHADOW_TOPICS -->
+				<fieldset class="flex flex-col gap-4 mb-6 p-4 rounded-lg bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700">
+					<!-- IF not S_SOFTDELETED and S_ALLOWED_DELETE and S_ALLOWED_SOFTDELETE -->
+						<div class="flex flex-col gap-1">
+							<label for="delete_permanent" class="flex items-center gap-2 cursor-pointer text-sm font-bold text-red-600 dark:text-red-400 hover:text-red-700 transition-colors">
+								<input id="delete_permanent" name="delete_permanent" type="checkbox" value="1" {S_CHECKED_PERMANENT} class="rounded border-red-300 text-red-600 focus:ring-red-600 h-4 w-4" />
+								{L_DELETE_PERMANENTLY}{L_COLON}
+							</label>
+							<span class="text-xs text-slate-500 pl-6 cursor-default"><!-- IF S_TOPIC_MODE -->{DELETE_TOPIC_PERMANENTLY_EXPLAIN}<!-- ELSE -->{DELETE_POST_PERMANENTLY_EXPLAIN}<!-- ENDIF --></span>
+						</div>
+					<!-- ENDIF -->
+
+					{% EVENT confirm_delete_body_delete_reason_before %}
+
+					<div class="flex flex-col gap-1">
+						<label for="delete_reason" class="text-xs font-bold uppercase tracking-wider text-slate-500">{L_DELETE_REASON}{L_COLON}</label>
+						<span class="text-xs text-slate-500 mb-1">{L_DELETE_REASON_EXPLAIN}</span>
+						<input type="text" name="delete_reason" id="delete_reason" value="" maxlength="120" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-600 dark:bg-slate-800 dark:text-white transition-colors" />
+					</div>
+				</fieldset>
+				<!-- ENDIF -->
+
+				<fieldset class="flex flex-wrap sm:flex-nowrap items-center gap-3">
+					{S_HIDDEN_FIELDS}
+					<button type="submit" name="confirm" value="{L_YES}" class="w-full sm:w-auto flex-1 rounded-lg bg-red-600 px-6 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 transition-colors cursor-pointer">{L_YES}</button>
+					<button type="submit" name="cancel" value="{L_NO}" class="w-full sm:w-auto flex-1 rounded-lg border border-slate-300 bg-white px-6 py-2.5 text-sm font-bold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 cursor-pointer">{L_NO}</button>
+				</fieldset>
+			</div>
+		</div>
+	</form>
+</main>
+
+<!-- INCLUDE overall_footer.html -->
+<!-- ENDIF -->

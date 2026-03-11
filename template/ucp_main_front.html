@@ -1,0 +1,174 @@
+<!-- INCLUDE ucp_header.html -->
+
+<div class="flex items-center justify-between mb-6 border-b border-primary/10 pb-4">
+	<h2 class="text-base sm:text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
+		<span class="material-symbols-outlined text-[20px] text-primary">dashboard</span>
+		{L_TITLE}
+	</h2>
+</div>
+
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-6 leading-relaxed bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800">
+	{L_UCP_WELCOME}
+</p>
+
+<!-- IF .topicrow -->
+	<h3 class="text-base font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2 mt-8">
+		<span class="material-symbols-outlined text-[18px] text-primary">campaign</span>
+		{L_IMPORTANT_NEWS}
+	</h3>
+
+	<div class="space-y-3 mb-8">
+		<!-- BEGIN topicrow -->
+			<div class="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors hover:bg-slate-50 dark:hover:bg-slate-700/50 relative">
+				<div class="flex gap-4 sm:flex-1">
+					<!-- IF topicrow.S_UNREAD_TOPIC -->
+						<a href="{topicrow.U_NEWEST_POST}" class="absolute inset-0 z-0" title="{L_VIEW_UNREAD_POST}"></a>
+					<!-- ENDIF -->
+					
+					<div class="hidden sm:flex shrink-0 w-10 h-10 rounded-lg bg-primary/5 text-primary items-center justify-center border border-primary/10">
+						<span class="material-symbols-outlined text-[20px]" <!-- IF topicrow.TOPIC_ICON_IMG and topicrow.S_TOPIC_ICONS -->style="background-image: url({T_ICONS_PATH}{topicrow.TOPIC_ICON_IMG}); background-repeat: no-repeat; width:100%; height:100%; display:inline-block;"<!-- ENDIF -->>
+							<!-- IF not topicrow.TOPIC_ICON_IMG -->feed<!-- ENDIF -->
+						</span>
+					</div>
+
+					<div class="flex-1 min-w-0 z-10">
+						<div class="flex items-start gap-2 mb-1">
+							<!-- IF topicrow.S_UNREAD_TOPIC -->
+								<a href="{topicrow.U_NEWEST_POST}" class="shrink-0 text-red-500 hover:text-red-600 transition-colors mt-0.5">
+									<span class="material-symbols-outlined text-[16px] animate-pulse">mark_email_unread</span>
+								</a>
+							<!-- ENDIF -->
+							<a href="{topicrow.U_VIEW_TOPIC}" class="text-base font-bold text-slate-800 dark:text-white hover:text-primary dark:hover:text-primary transition-colors line-clamp-2 leading-snug">{topicrow.TOPIC_TITLE}</a>
+						</div>
+						
+						<!-- IF .topicrow.pagination -->
+							<div class="flex items-center gap-1 mt-2 mb-2">
+								<span class="material-symbols-outlined text-[14px] text-slate-400">pages</span>
+								<div class="flex gap-1">
+									<!-- BEGIN pagination -->
+										<!-- IF topicrow.pagination.S_IS_PREV -->
+										<!-- ELSEIF topicrow.pagination.S_IS_CURRENT --><span class="text-xs px-1.5 py-0.5 rounded bg-primary text-white font-medium">{topicrow.pagination.PAGE_NUMBER}</span>
+										<!-- ELSEIF topicrow.pagination.S_IS_ELLIPSIS --><span class="text-xs px-1 text-slate-400">{L_ELLIPSIS}</span>
+										<!-- ELSEIF topicrow.pagination.S_IS_NEXT -->
+										<!-- ELSE --><a href="{topicrow.pagination.PAGE_URL}" class="text-xs px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-primary/10 hover:text-primary transition-colors">{topicrow.pagination.PAGE_NUMBER}</a>
+										<!-- ENDIF -->
+									<!-- END pagination -->
+								</div>
+							</div>
+						<!-- ENDIF -->
+
+						<div class="flex items-center flex-wrap gap-x-3 gap-y-1 mt-1.5 text-xs text-slate-500 dark:text-slate-400">
+							<span class="flex items-center gap-1">
+								<span class="material-symbols-outlined text-[14px]">person</span>
+								{topicrow.TOPIC_AUTHOR_FULL}
+							</span>
+							<span class="flex items-center gap-1">
+								<span class="material-symbols-outlined text-[14px]">schedule</span>
+								{topicrow.FIRST_POST_TIME}
+							</span>
+							<!-- IF topicrow.ATTACH_ICON_IMG -->
+								<span class="flex items-center gap-1 text-primary">
+									<span class="material-symbols-outlined text-[14px]">attach_file</span>
+								</span>
+							<!-- ENDIF -->
+						</div>
+					</div>
+				</div>
+
+				<div class="flex items-center justify-between sm:justify-end gap-4 shrink-0 sm:pl-4 sm:border-l border-slate-100 dark:border-slate-700/50 pt-3 sm:pt-0 mt-3 sm:mt-0 z-10 w-full sm:w-auto">
+					<div class="text-xs text-left sm:text-right">
+						<div class="uppercase tracking-wider text-[10px] font-bold text-slate-400 dark:text-slate-500 mb-0.5">{L_LAST_POST}</div>
+						<div class="text-slate-600 dark:text-slate-300 font-medium mb-0.5">{topicrow.LAST_POST_AUTHOR_FULL}</div>
+						<div class="text-slate-400 flex items-center gap-1 sm:justify-end">
+							<span class="material-symbols-outlined text-[12px]">schedule</span>
+							<a href="{topicrow.U_LAST_POST}" class="hover:text-primary transition-colors">{topicrow.LAST_POST_TIME}</a>
+						</div>
+					</div>
+					<a href="{topicrow.U_LAST_POST}" class="w-8 h-8 rounded-full bg-slate-50 dark:bg-slate-900 flex items-center justify-center text-slate-400 hover:text-primary hover:bg-primary/10 transition-colors" title="{L_GOTO_LAST_POST}">
+						<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+					</a>
+				</div>
+			</div>
+		<!-- END topicrow -->
+	</div>
+<!-- ENDIF -->
+
+	<h3 class="text-base font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2 mt-8">
+		<span class="material-symbols-outlined text-[18px] text-primary">manage_accounts</span>
+		{L_YOUR_DETAILS}
+	</h3>
+
+	<!-- EVENT ucp_main_front_user_activity_before -->
+	<dl class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+		<!-- EVENT ucp_main_front_user_activity_prepend -->
+		
+		<div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-center">
+			<dt class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1 flex items-center gap-1">
+				<span class="material-symbols-outlined text-[14px]">calendar_month</span> {L_JOINED}
+			</dt>
+			<dd class="text-sm font-medium text-slate-800 dark:text-white">{JOINED}</dd>
+		</div>
+
+		<div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-center">
+			<dt class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1 flex items-center gap-1">
+				<span class="material-symbols-outlined text-[14px]">history</span> {L_LAST_ACTIVE}
+			</dt>
+			<dd class="text-sm font-medium text-slate-800 dark:text-white">{LAST_VISIT_YOU}</dd>
+		</div>
+
+		<div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-center">
+			<dt class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1 flex items-center gap-1">
+				<span class="material-symbols-outlined text-[14px]">chat</span> {L_TOTAL_POSTS}
+			</dt>
+			<dd class="text-sm font-medium text-slate-800 dark:text-white flex flex-col">
+				<div class="flex items-center gap-2">
+					<span>{POSTS}</span>
+					<!-- IF S_DISPLAY_SEARCH -->
+					<span class="text-slate-300 dark:text-slate-600">|</span>
+					<a href="{U_SEARCH_USER}" class="text-primary hover:underline text-xs">{L_SEARCH_YOUR_POSTS}</a>
+					<!-- ENDIF -->
+				</div>
+				<!-- IF POSTS_PCT --><span class="text-xs text-slate-500 dark:text-slate-500 font-normal mt-0.5">({POSTS_DAY} / {POSTS_PCT})</span><!-- ENDIF -->
+			</dd>
+		</div>
+
+		<!-- IF ACTIVE_FORUM != '' -->
+		<div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-center">
+			<dt class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1 flex items-center gap-1">
+				<span class="material-symbols-outlined text-[14px]">forum</span> {L_ACTIVE_IN_FORUM}
+			</dt>
+			<dd class="text-sm text-slate-800 dark:text-white flex flex-col min-w-0">
+				<a href="{U_ACTIVE_FORUM}" class="font-bold text-primary hover:underline truncate" title="{ACTIVE_FORUM}">{ACTIVE_FORUM}</a>
+				<span class="text-xs text-slate-500 dark:text-slate-500 mt-0.5">({ACTIVE_FORUM_POSTS} / {ACTIVE_FORUM_PCT})</span>
+			</dd>
+		</div>
+		<!-- ENDIF -->
+
+		<!-- IF ACTIVE_TOPIC != '' -->
+		<div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-center">
+			<dt class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1 flex items-center gap-1">
+				<span class="material-symbols-outlined text-[14px]">topic</span> {L_ACTIVE_IN_TOPIC}
+			</dt>
+			<dd class="text-sm text-slate-800 dark:text-white flex flex-col min-w-0">
+				<a href="{U_ACTIVE_TOPIC}" class="font-bold text-primary hover:underline truncate" title="{ACTIVE_TOPIC}">{ACTIVE_TOPIC}</a>
+				<span class="text-xs text-slate-500 dark:text-slate-500 mt-0.5">({ACTIVE_TOPIC_POSTS} / {ACTIVE_TOPIC_PCT})</span>
+			</dd>
+		</div>
+		<!-- ENDIF -->
+
+		<!-- IF WARNINGS -->
+		<div class="bg-red-50 dark:bg-red-900/10 p-4 rounded-xl border border-red-200 dark:border-red-900/30 shadow-sm flex flex-col justify-center">
+			<dt class="text-xs font-bold uppercase tracking-wider text-red-600 dark:text-red-400 mb-1 flex items-center gap-1">
+				<span class="material-symbols-outlined text-[14px]">warning</span> {L_YOUR_WARNINGS}
+			</dt>
+			<dd class="text-lg font-bold text-red-700 dark:text-red-500">
+				[{WARNINGS}]
+			</dd>
+		</div>
+		<!-- ENDIF -->
+
+		<!-- EVENT ucp_main_front_user_activity_append -->
+	</dl>
+	<!-- EVENT ucp_main_front_user_activity_after -->
+
+<!-- INCLUDE ucp_footer.html -->

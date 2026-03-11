@@ -1,0 +1,10 @@
+<!-- IF S_RECAPTCHA_AVAILABLE -->
+	<noscript>
+		<div class="text-sm font-medium text-red-600 bg-red-50 p-3 rounded-lg border border-red-200 dark:bg-red-900/20 dark:border-red-900/50 dark:text-red-400 mb-4">{L_RECAPTCHA_NOSCRIPT}</div>
+	</noscript>
+	{% INCLUDEJS RECAPTCHA_SERVER ~ '.js?onload=phpbbRecaptchaOnLoad&hl=' ~ lang('RECAPTCHA_LANG') %}
+	{# The g-recaptcha class is used in JavaScript #}
+	<div class="g-recaptcha" data-sitekey="{RECAPTCHA_PUBKEY}" data-callback="phpbbRecaptchaOnSubmit" data-size="invisible" data-tabindex="<!-- IF $CAPTCHA_TAB_INDEX -->{$CAPTCHA_TAB_INDEX}<!-- ELSE -->10<!-- ENDIF -->"></div>
+<!-- ELSE -->
+	<div class="text-sm font-medium text-red-600 bg-red-50 p-3 rounded-lg border border-red-200 dark:bg-red-900/20 dark:border-red-900/50 dark:text-red-400 mb-4">{L_RECAPTCHA_NOT_AVAILABLE}</div>
+<!-- ENDIF -->

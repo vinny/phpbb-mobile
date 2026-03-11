@@ -1,0 +1,100 @@
+<!-- INCLUDE ucp_header.html -->
+
+<form id="postform" method="post" action="{S_UCP_ACTION}"{S_FORM_ENCTYPE}>
+
+	<div class="flex items-center justify-between mb-6 border-b border-primary/10 pb-4">
+		<h2 class="text-base sm:text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
+			<span class="material-symbols-outlined text-[20px] text-primary">draft</span>
+			{L_TITLE}
+		</h2>
+	</div>
+
+	<p class="text-sm text-slate-500 dark:text-slate-400 mb-6 leading-relaxed bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800">
+		{L_DRAFTS_EXPLAIN}
+	</p>
+
+<!-- IF S_EDIT_DRAFT -->
+
+	<!-- INCLUDE posting_editor.html -->
+
+	<div class="mt-8 flex flex-col sm:flex-row sm:justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-700/50">
+		{S_HIDDEN_FIELDS}
+		<input type="submit" name="submit" value="{L_SAVE}" class="w-full sm:w-auto py-3 sm:py-2 px-6 rounded-lg bg-primary text-white font-semibold text-sm shadow-sm hover:bg-primary/90 transition-colors cursor-pointer" />
+		{S_FORM_TOKEN}
+	</div>
+
+<!-- ELSE -->
+
+	<!-- IF .draftrow -->
+		<div class="space-y-3 mb-8">
+		<!-- BEGIN draftrow -->
+			<div class="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors hover:bg-slate-50 dark:hover:bg-slate-700/50">
+				
+				<div class="flex-1 min-w-0">
+					<div class="flex items-start gap-3 mb-1">
+						<span class="material-symbols-outlined text-[20px] text-slate-400 mt-0.5">draft</span>
+						<div class="flex flex-col min-w-0">
+							<a href="{draftrow.U_VIEW_EDIT}" class="text-base font-bold text-slate-800 dark:text-white hover:text-primary dark:hover:text-primary transition-colors truncate">{draftrow.DRAFT_SUBJECT}</a>
+							<div class="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+								<!-- IF draftrow.S_LINK_TOPIC -->{L_TOPIC}{L_COLON} <a href="{draftrow.U_VIEW}" class="text-primary hover:underline">{draftrow.TITLE}</a>
+								<!-- ELSEIF draftrow.S_LINK_FORUM -->{L_FORUM}{L_COLON} <a href="{draftrow.U_VIEW}" class="text-primary hover:underline">{draftrow.TITLE}</a>
+								<!-- ELSEIF S_PRIVMSGS -->
+								<!-- ELSE -->{L_NO_TOPIC_FORUM}<!-- ENDIF -->
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="flex items-center justify-between sm:justify-end gap-x-6 sm:gap-4 shrink-0 sm:pl-4 sm:border-l border-slate-100 dark:border-slate-700/50 pt-3 sm:pt-0 mt-3 sm:mt-0 w-full sm:w-auto">
+					<div class="text-xs text-left sm:text-right flex-1 sm:flex-initial">
+						<div class="uppercase tracking-wider text-[10px] font-bold text-slate-400 dark:text-slate-500 mb-0.5">{L_SAVE_DATE}</div>
+						<div class="text-slate-600 dark:text-slate-300 font-medium mb-1.5">{draftrow.DATE}</div>
+						<div class="flex items-center gap-2 sm:justify-end">
+							<!-- IF draftrow.U_INSERT -->
+							<a href="{draftrow.U_INSERT}" class="text-xs font-semibold text-primary hover:text-primary/80 transition-colors flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">file_download</span>{L_LOAD_DRAFT}</a>
+							<!-- ENDIF -->
+							<a href="{draftrow.U_VIEW_EDIT}" class="text-xs font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">edit</span>{L_VIEW_EDIT}</a>
+						</div>
+					</div>
+					
+					<div class="flex items-center gap-3 h-full">
+						<div class="flex items-center shrink-0">
+							<span class="text-xs font-medium text-slate-500 sm:hidden uppercase tracking-wide mr-2">{L_MARK}</span>
+							<input type="checkbox" name="d[{draftrow.DRAFT_ID}]" id="d{draftrow.DRAFT_ID}" class="w-5 h-5 rounded sm:rounded-md border-slate-300 text-red-500 shadow-sm focus:border-red-500 focus:ring-red-500 dark:border-slate-600 dark:bg-slate-900 dark:checked:bg-red-500 cursor-pointer transition-all" />
+						</div>
+					</div>
+				</div>
+
+			</div>
+		<!-- END draftrow -->
+		</div>
+	<!-- ELSE -->
+		<div class="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-8 text-center border border-slate-200 dark:border-slate-700 border-dashed">
+			<span class="material-symbols-outlined text-[48px] text-slate-300 dark:text-slate-600 mb-3 block">drafts</span>
+			<span class="text-sm font-medium text-slate-500 dark:text-slate-400">{L_NO_SAVED_DRAFTS}</span>
+		</div>
+	<!-- ENDIF -->
+
+	<!-- IF .draftrow -->
+		<div class="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4 border-t border-slate-100 dark:border-slate-700/50">
+			<div class="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400">
+				<a href="#" onclick="marklist('postform', '', true); return false;" class="hover:text-primary transition-colors">{L_MARK_ALL}</a>
+				<span class="text-slate-300 dark:text-slate-600">&bull;</span>
+				<a href="#" onclick="marklist('postform', '', false); return false;" class="hover:text-primary transition-colors">{L_UNMARK_ALL}</a>
+			</div>
+			<div class="w-full sm:w-auto">
+				{S_HIDDEN_FIELDS}
+				<button type="submit" name="delete" value="{L_DELETE_MARKED}" class="w-full sm:w-auto px-6 py-2.5 sm:py-2 bg-red-50 hover:bg-red-100 text-red-600 dark:bg-red-900/20 dark:hover:bg-red-900/30 dark:text-red-400 font-semibold text-sm rounded-lg transition-colors border border-red-200 dark:border-red-900/30 flex items-center justify-center gap-2">
+					<span class="material-symbols-outlined text-[18px]">delete</span>
+					{L_DELETE_MARKED}
+				</button>
+				{S_FORM_TOKEN}
+			</div>
+		</div>
+	<!-- ENDIF -->
+
+<!-- ENDIF -->
+
+</form>
+
+<!-- INCLUDE ucp_footer.html -->

@@ -1,0 +1,99 @@
+<!-- INCLUDE overall_header.html -->
+
+<div class="max-w-4xl mx-auto py-8 px-4 sm:px-0">
+
+<!-- IF S_SHOW_COPPA or S_REGISTRATION -->
+
+	<!-- IF S_LANG_OPTIONS -->
+	<script>
+		/**
+		* Change language
+		*/
+		function change_language(lang_iso)
+		{
+			document.cookie = '{COOKIE_NAME}_lang=' + lang_iso + '; path={COOKIE_PATH}';
+			document.forms['register'].change_lang.value = lang_iso;
+			document.forms['register'].submit();
+		}
+	</script>
+
+	<form method="post" action="{S_UCP_ACTION}" id="register" class="mb-4 flex justify-end">
+		<div class="flex items-center gap-2">
+			<label for="lang" class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">{L_LANGUAGE}{L_COLON}</label>
+			<div class="relative">
+				<select name="lang" id="lang" onchange="change_language(this.value); return false;" title="{L_LANGUAGE}" class="h-9 pl-3 pr-8 text-sm rounded-lg border border-slate-300 text-slate-800 focus:border-primary focus:ring-primary shadow-sm bg-white dark:border-slate-600 dark:bg-slate-900 dark:text-white transition-all appearance-none cursor-pointer">
+					{S_LANG_OPTIONS}
+				</select>
+				<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[18px]">expand_more</span>
+			</div>
+			{S_HIDDEN_FIELDS}
+		</div>
+	</form>
+	<!-- ENDIF -->
+
+	<form method="post" action="{S_UCP_ACTION}" id="agreement">
+
+		<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden mb-6">
+			<div class="p-6 sm:p-8">
+				<div class="flex items-center gap-3 mb-6 border-b border-primary/10 pb-4">
+					<span class="material-symbols-outlined text-[28px] text-primary">policy</span>
+					<h2 class="text-xl sm:text-2xl font-bold text-slate-800 dark:text-white">{{ SITENAME }} - {{ lang('REGISTRATION') }}</h2>
+				</div>
+				
+				<!-- EVENT ucp_agreement_terms_before -->
+				<div class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar bg-slate-50 dark:bg-slate-900/50 p-6 rounded-lg border border-slate-100 dark:border-slate-800">
+					{% if S_SHOW_COPPA %}
+						<p class="font-medium text-center text-lg py-8">{{ lang('COPPA_BIRTHDAY') }}</p>
+					{% else %}
+						{{ lang('TERMS_OF_USE') }}
+					{% endif %}
+				</div>
+				<!-- EVENT ucp_agreement_terms_after -->
+			</div>
+		</div>
+
+		<div class="flex flex-col sm:flex-row gap-3 mt-6">
+			<!-- IF S_SHOW_COPPA -->
+			<button type="submit" name="coppa_no" id="coppa_no" value="{L_COPPA_NO}" class="flex-1 py-3.5 bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 font-bold rounded-xl shadow-sm transition-colors text-base flex items-center justify-center gap-2 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-700">
+				<span class="material-symbols-outlined">block</span>
+				{{ L_COPPA_NO }}
+			</button>
+			<button type="submit" name="coppa_yes" id="coppa_yes" value="{L_COPPA_YES}" class="flex-1 py-3.5 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl shadow-md transition-colors text-base flex items-center justify-center gap-2">
+				<span class="material-symbols-outlined">check_circle</span>
+				{{ L_COPPA_YES }}
+			</button>
+			<!-- ELSE -->
+			<button type="submit" name="not_agreed" value="{L_NOT_AGREE}" class="flex-1 py-3.5 bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 font-bold rounded-xl shadow-sm transition-colors text-base flex items-center justify-center gap-2 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-700">
+				<span class="material-symbols-outlined">close</span>
+				{L_NOT_AGREE}
+			</button>
+			<button type="submit" name="agreed" id="agreed" value="{L_AGREE}" class="flex-1 py-3.5 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl shadow-md transition-colors text-base flex items-center justify-center gap-2">
+				<span class="material-symbols-outlined">check</span>
+				{L_AGREE}
+			</button>
+			<!-- ENDIF -->
+			{S_HIDDEN_FIELDS}
+			{S_FORM_TOKEN}
+		</div>
+	</form>
+
+<!-- ELSEIF S_AGREEMENT -->
+
+	<div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+		<div class="p-6 sm:p-8">
+			<div class="flex items-center gap-3 mb-6 border-b border-primary/10 pb-4">
+				<span class="material-symbols-outlined text-[28px] text-primary">policy</span>
+				<h2 class="text-xl sm:text-2xl font-bold text-slate-800 dark:text-white">{{ SITENAME }} - {{ AGREEMENT_TITLE }}</h2>
+			</div>
+			
+			<div class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-900/50 p-6 rounded-lg border border-slate-100 dark:border-slate-800">
+				{{ AGREEMENT_TEXT }}
+			</div>
+		</div>
+	</div>
+
+<!-- ENDIF -->
+
+</div>
+
+<!-- INCLUDE overall_footer.html -->

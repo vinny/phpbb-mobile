@@ -1,0 +1,31 @@
+<ul class="flex flex-wrap items-center gap-1 m-0 p-0 list-none">
+<!-- IF BASE_URL and TOTAL_PAGES > 6 -->
+	<li class="page-jump relative group">
+		<details class="group relative">
+			<summary class="flex h-7 min-w-[28px] items-center justify-center rounded-md bg-slate-100 px-1 text-slate-500 hover:bg-slate-200 hover:text-slate-700 dark:bg-slate-700/50 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-200 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden" title="{L_JUMP_TO_PAGE_CLICK}">
+				<span class="material-symbols-outlined text-[16px]">turn_left</span>
+			</summary>
+			<div class="absolute bottom-full right-0 z-50 mb-2 w-48 rounded-xl border border-slate-200 bg-white p-3 shadow-xl dark:border-slate-700 dark:bg-slate-800">
+				<p class="mb-2 text-xs font-bold text-slate-700 dark:text-slate-300">{L_JUMP_TO_PAGE}{L_COLON}</p>
+				<div class="flex items-center gap-2">
+					<input type="number" name="page-number" min="1" max="999999" title="{L_JUMP_PAGE}" class="w-full rounded-lg border-slate-300 bg-slate-50 px-3 py-1.5 text-sm focus:border-primary focus:ring-primary dark:border-slate-600 dark:bg-slate-900/50 dark:text-white" data-per-page="{PER_PAGE}" data-base-url="{BASE_URL|e('html_attr')}" data-start-name="{START_NAME}" />
+					<input class="rounded-lg bg-primary px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-primary/90 transition-colors cursor-pointer" value="{L_GO}" type="button" />
+				</div>
+			</div>
+		</details>
+	</li>
+<!-- ENDIF -->
+<!-- BEGIN pagination -->
+	<!-- IF pagination.S_IS_PREV -->
+		<li><a class="flex h-7 min-w-[28px] items-center justify-center rounded-md bg-slate-100 px-1 text-slate-500 hover:bg-slate-200 hover:text-slate-700 dark:bg-slate-700/50 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-200 transition-colors" href="{pagination.PAGE_URL}" rel="prev" title="{L_PREVIOUS}"><span class="material-symbols-outlined text-[16px]">chevron_left</span></a></li>
+	<!-- ELSEIF pagination.S_IS_CURRENT -->
+		<li><span class="flex h-7 min-w-[28px] items-center justify-center rounded-md bg-primary px-2 text-xs font-bold text-white shadow-sm">{pagination.PAGE_NUMBER}</span></li>
+	<!-- ELSEIF pagination.S_IS_ELLIPSIS -->
+		<li><span class="flex h-7 min-w-[28px] items-center justify-center px-1 text-xs text-slate-400 font-medium">{L_ELLIPSIS}</span></li>
+	<!-- ELSEIF pagination.S_IS_NEXT -->
+		<li><a class="flex h-7 min-w-[28px] items-center justify-center rounded-md bg-slate-100 px-1 text-slate-500 hover:bg-slate-200 hover:text-slate-700 dark:bg-slate-700/50 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-200 transition-colors" href="{pagination.PAGE_URL}" rel="next" title="{L_NEXT}"><span class="material-symbols-outlined text-[16px]">chevron_right</span></a></li>
+	<!-- ELSE -->
+		<li><a class="flex h-7 min-w-[28px] items-center justify-center rounded-md bg-slate-100 px-2 text-xs font-medium text-slate-600 hover:bg-slate-200 dark:bg-slate-700/50 dark:text-slate-300 dark:hover:bg-slate-700 transition-colors" href="{pagination.PAGE_URL}">{pagination.PAGE_NUMBER}</a></li>
+	<!-- ENDIF -->
+<!-- END pagination -->
+</ul>

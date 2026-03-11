@@ -1,0 +1,13 @@
+{% if S_RECAPTCHA_AVAILABLE %}
+	<noscript>
+		<div class="text-sm font-medium text-red-600 bg-red-50 p-3 rounded-lg border border-red-200 dark:bg-red-900/20 dark:border-red-900/50 dark:text-red-400 mb-4">{{ lang('RECAPTCHA_NOSCRIPT') }}</div>
+	</noscript>
+
+	<script src="{{ U_RECAPTCHA_SCRIPT }}" async defer></script>
+
+	{# The g-recaptcha class is used in JavaScript #}
+	<input class="g-recaptcha" type="hidden" name="recaptcha_action" value="{{ RECAPTCHA_ACTION }}" data-recaptcha-v3="{{ RECAPTCHA_KEY }}">
+	<input type="hidden" name="recaptcha_token" value="">
+{% else %}
+	<div class="text-sm font-medium text-red-600 bg-red-50 p-3 rounded-lg border border-red-200 dark:bg-red-900/20 dark:border-red-900/50 dark:text-red-400 mb-4">{{ lang('RECAPTCHA_NOT_AVAILABLE') }}</div>
+{% endif %}
