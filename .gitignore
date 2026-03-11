@@ -1,5 +1,5 @@
 node_modules/
-package.json
-package-lock.json
-/theme/tailwind-input.css
+npm-debug.log
+yarn-error.log
+.DS_Store
 *.zip
