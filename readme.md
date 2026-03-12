@@ -20,6 +20,14 @@ MobilePro is a modern, mobile-first, highly optimized style for phpBB 3.3+, buil
 - **Icons:** Material Symbols Outlined (Downloaded and served locally via `fonts.css`).
 - **Fonts:** Plus Jakarta Sans (Downloaded and served locally via `fonts.css`).
 
+## Documentation
+
+Comprehensive documentation for extension developers is available in the `contrib/` directory:
+
+- **[Developer Guide](contrib/developer_guide.MD)** — Full reference for extension authors covering the design system (colors, typography, spacing, dark mode, icons), component patterns (cards, buttons, forms, pagination), page layout structure, template integration, Tailwind build process, and best practices checklist.
+
+- **[Custom Template Events](contrib/custom_event.MD)** — Detailed list of all custom template events introduced by MobilePro, organized by location (header quick actions, footer navigation, side drawer). Use these hooks to inject content into the mobile-first layouts without modifying core files.
+
 ## Usage & Modification
 
 ### Modifying the Theme Colors (No Compilation Needed)
@@ -41,5 +49,12 @@ If you wish to modify the `.html` templates and use new Tailwind classes that ha
 ### Custom CSS Overrides
 Any styles that absolutely cannot be handled by Tailwind's utility classes or require deep, overriding specificity should be placed in `theme/stylesheet.css`. The default prosilver CSS imports have been disconnected to prevent conflicts, letting Tailwind drive the primary styling format.
 
+## Support This Project
+
+If you find MobilePro useful and would like to support its continued development, consider buying me a coffee:
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/vinny1)
+
 ## License
+
 Provided under the GNU General Public License v2 (GPL-2.0-only). See the parent phpBB software licensing for more details on base structural use.
